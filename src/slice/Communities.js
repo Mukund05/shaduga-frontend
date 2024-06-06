@@ -31,7 +31,11 @@ export const newCommunity = createAsyncThunk(
 
       // console.log(formData);
 
-      const response = await axiosInstance.post("/communities", data);
+      const response = await axiosInstance.post("/communities", data,{
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      });
       console.log(response.data);
       return response;
     } catch (error) {
@@ -65,7 +69,7 @@ export const community = createAsyncThunk(
   "community/fetchById",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/community/${id}`);
+      const response = await axiosInstance.get(`user/communities/${id}`);
       return response.data; // Assuming response data is the desired result
     } catch (error) {
       console.error(`Error during fetching community with id ${id}:`, error);
@@ -121,6 +125,24 @@ const communitySlice = createSlice({
         state.communities = action.payload;
       })
       .addCase(allCommunities.rejected, (state, action) => {
+        state.loading = false;
+        state.success = false;
+        state.error = action.payload;
+        state.message = action.payload;
+      });
+    builder
+      .addCase(community.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+        state.success = false;
+      })
+      .addCase(community.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.success = true;
+        state.communityData = action.payload;
+      })
+      .addCase(community.rejected, (state, action) => {
         state.loading = false;
         state.success = false;
         state.error = action.payload;

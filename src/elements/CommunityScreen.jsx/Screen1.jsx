@@ -3,7 +3,6 @@ import CollectionsIcon from "@mui/icons-material/Collections";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
-import { SentimentNeutralSharp } from "@mui/icons-material";
 
 const Screen1 = ({ formData, setFormdata, handleChange }) => {
   const { userData } = useSelector((state) => state.user);
@@ -29,6 +28,7 @@ const Screen1 = ({ formData, setFormdata, handleChange }) => {
       fileInputRef.current.click();
     }
   };
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
 
@@ -44,39 +44,6 @@ const Screen1 = ({ formData, setFormdata, handleChange }) => {
       }));
     }
   };
-  // const handleImageUpload = (event) => {
-  //   const file = event.target.files[0];
-
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       console.log("Image data read successfully:", reader.result);
-  //       setFormdata((prev) => ({
-  //         ...prev,
-  //         logo: reader.result,
-  //       }));
-
-  //       const img = new Image();
-  //       img.onload = () => {
-  //         console.log("Image loaded successfully");
-  //         const canvas = document.createElement("canvas");
-  //         const ctx = canvas.getContext("2d");
-  //         canvas.width = 256;
-  //         canvas.height = 256;
-  //         ctx.drawImage(img, 0, 0, 256, 256);
-
-  //         canvas.toBlob((blob) => {
-  //           console.log("Blob created successfully:", blob);
-  //           // Save the blob object directly in the formData
-  //           const resizedImageURL = URL.createObjectURL(blob);
-  //           setImage(resizedImageURL);
-  //         }, "image/png");
-  //       };
-  //       img.src = reader.result;
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   return (
     <div>

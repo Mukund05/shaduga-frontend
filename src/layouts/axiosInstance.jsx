@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Define a base URL for Axios
 const axiosInstance = axios.create({
-  baseURL: "https://shagudabackend.redcrix.com/api",
+  baseURL: "http://shaduga.devprosolutions.in/api/",
   headers: {
     "Content-Type": "application/json",
   },

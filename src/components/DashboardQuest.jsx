@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { ClipLoader } from "react-spinners";
 import panda from "../assets/section2/panda.png";
 import menuitem1 from "../assets/section2/menuitem1.png";
 import SearchIcon from "@mui/icons-material/Search";
@@ -22,11 +23,18 @@ import Inbox from "../elements/Inbox";
 import ProfileCard from "../elements/Card/ProfileCard";
 import { useNavigate } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { useDispatch, useSelector } from "react-redux";
+import { community } from "../slice/Communities";
+import { currentUser } from "../slice/Userslice";
 
 const DashboardQuest = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isScreenLessThanLG = useMediaQuery("(max-width: 1023px)");
   const [profileCard, setProfileCard] = useState(false);
+  const { communityData, success, message } = useSelector(
+    (state) => state.community
+  );
 
   // Set the initial state value based on the screen width
   const [showQuest, setShowQuest] = useState(false);
@@ -38,6 +46,8 @@ const DashboardQuest = () => {
   const [openInbox, setOpenInbox] = useState(false);
 
   const [Username, setUsername] = useState("Pandacom");
+  const [loading, setLoading] = useState(false);
+
   const handleLeaderBoard = () => {
     setLeaderboard(true);
     setMainQuest(false);
@@ -62,6 +72,34 @@ const DashboardQuest = () => {
       setOpenSideBar(false);
     }
   };
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(currentUser())
+      .unwrap()
+      .then((result) => {
+        if (result.success) {
+          dispatch(community(result.data.id))
+            .unwrap()
+            .then((result) => {
+              console.log("Community data:", result);
+              if (result.success) {
+                setAvatar(result.data.avatar);
+              }
+            })
+            .catch((error) => {
+              console.error("Error fetching community data:", error);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching current user:", error);
+        setLoading(false);
+      });
+  }, [dispatch]);
 
   const DashboardItem = ({ title, locked, review, active }) => {
     return (
@@ -127,9 +165,30 @@ const DashboardQuest = () => {
             <img src={menuitem1} className=" text-white w-full p-1" />
           </div>
 
-          <div className="cursor-pointer border-[#FF00FF] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]">
-            <img src={panda} className=" text-white " />
-          </div>
+          {loading ? (
+            <ClipLoader color={"#FFFFFF"} loading={loading} size={50} />
+          ) : (
+            <div className="flex flex-col gap-4 overflow-y-auto max-h-80">
+              { communityData.data.length > 0 ? (
+                communityData.data.map((item, index) => (
+                  <div
+                    key={index}
+                    className="cursor-pointer border-[#FF00FF] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]"
+                  >
+                    <img
+                      src={`${import.meta.env.VITE_BASE_URL}${item.logo}`}
+                      className="w-[40px] h-[40px] object-cover rounded-full"
+                      alt="Community Avatar"
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="cursor-pointer border-[#FF00FF] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]">
+                  <img src={panda} className="text-white" alt="Default Avatar" />
+                </div>
+              )}
+            </div>
+          )}
           <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#03A494]">
             <AddIcon className=" text-white " />
           </div>

@@ -11,13 +11,14 @@ import PersonIcon from "@mui/icons-material/Person";
 import screen5img from "../../assets/section2/screen5.png";
 import { useDispatch, useSelector } from "react-redux";
 import { newCommunity } from "../../slice/Communities";
+import { useNavigate } from "react-router-dom";
 
 const CommunityModal = ({ setCreateCommunity }) => {
   const dispatch = useDispatch();
   const { success } = useSelector((state) => state.community);
   const [screen, SetScreen] = useState(0);
   const { communityData } = useSelector((state) => state.community);
-
+  const navigate = useNavigate();
   const [formData, setFormdata] = useState({
     name: "",
     description: "",
@@ -54,53 +55,30 @@ const CommunityModal = ({ setCreateCommunity }) => {
   const HandleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create the JSON object directly
-    const jsonPayload = {
-      name: formData.name,
-      description: formData.description,
-      is_blockchain: formData.is_blockchain,
-      website: formData.website,
-      categories: formData.categories,
-      invitation: formData.invitation,
-      logo: formData.logo,
-    };
     const datas = {
       id: 0,
       name: formData.name,
-      logo: formData.logo,
+      logo: formData.logo, //need to send image file object
       description: formData.description,
       categories: formData.categories,
       is_blockchain: 0,
       website: formData.website,
       link: formData.website,
-      invitation: [
-        ["admin@example.com", "Role"],
-        ["user@example.com", "Role"],
-      ],
+      invitation: formData.invitation,
     };
 
-    // Convert the JSON object to a string
-    // const jsonString = JSON.stringify({
-    //   id: 0,
-    //   name: "string",
-    //   // logo: {},
-    //   description: "string",
-    //   categories: ["categories", "categories", "categories"],
-    //   is_blockchain: 0,
-    //   website: "string",
-    //   link: "string",
-    //   invitation: [
-    //     ["admin@example.com", "Role"],
-    //     ["user@example.com", "Role"],
-    //   ],
-    // });
+
     console.log("formData ----+", formData);
     console.log("formData ----+", datas);
 
     // console.log(jsonString, " data");
-    const resultAction = dispatch(newCommunity(datas)).catch((err) =>
-      console.log(err, "community error")
-    );
+    const resultAction = dispatch(newCommunity(datas))
+      .then(() => {
+        setTimeout(() => {
+          SetScreen(4);
+        }, [500]);
+      })
+      .catch((err) => console.log(err, "community error"));
     if (newCommunity.fulfilled.match(resultAction)) {
       SetScreen(4);
     } else {
@@ -198,7 +176,9 @@ const CommunityModal = ({ setCreateCommunity }) => {
               <div className="flex gap-3 w-full justify-between px-8 pb-6">
                 <button
                   className="p-2 w-full bg-[#bc04be] border text-white font-semibold text-sm border-[#bc04be] rounded-lg"
-                  onClick={() => setCreateCommunity(false)}
+                  onClick={() => {
+                    navigate("/dashboard-quest/menu");
+                    setCreateCommunity(false)}}
                 >
                   Continue to my community
                 </button>
@@ -331,7 +311,7 @@ const CommunityModal = ({ setCreateCommunity }) => {
         <div className="hidden sm:flex sm:w-3/5 h-full justify-center items-center bg-black">
           <div className="bg-[#20212A] rounded-2xl p-4 flex flex-col gap-5 w-2/3 items-center justify-center">
             <img
-              src={communityData?.data?.message?.logo}
+              src={`${import.meta.env.VITE_BASE_URL}${communityData?.data?.message?.logo}`}
               height={80}
               width={80}
               className="rounded-xl  mx-auto"

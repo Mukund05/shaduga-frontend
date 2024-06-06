@@ -31,9 +31,11 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(LoginUser(formdata))
+    dispatch(LoginUser(formdata)).unwrap()
       .then(() => {
+        console.log("Login Success",success);
         if (success) {
+          console.log("Login Success2",success);
           setShowScreen(true);
           setTimeout(() => {
             setShowScreen(false);
