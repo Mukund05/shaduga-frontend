@@ -178,12 +178,12 @@ const DashboardQuest = () => {
         {loading ? (
           <ClipLoader color={"#FFFFFF"} loading={loading} size={50} />
         ) : (
-          <div className="flex flex-col gap-4 overflow-y-auto max-h-80">
+          <div className="grid gap-3">
             {communityData?.data?.length > 0 ? (
               communityData.data.map((item, index) => (
                 <div
                   key={index}
-                  className="cursor-pointer border-[#FF00FF] border-1 p-1 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]"
+                  className="cursor-pointer border-[#FF00FF] border-1 p-1 rounded-full w-[50px]"
                   onClick={() =>
                     handleCommunityClick(item.id, item.user_id === user.id)
                     
