@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "../layouts/axiosInstance";
 
-// Async thunk for getting all quests
-export const modules = createAsyncThunk(
-  "quest/allQuest",
-  async (_, { rejectWithValue }) => {
+// Async thunk for getting unique commmunties modules
+export const fetchModulebyId = createAsyncThunk(
+  "module/module",
+  async (id, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("/quests");
-      return response.data; // Ensure you're returning only the data part of the response
+      const response = await axiosInstance.get("/modules/" + id);
+
+      return response.data;
     } catch (error) {
-      console.error("Error during getting all quests:", error);
+      console.error("Error during fetching all modules:", error);
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data);
       }
@@ -26,54 +27,27 @@ const initialState = {
 };
 
 // Create the slice
-const questSlice = createSlice({
+const moduleSlice = createSlice({
   name: "module",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       // Get all quests
-      .addCase(allQuest.pending, (state) => {
+      .addCase(fetchModulebyId.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(allQuest.fulfilled, (state, action) => {
+      .addCase(fetchModulebyId.fulfilled, (state, action) => {
         state.loading = false;
-        state.quests = action.payload;
-      })
-      .addCase(allQuest.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || action.error.message;
-      })
-      // Create quest
-      .addCase(createQuest.pending, (state) => {
-        state.loading = true;
         state.error = null;
+        state.modules = action.payload.message;
       })
-      .addCase(createQuest.fulfilled, (state, action) => {
+      .addCase(fetchModulebyId.rejected, (state, action) => {
         state.loading = false;
-        state.quests.push(action.payload); // Add the new quest to the state
-      })
-      .addCase(createQuest.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || action.error.message;
-      })
-      // Delete quest
-      .addCase(deleteQuest.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(deleteQuest.fulfilled, (state, action) => {
-        state.loading = false;
-        state.quests = state.quests.filter(
-          (quest) => quest.id !== action.meta.arg // Remove the deleted quest from the state
-        );
-      })
-      .addCase(deleteQuest.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload || action.error.message;
+        state.error = action.payload;
       });
   },
 });
 
-export default questSlice.reducer;
+export default moduleSlice.reducer;

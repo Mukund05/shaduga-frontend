@@ -19,6 +19,7 @@ import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import EditIcon from "@mui/icons-material/Edit";
 import QuestModal from "./Modals/QuestModal";
 import { useMediaQuery } from "@react-hook/media-query";
+import { useSelector } from "react-redux";
 
 const AllQuest = ({
   setShowSidebar,
@@ -30,8 +31,8 @@ const AllQuest = ({
     setCardNo(0);
   }, []);
   const isScreenLessThanLG = useMediaQuery("(max-width: 1023px)");
-
-  
+  const data = useSelector((state) => state?.module);
+  console.log("quest", data);
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [templateDropdown, setTemplateDropdown] = useState(false);
@@ -223,15 +224,15 @@ const AllQuest = ({
             </div>
           )}
         </div>
-        {/* listing of quests by communities */}
+        {/* listing of modules getting from data */}
         <div className="w-full flex flex-col gap-1">
-          <div className="bg-[#20212a] flex justify-between px-6 py-4">
+          {/* <div className="bg-[#20212a] flex justify-between px-6 py-4">
             <div className="flex justify-start gap-4 items-center">
               <span className="text-white font-bold text-sm">
                 Welcome aboard!
               </span>
               <span className="border-[#05F3DB] text-[#05F3DB] p-2 px-4 flex text-xs border rounded-2xl justify-between font-semibold">
-                6 quests  
+                6 quests
               </span>
             </div>
             <div className="flex justify-end gap-3 items-center">
@@ -337,118 +338,124 @@ const AllQuest = ({
                 onClick={() => setQuestModal(true)}
               />
             </div>
-          </div>
-          <div className="bg-[#20212a] flex justify-between px-6 py-4">
-            <div className="flex justify-start gap-4 items-center">
-              <span className="text-white font-bold text-sm">Daily tasks</span>
-              <span className="border-[#05F3DB] text-[#05F3DB] p-2 px-4 flex text-xs border rounded-2xl justify-between font-semibold">
-                5 quests
-              </span>
-            </div>
-            <div className="flex justify-end gap-3 items-center">
-              <div
-                className={` relative p-1  flex rounded-md ${
-                  tasksDots && "bg-[#191a1e]"
-                } items-center`}
-                onClick={() => handleClick("taskDots")}
-              >
-                <MoreHorizIcon
-                  className="text-white cursor-pointer"
-                  style={{ fontSize: "1rem" }}
-                />
-                {tasksDots && (
-                  <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <EditIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Edit</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <DeleteForeverIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Delete</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <ArchiveIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Archive</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <ContentCopyIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Duplicate</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <DriveFileRenameOutlineIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Rename</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <CopyAllIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Copy Link</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <RemoveRedEyeIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs text-nowrap">
-                        View as a contributor
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div
-                className={` relative p-1  flex rounded-md ${
-                  tasksPlus && "bg-[#191a1e]"
-                } items-center`}
-                onClick={() => handleClick("taskPlus")}
-              >
-                <AddIcon
-                  className="text-white cursor-pointer"
-                  style={{ fontSize: "1rem" }}
-                />
-                {tasksPlus && (
-                  <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                    <div className="p-2 rounded-md bg-[#20212a]">
-                      {" "}
-                      <div className="flex gap-2 justify-start cursor-pointer">
-                        <ControlPointIcon
-                          className="text-white"
-                          style={{ fontSize: "1rem" }}
-                        />
-                        <span
-                          className="text-white text-xs text-nowrap font-semibold"
-                          onClick={handleNewQuest}
-                        >
-                          New quest
-                        </span>
+          </div> */}
+
+          {data?.modules !== undefined &&
+            data?.modules?.map((module,index) => (
+              <div className="bg-[#20212a] flex justify-between px-6 py-4" key={index}>
+                <div className="flex justify-start gap-4 items-center">
+                  <span className="text-white font-bold text-sm">
+                    {module.title}
+                  </span>
+                  <span className="border-[#05F3DB] text-[#05F3DB] p-2 px-4 flex text-xs border rounded-2xl justify-between font-semibold">
+                    {module.quest.length} quests
+                  </span>
+                </div>
+                <div className="flex justify-end gap-3 items-center">
+                  <div
+                    className={` relative p-1  flex rounded-md ${
+                      abroadDots && "bg-[#191a1e]"
+                    } items-center`}
+                    onClick={() => handleClick("abroadDots")}
+                  >
+                    <MoreHorizIcon
+                      className="text-white cursor-pointer"
+                      style={{ fontSize: "1rem" }}
+                    />
+                    {abroadDots && (
+                      <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <EditIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs">Edit</span>
+                        </div>
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <DeleteForeverIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs">Delete</span>
+                        </div>
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <ArchiveIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs">Archive</span>
+                        </div>
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <ContentCopyIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs">Duplicate</span>
+                        </div>
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <DriveFileRenameOutlineIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs">Rename</span>
+                        </div>
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <CopyAllIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs">Copy Link</span>
+                        </div>
+                        <div className="flex gap-2 justify-start cursor-pointer">
+                          <RemoveRedEyeIcon
+                            className="text-white"
+                            style={{ fontSize: "1rem" }}
+                          />
+                          <span className="text-white text-xs text-nowrap">
+                            View as a contributor
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
-                )}
+                  <div
+                    className={` relative p-1  flex rounded-md ${
+                      abroadPlus && "bg-[#191a1e]"
+                    } items-center`}
+                    onClick={() => handleClick("abroadPlus")}
+                  >
+                    <AddIcon
+                      className="text-white cursor-pointer"
+                      style={{ fontSize: "1rem" }}
+                    />
+                    {abroadPlus && (
+                      <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
+                        <div className="p-2 rounded-md bg-[#20212a]">
+                          {" "}
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <ControlPointIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span
+                              className="text-white text-xs text-nowrap font-semibold"
+                              onClick={handleNewQuest}
+                            >
+                              New quest
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <KeyboardArrowDownIcon
+                    className="text-white cursor-pointer modal-opener"
+                    style={{ fontSize: "1rem" }}
+                    onClick={() => setQuestModal(true)}
+                  />
+                </div>
               </div>
-              <KeyboardArrowDownIcon
-                className="text-white cursor-pointer modal-opener"
-                style={{ fontSize: "1rem" }}
-                onClick={() => setQuestModal(true)}
-              />
-            </div>
-          </div>
+            ))}
         </div>
       </div>
       {questModal && <QuestModal setQuestModal={setQuestModal} />}

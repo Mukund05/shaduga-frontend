@@ -25,7 +25,7 @@ export const createQuest = createAsyncThunk(
     try {
       console.log(data, "data reached this function");
       const response = await axiosInstance.post("/quests", data);
-      console.log("Success");
+      console.log("Success", response);
       return response.data;
       // Ensure you're returning only the data part of the response
     } catch (error) {

@@ -1550,23 +1550,25 @@ const NewQuest = ({ setCardNo }) => {
 
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
+  const [claimClick, setClaimClick] = useState(false);
   const handleClick = () => {
     setClicked(!clicked);
   };
 
   const [data, setData] = useState({
-    name: "Quest name",
-    description: "Quest description",
-    difficulty: "easy",
-    recurrence: "daily",
-    cooldown: 24,
-    claim_time: "2024-05-18T00:00:00Z",
-    condition: "Complete 3 tasks",
+    name: "",
+    description: "",
+    difficulty: "",
+    recurrence: "",
+    cooldown: 0,
+    claim_time: "",
+    condition: "",
     reward: "100 points",
-    module: "Module A",
-    sprint: 2,
+    module: "",
+    sprint: 1,
     status: 1,
-    // user_id: 1,
+    module_id: "2",
+    user_id: 1,
     // category: "Hello",
     additionals: [],
   });
@@ -1636,6 +1638,11 @@ const NewQuest = ({ setCardNo }) => {
     // };
     dispatch(createQuest(datas)).catch((err) => console.log(err));
   };
+
+  const handleClaimClick = () => {
+    setClaimClick(!claimClick);
+  };
+
   return (
     <>
       <div className=" justify-center flex-col md:flex-row gap-[0.1rem] flex fixed w-full lg:w-[75%] h-full top-0 right-0">
@@ -1679,9 +1686,27 @@ const NewQuest = ({ setCardNo }) => {
           </header>
           <div className="pt-12 px-6 flex flex-col gap-8">
             <div className="flex flex-col gap-4">
-              <span className="text-2xl font-bold">Untitled quest</span>
+              <span className="text-2xl font-bold">
+                <input
+                  type="text"
+                  name="name"
+                  value={data.name}
+                  onChange={(e) => setData({ ...data, name: e.target.value })}
+                  className="bg-transparent text-white font-semibold text-md focus:outline-none"
+                  placeholder="Quest name"
+                />
+              </span>
               <span className="text-sm text-[#838383] font-semibold">
-                Add description...
+                <input
+                  type="text"
+                  name="description"
+                  value={data.description}
+                  onChange={(e) =>
+                    setData({ ...data, description: e.target.value })
+                  }
+                  className="bg-transparent text-white font-semibold text-md focus:outline-none"
+                  placeholder="Add Quest description...."
+                />
               </span>
             </div>
 
@@ -1738,7 +1763,18 @@ const NewQuest = ({ setCardNo }) => {
               </div>
               <div className="text-xs font-semibold w-1/2">
                 {/* take a user input and update the data.recurrence */}
-                <input type="text" name="recurrence" value={data.recurrence} onChange={(e)=>setData({...data,recurrence:e.target.text})} />
+                <select
+                  name="recurrence"
+                  value={data.recurrence}
+                  onChange={(e) =>
+                    setData({ ...data, recurrence: e.target.value })
+                  }
+                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                >
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
               </div>
             </div>
             <div className="flex justify-start  text-white items-center">
@@ -1749,7 +1785,26 @@ const NewQuest = ({ setCardNo }) => {
                 />
                 <span className="text-xs font-semibold">Cooldown</span>
               </div>
-              <div className="text-xs font-semibold w-1/2">None</div>
+              <div className="text-xs font-semibold w-1/2">
+                <select
+                  name="recurrence"
+                  value={data.cooldown}
+                  onChange={(e) =>
+                    setData({ ...data, cooldown: e.target.value })
+                  }
+                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                >
+                  <option value="none">None</option>
+                  <option value="1 minute">1 minute</option>
+                  <option value="5 minutes">5 minutes</option>
+                  <option value="30 minutues">30 minutes</option>
+                  <option value="1 hour">1 hour</option>
+                  <option value="1 day">1 day</option>
+                  <option value="1 week">1 week</option>
+                  <option value="1 month">1 month</option>
+                  <option value="no retry">No retry</option>
+                </select>
+              </div>
             </div>
             <div className="flex justify-start  text-white items-center">
               <div className=" items-center gap-1 flex w-1/2">
@@ -1761,11 +1816,30 @@ const NewQuest = ({ setCardNo }) => {
                 <span className="text-xs font-semibold">Claim limit</span>
               </div>
               <div className=" items-center gap-1 flex w-1/2">
-                <AddIcon
-                  className="text-xs font-semibold"
-                  style={{ fontSize: "1.2rem" }}
-                />
-                <span className="text-xs font-semibold">Add claim limit</span>
+                {!claimClick ? (
+                  <>
+                    <AddIcon
+                      className="text-xs font-semibold"
+                      style={{ fontSize: "1.2rem" }}
+                      onClick={handleClaimClick}
+                    />
+                    <span className="text-xs font-semibold">
+                      Add Claim Limit
+                    </span>
+                  </>
+                ) : (
+                  <input
+                    type="text"
+                    name="claim_time"
+                    value={data.claim_time}
+                    onChange={(e) =>
+                      setData({ ...data, claim_time: e.target.value })
+                    }
+                    className="bg-transparent text-xs font-semibold text-[#5a5a5a] focus:outline-none"
+                    placeholder="10"
+                    maxLength="4"
+                  />
+                )}
               </div>
             </div>
             <div className="flex justify-start  text-white items-center">
@@ -1781,7 +1855,21 @@ const NewQuest = ({ setCardNo }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Add Condition</span>
+                <select
+                  name="condition"
+                  value={data.condition}
+                  onChange={(e) =>
+                    setData({ ...data, condition: e.target.value })
+                  }
+                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                  placeholder="Add Condition"
+                >
+                  <option value="level">Level</option>
+                  <option value="role">Role</option>
+                  <option value="nft">NFT</option>
+                  <option value="quest">Quest</option>
+                  <option value="date">Date</option>
+                </select>
               </div>
             </div>
             <div className="flex justify-start  text-white items-start">
@@ -1793,7 +1881,7 @@ const NewQuest = ({ setCardNo }) => {
                 <span className="text-xs font-semibold">Reward</span>
               </div>
               <div className="flex gap-1 flex-col justify-start ">
-                <div className="border border-[#05F3DB] rounded-lg  flex">
+                {/* <div className="border border-[#05F3DB] rounded-lg  flex">
                   <span className="cursor-pointer flex items-center text-xs p-[4px]">
                     <StarIcon
                       className="text-[#ff00ff]"
@@ -1880,7 +1968,11 @@ const NewQuest = ({ setCardNo }) => {
                   <span className="text-xs font-semibold text-nowrap">
                     Clear All
                   </span>
-                </div>
+                </div> */}
+                 <span className="text-xs font-semibold">
+
+                <input type="text" name="reward" value={data.reward} onChange={(e) => setData({ ...data, reward: e.target.value })} className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none" placeholder="100 points" />
+                 </span>
               </div>
             </div>
             <div className="flex justify-start  text-white items-center">
@@ -1892,7 +1984,23 @@ const NewQuest = ({ setCardNo }) => {
                 <span className="text-xs font-semibold">Module</span>
               </div>
               <div className=" items-center gap-1 flex w-1/2">
-                <span className="text-xs font-semibold">Rewards section</span>
+                <span className="text-xs font-semibold">
+                <select
+                  name="module"
+                  value={data.module}
+                  onChange={(e) =>
+                    setData({ ...data, module: e.target.value })
+                  }
+                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                  placeholder="Add Condition"
+                  defaultValue={"Social Support"}
+                >
+                  <option value="Social Support" >Social Support</option>
+                  <option value="Reward Section">Reward Section</option>
+                  <option value="Onboarding Module">Onboarding Module</option>
+                  <option value="Tutorial">Tutorial</option>
+                </select>
+                </span>
               </div>
             </div>
             <div className="flex justify-start  text-white items-center">
@@ -1908,7 +2016,9 @@ const NewQuest = ({ setCardNo }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Add sprint</span>
+                <span className="text-xs font-semibold">
+                  Add Sprint
+                </span>
               </div>
             </div>
           </div>

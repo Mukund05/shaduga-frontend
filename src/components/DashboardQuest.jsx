@@ -36,6 +36,7 @@ import UserCard from "../elements/Card/UserCard";
 import NewQuest from "../elements/NewQuest";
 import Reviews from "../elements/Reviews";
 import GetStarted from "../elements/Card/GetStarted";
+import { fetchModulebyId } from "../slice/ModuleSlice";
 
 const DashboardQuest = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const DashboardQuest = () => {
     (state) => state.community
   );
   const user = useSelector((state) => state?.user?.userData?.data);
+  const module = useSelector((state) => state?.module?.modules);
 
   const [showQuest, setShowQuest] = useState(false);
   const [openSideBar, setOpenSideBar] = useState(!isScreenLessThanLG);
@@ -111,6 +113,19 @@ const DashboardQuest = () => {
       });
   }, [dispatch]);
 
+  const handleCommunityClick = (communityId, isAdmin) => {
+    if (isAdmin) {
+      setAdmin(true);
+      dispatch(fetchModulebyId(communityId)).unwrap().then((result) => {
+       
+      }).catch((error) => {
+        console.error("Error fetching module data:", error);
+      });
+    } else {
+      setAdmin(false);
+    }
+  };
+
   const DashboardItem = ({ title, locked, review, active }) => {
     return (
       <div
@@ -160,12 +175,6 @@ const DashboardQuest = () => {
         <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#03A494]">
           <SearchIcon className="text-white" />
         </div>
-        {/* <div
-          className="cursor-pointer border-[#FF00FF] flex items-center justify-center rounded-xl w-full"
-          onClick={() => setAdmin(true)}
-        >
-          <img src={menuitem1} className="text-white w-full p-1" />
-        </div> */}
         {loading ? (
           <ClipLoader color={"#FFFFFF"} loading={loading} size={50} />
         ) : (
@@ -176,7 +185,8 @@ const DashboardQuest = () => {
                   key={index}
                   className="cursor-pointer border-[#FF00FF] border-1 p-1 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]"
                   onClick={() =>
-                    setAdmin(item.user_id === user.id ? true : false)
+                    handleCommunityClick(item.id, item.user_id === user.id)
+                    
                   }
                 >
                   <img
