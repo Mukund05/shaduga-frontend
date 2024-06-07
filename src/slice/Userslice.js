@@ -203,6 +203,7 @@ const userSlice = createSlice({
         state.logout.success = true;
         state.logout.error = null;
         state.userData = null;
+        state.login.success = false;
       })
       .addCase(LogoutUser.rejected, (state, action) => {
         state.logout.loading = false;

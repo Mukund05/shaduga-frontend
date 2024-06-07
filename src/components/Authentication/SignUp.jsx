@@ -19,8 +19,11 @@ const SignUp = () => {
   const [otp, setOtp] = useState(""); // State to hold OTP value
   const [email, setEmail] = useState("");
   const handleContinueWithEmail = () => {
+    if(otp === "") {
+      alert("Enter otp first");
+      return;
+    }
     setShowModal(true);
-    alert("Enter otp first");
   };
 
   const handleOTPComplete = async (otpValue, e) => {

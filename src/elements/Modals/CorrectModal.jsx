@@ -68,13 +68,18 @@ const CorrectModal = ({ setShowModal, email, setCorrectModal }) => {
       setcPassword("");
     } else {
       try {
-        dispatch(RegisterUser(formData));
-        // Registration successful
-        if (success) {
-          alert("Registration successful!");
-          setShowScreen(true);
-          setShowModal(false);
-        }
+        dispatch(RegisterUser(formData))
+          .unwrap()
+          .then((data) => {
+            // Registration successful
+            console.log("received data ",data);
+            if (data.success) {
+              alert("Registration successful!");
+              setShowScreen(true);
+              setShowModal(false);
+              navigate("/login");
+            }
+          });
 
         setFormData({ name: "", email: "", password: "" });
         setPassword("");

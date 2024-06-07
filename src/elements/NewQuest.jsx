@@ -1566,8 +1566,8 @@ const NewQuest = ({ setCardNo }) => {
     module: "Module A",
     sprint: 2,
     status: 1,
-    user_id: 1,
-    category: "Hello",
+    // user_id: 1,
+    // category: "Hello",
     additionals: [],
   });
   console.log(data);
@@ -1736,7 +1736,10 @@ const NewQuest = ({ setCardNo }) => {
                 />
                 <span className="text-xs font-semibold">Recurrence</span>
               </div>
-              <div className="text-xs font-semibold w-1/2">None</div>
+              <div className="text-xs font-semibold w-1/2">
+                {/* take a user input and update the data.recurrence */}
+                <input type="text" name="recurrence" value={data.recurrence} onChange={(e)=>setData({...data,recurrence:e.target.text})} />
+              </div>
             </div>
             <div className="flex justify-start  text-white items-center">
               <div className=" items-center gap-1 flex w-1/2">

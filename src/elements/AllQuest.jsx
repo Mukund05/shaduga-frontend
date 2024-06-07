@@ -31,6 +31,8 @@ const AllQuest = ({
   }, []);
   const isScreenLessThanLG = useMediaQuery("(max-width: 1023px)");
 
+  
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [templateDropdown, setTemplateDropdown] = useState(false);
   const [abroadDots, setAbroadDots] = useState(false);
@@ -221,6 +223,7 @@ const AllQuest = ({
             </div>
           )}
         </div>
+        {/* listing of quests by communities */}
         <div className="w-full flex flex-col gap-1">
           <div className="bg-[#20212a] flex justify-between px-6 py-4">
             <div className="flex justify-start gap-4 items-center">
