@@ -50,7 +50,8 @@ const MyCommunities = () => {
             its name.
           </span>
         </div>
-        <div className="flex gap-5 justify-between w-full flex-wrap pb-10 sm:pb-24">
+        {/* <div className="flex gap-5 justify-between w-full flex-wrap pb-10 sm:pb-24"> */}
+        <div className="w-full pb-10 sm:pb-24 grid grid-cols-3">
           {communities?.data?.message.map((card, index) => (
             <CommunityCard
               key={index}
