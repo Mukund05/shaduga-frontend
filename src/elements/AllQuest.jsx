@@ -25,6 +25,7 @@ const AllQuest = ({
   setShowSidebar,
   showSideBar,
   handleNewQuest,
+  handleNewModule,
   setCardNo,
 }) => {
   useEffect(() => {
@@ -129,13 +130,13 @@ const AllQuest = ({
                 <div className="absolute bg-[#20212a] top-10 left-0 flex flex-col p-2 gap-4 w-full rounded-md z-10">
                   <div className="flex gap-1">
                     <AddCircleOutlineIcon className="text-white" />
-                    <span className="text-white  text-sm font-semi-bold">
+                    <span className="text-white  text-sm font-semi-bold" onClick={handleNewQuest}>
                       New quest
                     </span>
                   </div>
                   <div className="flex gap-1">
                     <DescriptionIcon className="text-white" />
-                    <span className="text-white text-sm font-semi-bold">
+                    <span className="text-white text-sm font-semi-bold" onClick={handleNewModule}>
                       New module
                     </span>
                   </div>
@@ -226,120 +227,6 @@ const AllQuest = ({
         </div>
         {/* listing of modules getting from data */}
         <div className="w-full flex flex-col gap-1">
-          {/* <div className="bg-[#20212a] flex justify-between px-6 py-4">
-            <div className="flex justify-start gap-4 items-center">
-              <span className="text-white font-bold text-sm">
-                Welcome aboard!
-              </span>
-              <span className="border-[#05F3DB] text-[#05F3DB] p-2 px-4 flex text-xs border rounded-2xl justify-between font-semibold">
-                6 quests
-              </span>
-            </div>
-            <div className="flex justify-end gap-3 items-center">
-              <div
-                className={` relative p-1  flex rounded-md ${
-                  abroadDots && "bg-[#191a1e]"
-                } items-center`}
-                onClick={() => handleClick("abroadDots")}
-              >
-                <MoreHorizIcon
-                  className="text-white cursor-pointer"
-                  style={{ fontSize: "1rem" }}
-                />
-                {abroadDots && (
-                  <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <EditIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Edit</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <DeleteForeverIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Delete</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <ArchiveIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Archive</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <ContentCopyIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Duplicate</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <DriveFileRenameOutlineIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Rename</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <CopyAllIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs">Copy Link</span>
-                    </div>
-                    <div className="flex gap-2 justify-start cursor-pointer">
-                      <RemoveRedEyeIcon
-                        className="text-white"
-                        style={{ fontSize: "1rem" }}
-                      />
-                      <span className="text-white text-xs text-nowrap">
-                        View as a contributor
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div
-                className={` relative p-1  flex rounded-md ${
-                  abroadPlus && "bg-[#191a1e]"
-                } items-center`}
-                onClick={() => handleClick("abroadPlus")}
-              >
-                <AddIcon
-                  className="text-white cursor-pointer"
-                  style={{ fontSize: "1rem" }}
-                />
-                {abroadPlus && (
-                  <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                    <div className="p-2 rounded-md bg-[#20212a]">
-                      {" "}
-                      <div className="flex gap-2 justify-start cursor-pointer">
-                        <ControlPointIcon
-                          className="text-white"
-                          style={{ fontSize: "1rem" }}
-                        />
-                        <span
-                          className="text-white text-xs text-nowrap font-semibold"
-                          onClick={handleNewQuest}
-                        >
-                          New quest
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <KeyboardArrowDownIcon
-                className="text-white cursor-pointer modal-opener"
-                style={{ fontSize: "1rem" }}
-                onClick={() => setQuestModal(true)}
-              />
-            </div>
-          </div> */}
-
           {data?.modules !== undefined &&
             data?.modules?.map((module,index) => (
               <div className="bg-[#20212a] flex justify-between px-6 py-4" key={index}>

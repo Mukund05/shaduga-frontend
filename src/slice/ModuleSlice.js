@@ -19,6 +19,22 @@ export const fetchModulebyId = createAsyncThunk(
   }
 );
 
+export const createModule = createAsyncThunk(
+  "module/createModule",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/modules", data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during fetching all modules:", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Define the initial state of the slice
 const initialState = {
   modules: [],

@@ -18,7 +18,7 @@ const Communities = () => {
       <span className="text-white text-[2rem] sm:text-[2.5rem] font-bold text-nowrap px-10 flex justify-center sm:justify-start">
         Trendy communities
       </span>
-      <div className="flex  gap-x-4 gap-y-12 items-center justify-around flex-wrap mx-2 my-10">
+      <div className="flex gap-x-4 gap-y-12 items-start justify-around flex-wrap mx-2 my-10">
         {communities?.data?.message.map((card, index) => (
           <CommunityCard
             key={index}
