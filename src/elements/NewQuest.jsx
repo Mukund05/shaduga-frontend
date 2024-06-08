@@ -1545,7 +1545,7 @@ const Task = ({ type, index, submitData }) => {
   }
 };
 
-const NewQuest = ({ setCardNo }) => {
+const NewQuest = ({ setCardNo , setDashboardData }) => {
   const { loading, error } = useSelector((state) => state.quests);
 
   const dispatch = useDispatch();
@@ -1636,7 +1636,14 @@ const NewQuest = ({ setCardNo }) => {
     //     },
     //   ],
     // };
-    dispatch(createQuest(datas)).catch((err) => console.log(err));
+    dispatch(createQuest(datas)).unwrap().then((res) => {
+      //navigate to current communties module page
+      if(res.success){
+        setDashboardData(0);
+        setCardNo(0);
+      }
+    })
+    .catch((err) => console.log(err));    //need to handle error
   };
 
   const handleClaimClick = () => {
