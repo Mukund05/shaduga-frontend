@@ -393,7 +393,7 @@ const DashboardQuest = () => {
           )}
           {dashboardData === 4 && <NewQuest setCardNo={setCardNo} setDashboardData={setDashboardData}/>}
 
-          {dashboardData === 7 && <NewModule  />}
+          {dashboardData === 7 && <NewModule  setDashboardData={setDashboardData}/>}
 
           {dashboardData === 5 && (
             <div className="relative">

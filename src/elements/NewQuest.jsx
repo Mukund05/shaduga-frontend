@@ -17,6 +17,9 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import notequal from "../assets/section2/notequal.png";
 import pencil from "../assets/section2/pencil.png";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import TwitterIcon from '@mui/icons-material/Twitter';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import tiktok from '../assets/section2/tiktok.png';
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -37,6 +40,8 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import QuestModal from "./Modals/QuestModal";
 import { useDispatch, useSelector } from "react-redux";
 import { createQuest } from "../slice/Quests";
+import { Link } from "react-router-dom";
+
 const VisitLinkTask = ({ i, data }) => {
   const [formData, setFormData] = useState({
     task_type: "visit-link",
@@ -62,12 +67,14 @@ const VisitLinkTask = ({ i, data }) => {
 
   return (
     <div className="flex flex-col justify-center">
-      <input
-        className="border border-[#838383] rounded-lg p-3 bg-transparent w-full md:w-3/4 focus:outline-none"
-        name="description"
-        value={formData.description}
-        onChange={handleChange}
-      />
+      <a
+        href={formData.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="border text-white cursor-pointer border-[#838383] rounded-lg p-3 bg-transparent w-full md:w-3/4 focus:outline-none"
+      >
+        {formData.link ? formData.link : "Enter a link below"}
+      </a>
       {/* make triangle */}
       <div className="flex w-full md:w-3/4 mt-1  justify-center">
         <div className="triangle-up"></div>
@@ -537,19 +544,15 @@ const Discord = ({ i, data }) => {
   );
 };
 
-const FileUpload = ({ i, data }) => {
-  const [loading, setLoading] = useState(true);
-  const [loading1, setLoading1] = useState(true);
-  const [loading2, setLoading2] = useState(true);
-  const [loading3, setLoading3] = useState(true);
-  const [loading4, setLoading4] = useState(true);
+const Twitter = ({ i, data }) => {
   const [formData, setFormData] = useState({
-    task_type: "file-upload",
+    task_type: "twitter",
   });
 
   useEffect(() => {
     data(formData, i);
   }, [formData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -565,12 +568,261 @@ const FileUpload = ({ i, data }) => {
     });
   };
 
+  return (
+    <div className="flex flex-col justify-center">
+      {/* make triangle */}
+      <div className="w-full md:w-3/4">
+        <span className="text-white text-md font-semibold">Twitter</span>
+        <div className="border border-[#1DA1F2] rounded-2xl px-6 py-4 flex flex-col justify-center items-center gap-1">
+          <button className="bg-[#1DA1F2] rounded-xl p-2 w-full text-white font-bold text-sm flex justify-center items-center gap-3">
+            <TwitterIcon className="" />
+            <span className="">Login with Twitter</span>
+          </button>
+        </div>
+        <div className="flex  mt-1  justify-center ">
+          <div className="triangle-up"></div>
+        </div>
+        <div className="bg-black p-2  rounded-lg w-[90%] mx-auto">
+          <div className="flex justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-1 rounded-full bg-[#1DA1F2] h-fit flex items-center">
+                <TwitterIcon
+                  className="text-white"
+                  style={{ fontSize: "1.2rem" }}
+                />
+              </div>
+              <div className="text-[#ff00ff] text-sm font-semibold">
+                Twitter
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end items-center">
+              <ContentCopyIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+              <DeleteForeverIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+              <KeyboardArrowUpIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+            </div>
+          </div>
+          <div className="border-t border-t-[#ffffff] w-full my-2"></div>
+          <span className="my-3 text-white text-xs font-semibold">
+            Invite link
+          </span>
+          <input
+            className="bg-[#141518] border focus:outline-none border-[#05F3DB] rounded-lg p-3 w-full my-4 mb-8 font-semibold"
+            placeholder="https://twitter.com/server"
+            name="link"
+            value={formData.link}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Telegram = ({ i, data }) => {
+  const [formData, setFormData] = useState({
+    task_type: "telegram",
+  });
+  
+  useEffect(() => {
+    data(formData, i);
+  }, [formData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      files: [...e.target.files],
+    });
+  };
+
+  return (
+    <div className="flex flex-col justify-center">
+      {/* make triangle */}
+      <div className="w-full md:w-3/4">
+        <span className="text-white text-md font-semibold">Telegram</span>
+        <div className="border border-[#0088cc] rounded-2xl px-6 py-4 flex flex-col justify-center items-center gap-1">
+          <button className="bg-[#0088cc] rounded-xl p-2 w-full text-white font-bold text-sm flex justify-center items-center gap-3">
+            <TelegramIcon className="" />
+            <span className="">Login with Telegram</span>
+          </button>
+        </div>
+        <div className="flex  mt-1  justify-center ">
+          <div className="triangle-up"></div>
+        </div>
+        <div className="bg-black p-2  rounded-lg w-[90%] mx-auto">
+          <div className="flex justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-1 rounded-full bg-[#0088cc] h-fit flex items-center">
+                <TelegramIcon
+                  className="text-white"
+                  style={{ fontSize: "1.2rem" }}
+                />
+              </div>
+              <div className="text-[#ff00ff] text-sm font-semibold">
+                Telegram
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end items-center">
+              <ContentCopyIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+              <DeleteForeverIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+              <KeyboardArrowUpIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+            </div>
+          </div>
+          <div className="border-t border-t-[#ffffff] w-full my-2"></div>
+          <span className="my-3 text-white text-xs font-semibold">
+            Invite link
+          </span>
+          <input
+            className="bg-[#141518] border focus:outline-none border-[#05F3DB] rounded-lg p-3 w-full my-4 mb-8 font-semibold"
+            placeholder="https://telegram.com/server"
+            name="link"
+            value={formData.link}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TikTok = ({ i, data }) => {
+  const [formData, setFormData] = useState({
+    task_type: "tiktok",
+  });
+  useEffect(() => {
+    data(formData, i);
+  }, [formData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      files: [...e.target.files],
+    });
+  };
+
+  return (
+    <div className="flex flex-col justify-center">
+      {/* make triangle */} 
+      <div className="w-full md:w-3/4">
+        <span className="text-white text-md font-semibold">Tiktok</span>
+        <div className="border border-[#010101] rounded-2xl px-6 py-4 flex flex-col justify-center items-center gap-1">
+          <button className="bg-[#010101] rounded-xl p-2 w-full text-white font-bold text-sm flex justify-center items-center gap-3">
+            <tiktok className="" />
+            <span className="">Login with Tiktok</span>
+          </button>
+        </div>
+        <div className="flex  mt-1  justify-center ">
+          <div className="triangle-up"></div>
+        </div>
+        <div className="bg-black p-2  rounded-lg w-[90%] mx-auto">
+          <div className="flex justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-1 rounded-full bg-[#010101] h-fit flex items-center">
+                <tiktok
+                  className="text-white"
+                  style={{ fontSize: "1.2rem" }}
+                />
+              </div>
+              <div className="text-[#ff00ff] text-sm font-semibold">
+                Tiktok
+              </div>
+            </div>
+            <div className="flex gap-2 justify-end items-center">
+              <ContentCopyIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+              <DeleteForeverIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+              <KeyboardArrowUpIcon
+                className="text-[#ffffff] cursor-pointer"
+                style={{ fontSize: "1rem" }}
+              />
+            </div>
+          </div>
+          <div className="border-t border-t-[#ffffff] w-full my-2"></div>
+          <span className="my-3 text-white text-xs font-semibold">
+            Invite link
+          </span>
+          <input
+            className="bg-[#141518] border focus:outline-none border-[#05F3DB] rounded-lg p-3 w-full my-4 mb-8 font-semibold"
+            placeholder="https://tiktok.com/server"
+            name="link"
+            value={formData.link}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const FileUpload = ({ i, data }) => {
+  const [loading, setLoading] = useState(true);
+  const [loading1, setLoading1] = useState(true);
+  const [formData, setFormData] = useState({
+    task_type: 'file-upload',
+    files: [],
+    api_key: '',
+  });
+
+  useEffect(() => {
+    data(formData, i);
+  }, [formData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      files: [...prevFormData.files, ...selectedFiles],
+    }));
+  };
+
   const fileInputRef = useRef(null);
 
-  const [clicked, setClicked] = useState(false);
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageSelection = (event) => {
@@ -581,8 +833,10 @@ const FileUpload = ({ i, data }) => {
         setSelectedImage(e.target.result); // Set the selected image as the base64 data URI
       };
       reader.readAsDataURL(file); // Read the selected file as a data URL
+      handleFileChange(event); // Handle file change to store the file
     }
   };
+
   return (
     <div className="flex flex-col justify-center">
       {/* make triangle */}
@@ -610,10 +864,10 @@ const FileUpload = ({ i, data }) => {
               <>
                 <PhotoSizeSelectActualIcon
                   className="text-[#b9479c]"
-                  style={{ fontSize: "2.5rem" }}
+                  style={{ fontSize: '2.5rem' }}
                 />
                 <span className="font-bold text-xl">
-                  Drag and drop or{" "}
+                  Drag and drop or{' '}
                   <span className="px-1 text-[#ff00ff]">click to upload</span>
                 </span>
                 <span className="text-md font-semibold">
@@ -624,14 +878,14 @@ const FileUpload = ({ i, data }) => {
           </div>
         </div>
 
-        <div className="flex  mt-1  justify-center ">
+        <div className="flex mt-1 justify-center ">
           <div className="triangle-up"></div>
         </div>
-        <div className="bg-black p-2  rounded-lg w-[90%] mx-auto">
+        <div className="bg-black p-2 rounded-lg w-[90%] mx-auto">
           <div className="flex justify-between">
             <div className="flex items-center gap-3">
               <div className="p-1 rounded-full bg-[#ff004f] h-fit flex items-center">
-                <UploadFileIcon className="" style={{ fontSize: "1.2rem" }} />
+                <UploadFileIcon className="" style={{ fontSize: '1.2rem' }} />
               </div>
               <div className="text-[#ff00ff] text-sm font-semibold">
                 File upload
@@ -640,15 +894,15 @@ const FileUpload = ({ i, data }) => {
             <div className="flex gap-2 justify-end items-center">
               <ContentCopyIcon
                 className="text-[#ffffff] cursor-pointer"
-                style={{ fontSize: "1rem" }}
+                style={{ fontSize: '1rem' }}
               />
               <DeleteForeverIcon
                 className="text-[#ffffff] cursor-pointer"
-                style={{ fontSize: "1rem" }}
+                style={{ fontSize: '1rem' }}
               />
               <KeyboardArrowUpIcon
                 className="text-[#ffffff] cursor-pointer"
-                style={{ fontSize: "1rem" }}
+                style={{ fontSize: '1rem' }}
               />
             </div>
           </div>
@@ -665,7 +919,7 @@ const FileUpload = ({ i, data }) => {
             <div className="">
               <FormControlLabel
                 sx={{
-                  display: "block",
+                  display: 'block',
                 }}
                 control={
                   <Switch
@@ -680,16 +934,14 @@ const FileUpload = ({ i, data }) => {
           </div>
           <div className="flex gap-2 flex-col my-4 ">
             <div className="flex justify-between px-3">
-              <span className=" text-white text-xs font-semibold">
+              <span className="text-white text-xs font-semibold">
                 Maximum number of files
               </span>
 
-              <span className=" text-white text-xs font-semibold">
-                Optional
-              </span>
+              <span className="text-white text-xs font-semibold">Optional</span>
             </div>
             <input
-              className="bg-[#141518] border focus:outline-none border-[#05F3DB] rounded-lg p-3 w-full  font-semibold text-xs text-[#838383]"
+              className="bg-[#141518] border focus:outline-none border-[#05F3DB] rounded-lg p-3 w-full font-semibold text-xs text-[#838383]"
               placeholder="myApiKey"
               name="api_key"
               value={formData.api_key}
@@ -702,19 +954,19 @@ const FileUpload = ({ i, data }) => {
                 Automatic validation
               </span>
               <span className="text-[#838383] text-xs">
-                Once submited, the claim is auto-validated and skips review.
+                Once submitted, the claim is auto-validated and skips review.
               </span>
             </div>
             <div className="">
               <FormControlLabel
                 sx={{
-                  display: "block",
+                  display: 'block',
                 }}
                 control={
                   <Switch
                     checked={loading1}
                     onChange={() => setLoading1(!loading1)}
-                    name="loading"
+                    name="loading1"
                     color="primary"
                   />
                 }
@@ -905,6 +1157,7 @@ const Poll = ({ i, data }) => {
     </div>
   );
 };
+
 const Quiz = ({ i, data }) => {
   const [loading4, setLoading4] = useState(true);
 
@@ -1340,6 +1593,7 @@ const Url = ({ i, data }) => {
     </div>
   );
 };
+
 const OpinionScale = ({ i, data }) => {
   const [formData, setFormData] = useState({
     task_type: "opinion-scale",
@@ -1528,6 +1782,12 @@ const Task = ({ type, index, submitData }) => {
       return <Partnership i={index} data={submitData} />;
     case "discord":
       return <Discord i={index} data={submitData} />;
+    case "twitter":
+      return <Twitter i={index} data={submitData} />;
+    case "telegram":
+      return <Telegram i={index} data={submitData} />;
+    case "Tiktok":
+      return <TikTok i={index} data={submitData} />;
     case "file-upload":
       return <FileUpload i={index} data={submitData} />;
     case "poll":
@@ -1545,7 +1805,7 @@ const Task = ({ type, index, submitData }) => {
   }
 };
 
-const NewQuest = ({ setCardNo , setDashboardData }) => {
+const NewQuest = ({ setCardNo, setDashboardData }) => {
   const { loading, error } = useSelector((state) => state.quests);
 
   const dispatch = useDispatch();
@@ -1569,8 +1829,24 @@ const NewQuest = ({ setCardNo , setDashboardData }) => {
     status: 1,
     module_id: "2",
     user_id: 1,
-    // category: "Hello",
-    additionals: [],
+    additionals: [
+      {
+        link: "",
+        task_type: "",
+        number_invitation: "1",
+        description: "For API",
+        endpoint: "For API",
+        methods: "For API",
+        api_key: "For API",
+        partnership: "for partnership link",
+        request_type: "text, url, number",
+        correct_answer: "for answer",
+        stars: "2",
+        steps: "0 to 10",
+        labels: "0 to 10",
+        files: [],
+      },
+    ],
   });
   console.log(data);
   const setFormAdditionalData = (newData, index) => {
@@ -1605,45 +1881,18 @@ const NewQuest = ({ setCardNo , setDashboardData }) => {
     }
   };
   const publish = (datas) => {
-    // const sendData = {
-    //   name: "Quest name",
-    //   description: "Quest description",
-    //   difficulty: "easy",
-    //   recurrence: "daily",
-    //   cooldown: 24,
-    //   claim_time: "2024-05-18T00:00:00Z",
-    //   condition: "Complete 3 tasks",
-    //   reward: "100 points",
-    //   module: "Module A",
-    //   sprint: 2,
-    //   status: 1,
-    //   user_id: 1,
-    //   category: "Hello",
-    //   additionals: [
-    //     {
-    //       link: "link",
-    //       task_type: "link",
-    //       number_invitation: "1",
-    //       description: "For API",
-    //       endpoint: "For API",
-    //       methods: "For API",
-    //       api_key: "For API",
-    //       partnership: "for partnership link",
-    //       request_type: "text, url, number",
-    //       correct_answer: "for answer",
-    //       steps: "0 to 10",
-    //       labels: "0 to 10",
-    //     },
-    //   ],
-    // };
-    dispatch(createQuest(datas)).unwrap().then((res) => {
-      //navigate to current communties module page
-      if(res.success){
-        setDashboardData(0);
-        setCardNo(0);
-      }
-    })
-    .catch((err) => console.log(err));    //need to handle error
+    
+    console.log(datas);
+    // dispatch(createQuest(datas))
+    //   .unwrap()
+    //   .then((res) => {
+    //     //navigate to current communties module page
+    //     if (res.success) {
+    //       setDashboardData(0);
+    //       setCardNo(0);
+    //     }
+    //   })
+    //   .catch((err) => console.log(err)); //need to handle error
   };
 
   const handleClaimClick = () => {
@@ -1976,10 +2225,18 @@ const NewQuest = ({ setCardNo , setDashboardData }) => {
                     Clear All
                   </span>
                 </div> */}
-                 <span className="text-xs font-semibold">
-
-                <input type="text" name="reward" value={data.reward} onChange={(e) => setData({ ...data, reward: e.target.value })} className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none" placeholder="100 points" />
-                 </span>
+                <span className="text-xs font-semibold">
+                  <input
+                    type="text"
+                    name="reward"
+                    value={data.reward}
+                    onChange={(e) =>
+                      setData({ ...data, reward: e.target.value })
+                    }
+                    className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                    placeholder="100 points"
+                  />
+                </span>
               </div>
             </div>
             <div className="flex justify-start  text-white items-center">
@@ -1992,21 +2249,21 @@ const NewQuest = ({ setCardNo , setDashboardData }) => {
               </div>
               <div className=" items-center gap-1 flex w-1/2">
                 <span className="text-xs font-semibold">
-                <select
-                  name="module"
-                  value={data.module}
-                  onChange={(e) =>
-                    setData({ ...data, module: e.target.value })
-                  }
-                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
-                  placeholder="Add Condition"
-                  defaultValue={"Social Support"}
-                >
-                  <option value="Social Support" >Social Support</option>
-                  <option value="Reward Section">Reward Section</option>
-                  <option value="Onboarding Module">Onboarding Module</option>
-                  <option value="Tutorial">Tutorial</option>
-                </select>
+                  <select
+                    name="module"
+                    value={data.module}
+                    onChange={(e) =>
+                      setData({ ...data, module: e.target.value })
+                    }
+                    className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                    placeholder="Add Condition"
+                    defaultValue={"Social Support"}
+                  >
+                    <option value="Social Support">Social Support</option>
+                    <option value="Reward Section">Reward Section</option>
+                    <option value="Onboarding Module">Onboarding Module</option>
+                    <option value="Tutorial">Tutorial</option>
+                  </select>
                 </span>
               </div>
             </div>
@@ -2023,9 +2280,7 @@ const NewQuest = ({ setCardNo , setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">
-                  Add Sprint
-                </span>
+                <span className="text-xs font-semibold">Add Sprint</span>
               </div>
             </div>
           </div>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createModule } from "../slice/ModuleSlice";
 import { currentUser } from "../slice/Userslice";
 
-const NewModule = () => {
+const NewModule = ({setDashboardData}) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
@@ -39,7 +39,14 @@ const NewModule = () => {
 
   const create = (moduleData) => {
     if (validate()) {
-      dispatch(createModule(moduleData));
+      dispatch(createModule(moduleData)).unwrap().then((res) => {
+        if (res.success) {
+          setDashboardData(0);
+          clear();
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
     }
   }
 
