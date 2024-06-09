@@ -17,9 +17,9 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import notequal from "../assets/section2/notequal.png";
 import pencil from "../assets/section2/pencil.png";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import TwitterIcon from '@mui/icons-material/Twitter';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import tiktok from '../assets/section2/tiktok.png';
+import TwitterIcon from "@mui/icons-material/Twitter";
+import TelegramIcon from "@mui/icons-material/Telegram";
+import tiktok from "../assets/section2/tiktok.png";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -631,7 +631,7 @@ const Telegram = ({ i, data }) => {
   const [formData, setFormData] = useState({
     task_type: "telegram",
   });
-  
+
   useEffect(() => {
     data(formData, i);
   }, [formData]);
@@ -735,7 +735,7 @@ const TikTok = ({ i, data }) => {
 
   return (
     <div className="flex flex-col justify-center">
-      {/* make triangle */} 
+      {/* make triangle */}
       <div className="w-full md:w-3/4">
         <span className="text-white text-md font-semibold">Tiktok</span>
         <div className="border border-[#010101] rounded-2xl px-6 py-4 flex flex-col justify-center items-center gap-1">
@@ -751,14 +751,9 @@ const TikTok = ({ i, data }) => {
           <div className="flex justify-between">
             <div className="flex items-center gap-3">
               <div className="p-1 rounded-full bg-[#010101] h-fit flex items-center">
-                <tiktok
-                  className="text-white"
-                  style={{ fontSize: "1.2rem" }}
-                />
+                <tiktok className="text-white" style={{ fontSize: "1.2rem" }} />
               </div>
-              <div className="text-[#ff00ff] text-sm font-semibold">
-                Tiktok
-              </div>
+              <div className="text-[#ff00ff] text-sm font-semibold">Tiktok</div>
             </div>
             <div className="flex gap-2 justify-end items-center">
               <ContentCopyIcon
@@ -796,9 +791,9 @@ const FileUpload = ({ i, data }) => {
   const [loading, setLoading] = useState(true);
   const [loading1, setLoading1] = useState(true);
   const [formData, setFormData] = useState({
-    task_type: 'file-upload',
+    task_type: "file-upload",
     files: [],
-    api_key: '',
+    api_key: "",
   });
 
   useEffect(() => {
@@ -864,10 +859,10 @@ const FileUpload = ({ i, data }) => {
               <>
                 <PhotoSizeSelectActualIcon
                   className="text-[#b9479c]"
-                  style={{ fontSize: '2.5rem' }}
+                  style={{ fontSize: "2.5rem" }}
                 />
                 <span className="font-bold text-xl">
-                  Drag and drop or{' '}
+                  Drag and drop or{" "}
                   <span className="px-1 text-[#ff00ff]">click to upload</span>
                 </span>
                 <span className="text-md font-semibold">
@@ -885,7 +880,7 @@ const FileUpload = ({ i, data }) => {
           <div className="flex justify-between">
             <div className="flex items-center gap-3">
               <div className="p-1 rounded-full bg-[#ff004f] h-fit flex items-center">
-                <UploadFileIcon className="" style={{ fontSize: '1.2rem' }} />
+                <UploadFileIcon className="" style={{ fontSize: "1.2rem" }} />
               </div>
               <div className="text-[#ff00ff] text-sm font-semibold">
                 File upload
@@ -894,15 +889,15 @@ const FileUpload = ({ i, data }) => {
             <div className="flex gap-2 justify-end items-center">
               <ContentCopyIcon
                 className="text-[#ffffff] cursor-pointer"
-                style={{ fontSize: '1rem' }}
+                style={{ fontSize: "1rem" }}
               />
               <DeleteForeverIcon
                 className="text-[#ffffff] cursor-pointer"
-                style={{ fontSize: '1rem' }}
+                style={{ fontSize: "1rem" }}
               />
               <KeyboardArrowUpIcon
                 className="text-[#ffffff] cursor-pointer"
-                style={{ fontSize: '1rem' }}
+                style={{ fontSize: "1rem" }}
               />
             </div>
           </div>
@@ -919,7 +914,7 @@ const FileUpload = ({ i, data }) => {
             <div className="">
               <FormControlLabel
                 sx={{
-                  display: 'block',
+                  display: "block",
                 }}
                 control={
                   <Switch
@@ -960,7 +955,7 @@ const FileUpload = ({ i, data }) => {
             <div className="">
               <FormControlLabel
                 sx={{
-                  display: 'block',
+                  display: "block",
                 }}
                 control={
                   <Switch
@@ -1806,7 +1801,7 @@ const Task = ({ type, index, submitData }) => {
 };
 
 const NewQuest = ({ setCardNo, setDashboardData }) => {
-  const { loading, error } = useSelector((state) => state.quests);
+  const { loading, error } = useSelector((state) => state?.quests);
 
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
@@ -1814,7 +1809,8 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
   const handleClick = () => {
     setClicked(!clicked);
   };
-
+  const mod = useSelector((state) => state?.module);
+  console.log("module ", mod);
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -1881,7 +1877,6 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
     }
   };
   const publish = (datas) => {
-    
     console.log(datas);
     // dispatch(createQuest(datas))
     //   .unwrap()
@@ -2239,15 +2234,15 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                 </span>
               </div>
             </div>
-            <div className="flex justify-start  text-white items-center">
-              <div className=" items-center gap-2 flex w-1/2">
+            <div className="flex justify-start text-white items-center">
+              <div className="items-center gap-2 flex w-1/2">
                 <ArticleIcon
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
                 <span className="text-xs font-semibold">Module</span>
               </div>
-              <div className=" items-center gap-1 flex w-1/2">
+              <div className="items-center gap-1 flex w-1/2">
                 <span className="text-xs font-semibold">
                   <select
                     name="module"
@@ -2256,17 +2251,18 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                       setData({ ...data, module: e.target.value })
                     }
                     className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
-                    placeholder="Add Condition"
-                    defaultValue={"Social Support"}
                   >
-                    <option value="Social Support">Social Support</option>
-                    <option value="Reward Section">Reward Section</option>
-                    <option value="Onboarding Module">Onboarding Module</option>
-                    <option value="Tutorial">Tutorial</option>
+                    {mod?.modules?.length > 0 &&
+                      mod.modules.map((module) => (
+                        <option value={module.title} key={module.id}>
+                          {module.title}
+                        </option>
+                      ))}
                   </select>
                 </span>
               </div>
             </div>
+
             <div className="flex justify-start  text-white items-center">
               <div className=" items-center gap-2 flex w-1/2">
                 <ScheduleIcon

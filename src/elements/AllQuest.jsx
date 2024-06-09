@@ -37,35 +37,27 @@ const AllQuest = ({
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [templateDropdown, setTemplateDropdown] = useState(false);
-  const [abroadDots, setAbroadDots] = useState(false);
-  const [abroadPlus, setAbroadPlus] = useState(false);
-  const [tasksPlus, setTasksPlus] = useState(false);
-  const [tasksDots, setTasksDots] = useState(false);
   const [questModal, setQuestModal] = useState(false);
-  const handleClick = (val) => {
-    setTasksDots(false);
-    if (val === "taskDots") {
-      setTasksDots(!tasksDots);
-      setTasksPlus(false);
-      setAbroadDots(false);
-      setAbroadPlus(false);
-    } else if (val === "taskPlus") {
-      setTasksDots(false);
-      setTasksPlus(!tasksPlus);
-      setAbroadDots(false);
-      setAbroadPlus(false);
-    } else if (val === "abroadDots") {
-      setTasksDots(false);
-      setTasksPlus(false);
-      setAbroadDots(!abroadDots);
-      setAbroadPlus(false);
-    } else if (val === "abroadPlus") {
-      setTasksDots(false);
-      setTasksPlus(false);
-      setAbroadDots(false);
-      setAbroadPlus(!abroadPlus);
-    }
+
+  const handleMenuClick = (setter) => () => {
+    setter((prev) => !prev);
   };
+
+  const initialDropdownState = data?.modules?.map(() => ({
+    abroadDots: false,
+    abroadPlus: false,
+  }));
+
+  const [dropdownStates, setDropdownStates] = useState(initialDropdownState);
+
+  const handleDropdownToggle = (index, field) => () => {
+    setDropdownStates((prev) =>
+      prev.map((item, idx) =>
+        idx === index ? { ...item, [field]: !item[field] } : item
+      )
+    );
+  };
+
   return (
     <div className="relative">
       <div
@@ -88,8 +80,8 @@ const AllQuest = ({
             <span className="text-md font-semibold text-white ">All quest</span>
             <KeyboardArrowDownIcon className="text-white cursor-pointer" />
           </div>
-          <div className="hidden md:flex w-2/3   justify-between gap-3 pr-2">
-            <div className="text-[#838383] relative bg-transparent border border-[#ff00ff] rounded-lg p-2 flex  w-1/3 min-w-1/4 items-center">
+          <div className="hidden md:flex w-2/3 justify-between gap-3 pr-2">
+            <div className="text-[#838383] relative bg-transparent border border-[#ff00ff] rounded-lg p-2 flex w-1/3 min-w-1/4 items-center">
               <SearchIcon
                 className="text-[#838383] absolute left-2 "
                 style={{ fontSize: "1rem" }}
@@ -99,7 +91,7 @@ const AllQuest = ({
                 placeholder="Search for quest"
               />
             </div>
-            <div className=" relative bg-transparent border border-[#05F3DB] rounded-lg p-1 flex  w-2/5 items-center justify-center gap-1 cursor-pointer">
+            <div className="relative bg-transparent border border-[#05F3DB] rounded-lg p-1 flex w-2/5 items-center justify-center gap-1 cursor-pointer">
               <RemoveRedEyeIcon
                 className="text-[#05F3DB]"
                 style={{ fontSize: "1rem" }}
@@ -109,7 +101,7 @@ const AllQuest = ({
               </span>
             </div>
             <div
-              className=" relative bg-[#BC04BE] border border-[#BC04BE] rounded-lg p-1 flex  w-2/5 items-center justify-center gap-1 cursor-pointer "
+              className="relative bg-[#BC04BE] border border-[#BC04BE] rounded-lg p-1 flex w-2/5 items-center justify-center gap-1 cursor-pointer"
               onClick={() => setTemplateDropdown(!templateDropdown)}
             >
               <span className="text-white text-xs lg:text-nowrap">
@@ -130,19 +122,25 @@ const AllQuest = ({
                 <div className="absolute bg-[#20212a] top-10 left-0 flex flex-col p-2 gap-4 w-full rounded-md z-10">
                   <div className="flex gap-1">
                     <AddCircleOutlineIcon className="text-white" />
-                    <span className="text-white  text-sm font-semi-bold" onClick={handleNewQuest}>
+                    <span
+                      className="text-white text-sm font-semi-bold"
+                      onClick={handleNewQuest}
+                    >
                       New quest
                     </span>
                   </div>
                   <div className="flex gap-1">
                     <DescriptionIcon className="text-white" />
-                    <span className="text-white text-sm font-semi-bold" onClick={handleNewModule}>
+                    <span
+                      className="text-white text-sm font-semi-bold"
+                      onClick={handleNewModule}
+                    >
                       New module
                     </span>
                   </div>
                   <div className="flex gap-1">
                     <WidgetsIcon className="text-white" />
-                    <span className="text-white  text-sm font-semi-bold">
+                    <span className="text-white text-sm font-semi-bold">
                       Create a sprint
                     </span>
                   </div>
@@ -172,7 +170,7 @@ const AllQuest = ({
                   placeholder="Search for quest"
                 />
               </div>
-              <div className=" relative bg-transparent border border-[#05F3DB] rounded-lg xs:p-2  p-1 xs:px-4 flex  w-fit items-center justify-center gap-1 cursor-pointer">
+              <div className="relative bg-transparent border border-[#05F3DB] rounded-lg xs:p-2 p-1 xs:px-4 flex w-fit items-center justify-center gap-1 cursor-pointer">
                 <RemoveRedEyeIcon
                   className="text-[#05F3DB]"
                   style={{ fontSize: "1rem" }}
@@ -182,7 +180,7 @@ const AllQuest = ({
                 </span>
               </div>
               <div
-                className=" relative bg-[#BC04BE] border border-[#BC04BE] rounded-lg xs:p-2 xs:px-4 p-1 flex  w-fit items-center justify-center gap-1 cursor-pointer "
+                className="relative bg-[#BC04BE] border border-[#BC04BE] rounded-lg xs:p-2 xs:px-4 p-1 flex w-fit items-center justify-center gap-1 cursor-pointer"
                 onClick={() => setTemplateDropdown(!templateDropdown)}
               >
                 <span className="text-white text-xs lg:text-nowrap">
@@ -203,19 +201,25 @@ const AllQuest = ({
                   <div className="absolute bg-[#20212a] top-12 left-0 flex flex-col p-2 gap-4 w-full rounded-md z-10">
                     <div className="flex gap-2 justify-start items-center">
                       <AddCircleOutlineIcon className="text-white" />
-                      <span className="text-white  text-sm font-semi-bold">
+                      <span
+                        className="text-white text-sm font-semi-bold"
+                        onClick={handleNewQuest}
+                      >
                         New quest
                       </span>
                     </div>
                     <div className="flex gap-2 justify-start items-center ">
                       <DescriptionIcon className="text-white" />
-                      <span className="text-white text-sm font-semi-bold">
+                      <span
+                        className="text-white text-sm font-semi-bold"
+                        onClick={handleNewModule}
+                      >
                         New module
                       </span>
                     </div>
                     <div className="flex gap-2 justify-start items-center ">
                       <WidgetsIcon className="text-white" />
-                      <span className="text-white  text-sm font-semi-bold">
+                      <span className="text-white text-sm font-semi-bold">
                         Create a sprint
                       </span>
                     </div>
@@ -228,7 +232,7 @@ const AllQuest = ({
         {/* listing of modules getting from data */}
         <div className="w-full flex flex-col gap-1">
           {data?.modules !== undefined &&
-            data?.modules?.map((module,index) => (
+            data?.modules?.map((module, index) => (
               <div className="bg-[#20212a] flex justify-between px-6 py-4" key={index}>
                 <div className="flex justify-start gap-4 items-center">
                   <span className="text-white font-bold text-sm">
@@ -240,16 +244,16 @@ const AllQuest = ({
                 </div>
                 <div className="flex justify-end gap-3 items-center">
                   <div
-                    className={` relative p-1  flex rounded-md ${
-                      abroadDots && "bg-[#191a1e]"
+                    className={`relative p-1 flex rounded-md ${
+                      dropdownStates[index]?.abroadDots && "bg-[#191a1e]"
                     } items-center`}
-                    onClick={() => handleClick("abroadDots")}
+                    onClick={handleDropdownToggle(index, "abroadDots")}
                   >
                     <MoreHorizIcon
                       className="text-white cursor-pointer"
                       style={{ fontSize: "1rem" }}
                     />
-                    {abroadDots && (
+                    {dropdownStates[index]?.abroadDots && (
                       <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
                         <div className="flex gap-2 justify-start cursor-pointer">
                           <EditIcon
@@ -306,19 +310,18 @@ const AllQuest = ({
                     )}
                   </div>
                   <div
-                    className={` relative p-1  flex rounded-md ${
-                      abroadPlus && "bg-[#191a1e]"
+                    className={`relative p-1 flex rounded-md ${
+                      dropdownStates[index]?.abroadPlus && "bg-[#191a1e]"
                     } items-center`}
-                    onClick={() => handleClick("abroadPlus")}
+                    onClick={handleDropdownToggle(index, "abroadPlus")}
                   >
                     <AddIcon
                       className="text-white cursor-pointer"
                       style={{ fontSize: "1rem" }}
                     />
-                    {abroadPlus && (
+                    {dropdownStates[index]?.abroadPlus && (
                       <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
                         <div className="p-2 rounded-md bg-[#20212a]">
-                          {" "}
                           <div className="flex gap-2 justify-start cursor-pointer">
                             <ControlPointIcon
                               className="text-white"
