@@ -1877,17 +1877,17 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
     }
   };
   const publish = (datas) => {
-    console.log(datas);
-    // dispatch(createQuest(datas))
-    //   .unwrap()
-    //   .then((res) => {
-    //     //navigate to current communties module page
-    //     if (res.success) {
-    //       setDashboardData(0);
-    //       setCardNo(0);
-    //     }
-    //   })
-    //   .catch((err) => console.log(err)); //need to handle error
+    console.log("quest publishing",datas);
+    dispatch(createQuest(datas))
+      .unwrap()
+      .then((res) => {
+        //navigate to current communties module page
+        if (res.success) {
+          setDashboardData(0);
+          setCardNo(0);
+        }
+      })
+      .catch((err) => console.log(err)); //need to handle error
   };
 
   const handleClaimClick = () => {
