@@ -1810,17 +1810,15 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
     setClicked(!clicked);
   };
   const mod = useSelector((state) => state?.module);
-  console.log("module ", mod);
   const [data, setData] = useState({
     name: "",
     description: "",
-    difficulty: "",
+    // difficulty: "",
     recurrence: "",
     cooldown: 0,
     claim_time: "",
     condition: "",
     reward: "100 points",
-    module: "",
     sprint: 1,
     status: 1,
     module_id: "2",
@@ -1830,17 +1828,17 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
         link: "",
         task_type: "",
         number_invitation: "1",
-        description: "For API",
-        endpoint: "For API",
-        methods: "For API",
-        api_key: "For API",
-        partnership: "for partnership link",
-        request_type: "text, url, number",
-        correct_answer: "for answer",
-        stars: "2",
-        steps: "0 to 10",
-        labels: "0 to 10",
-        files: [],
+        description: "",
+        endpoint: "",
+        methods: "",
+        api_key: "",
+        partnership: "",
+        request_type: "",
+        correct_answer: "",
+        star: "",
+        steps: "",
+        labels: "",
+        files: '',
       },
     ],
   });
@@ -1876,8 +1874,32 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
       setIsQuestModalOpen(true);
     }
   };
+
+  const [errors, setErrors] = useState({});
+
+  const validateFields = () => {
+    let tempErrors = {};
+    if (!data.name) tempErrors.name = "Name is required";
+    if (!data.description) tempErrors.description = "Description is required";
+    // if (!data.difficulty) tempErrors.difficulty = "Difficulty is required";
+    if (!data.recurrence) tempErrors.recurrence = "Recurrence is required";
+    if (!data.cooldown) tempErrors.cooldown = "Cooldown is required";
+    if (!data.claim_time) tempErrors.claim_time = "Claim limit is required";
+    if (!data.condition) tempErrors.condition = "Condition is required";
+    if (!data.reward) tempErrors.reward = "Reward is required";
+    if (!data.module_id) tempErrors.module_id = "Module is required";
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
   const publish = (datas) => {
-    console.log("quest publishing",datas);
+    if (!validateFields()) {
+      console.log("Please fill all required fields.");
+      return;
+    }
+
+    console.log("quest publishing", datas);
     dispatch(createQuest(datas))
       .unwrap()
       .then((res) => {
@@ -1943,7 +1965,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   name="name"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
-                  className="bg-transparent text-white font-semibold text-md focus:outline-none"
+                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    errors.name ? "border-red-500 border-2" : ""
+                  }`}
                   placeholder="Quest name"
                 />
               </span>
@@ -1955,7 +1979,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, description: e.target.value })
                   }
-                  className="bg-transparent text-white font-semibold text-md focus:outline-none"
+                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    errors.description ? "border-red-500 border-2" : ""
+                  }`}
                   placeholder="Add Quest description...."
                 />
               </span>
@@ -2010,7 +2036,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Recurrence</span>
+                <span className="text-xs font-semibold">Recurrence<span className="text-red-500">*</span></span>
               </div>
               <div className="text-xs font-semibold w-1/2">
                 {/* take a user input and update the data.recurrence */}
@@ -2020,7 +2046,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, recurrence: e.target.value })
                   }
-                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    errors.recurrence ? "border-red-500 border-2" : ""
+                  }`}
                 >
                   <option value="daily">Daily</option>
                   <option value="weekly">Weekly</option>
@@ -2034,7 +2062,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Cooldown</span>
+                <span className="text-xs font-semibold">Cooldown<span className="text-red-500">*</span></span>
               </div>
               <div className="text-xs font-semibold w-1/2">
                 <select
@@ -2043,7 +2071,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, cooldown: e.target.value })
                   }
-                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    errors.cooldown ? "border-red-500 border-2" : ""
+                  }`}
                 >
                   <option value="none">None</option>
                   <option value="1 minute">1 minute</option>
@@ -2064,7 +2094,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Claim limit</span>
+                <span className="text-xs font-semibold">Claim limit<span className="text-red-500">*</span></span>
               </div>
               <div className=" items-center gap-1 flex w-1/2">
                 {!claimClick ? (
@@ -2086,22 +2116,25 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                     onChange={(e) =>
                       setData({ ...data, claim_time: e.target.value })
                     }
-                    className="bg-transparent text-xs font-semibold text-[#5a5a5a] focus:outline-none"
+                    className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                      errors.claim_time ? "border-red-500 border-2" : ""
+                    }`}
                     placeholder="10"
                     maxLength="4"
                   />
                 )}
               </div>
             </div>
-            <div className="flex justify-start  text-white items-center">
-              <div className=" items-center gap-1 flex w-1/2">
+            <div className="flex  text-white justify-between">
+              <div className=" items-center gap-1 flex">
                 <CheckCircleIcon
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Condition</span>
+                <span className="text-xs font-semibold">Condition<span className="text-red-500">*</span></span>
               </div>
-              <div className=" items-center gap-1 flex w-1/2">
+
+              <div className=" items-center gap-1 flex">
                 <AddIcon
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
@@ -2112,7 +2145,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, condition: e.target.value })
                   }
-                  className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    errors.condition ? "border-red-500 border-2" : ""
+                  }`}
                   placeholder="Add Condition"
                 >
                   <option value="level">Level</option>
@@ -2129,97 +2164,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Reward</span>
+                <span className="text-xs font-semibold">Reward<span className="text-red-500">*</span></span>
               </div>
               <div className="flex gap-1 flex-col justify-start ">
-                {/* <div className="border border-[#05F3DB] rounded-lg  flex">
-                  <span className="cursor-pointer flex items-center text-xs p-[4px]">
-                    <StarIcon
-                      className="text-[#ff00ff]"
-                      style={{ fontSize: "1rem" }}
-                    />{" "}
-                    100 XP
-                  </span>
-                  <span className="cursor-pointer flex items-center text-xs border-x border-[#05F3DB] p-[3px]">
-                    <LanguageIcon
-                      className="text-[#1a6dbf]"
-                      style={{ fontSize: "1rem" }}
-                    />{" "}
-                    All
-                  </span>
-                  <span className="p-[3px] flex items-center cursor-pointer ">
-                    <DeleteOutlineIcon
-                      className="text-[#838383] "
-                      style={{ fontSize: "1rem" }}
-                    />
-                  </span>
-                </div>
-                <div className="border border-[#05F3DB] rounded-lg  flex w-fit mt-2">
-                  <span
-                    className={`cursor-pointer flex items-center text-xs p-2 relative ${
-                      clicked && "bg-[#000000]"
-                    }  rounded-s-lg `}
-                    onClick={handleClick}
-                  >
-                    <img
-                      src={pencil}
-                      className="text-[#ff00ff]"
-                      style={{ fontSize: "1rem" }}
-                    />
-                    <div
-                      className={`${
-                        clicked ? "absolute md:fixed" : "hidden"
-                      }  md:right-28 md:top-80 bg-[#2a2b35] p-3 rounded-md w-64 `}
-                    >
-                      <div className="flex flex-col gap-2 justify-between ">
-                        <span className="text-white font-semibold text-sm">
-                          Brief of description to the rewards
-                        </span>
-                        <div className="border border-[#F05F2B] rounded-xl relative">
-                          <input
-                            className="text-xs font-semibold text-[#838383] p-3  w-[90%] focus:outline-none bg-transparent"
-                            placeholder="A ticket for our upcoming event..."
-                          />
-                          <WarningAmberIcon className="text-[#F05F2B] absolute right-2 top-2" />
-                        </div>
-                        <span className="text-sm font-semibold text-[#F05F2B]">
-                          String must contain atv least 1 character(s)
-                        </span>
-                      </div>
-                    </div>
-                  </span>
-                  <span className="cursor-pointer flex items-center text-xs border-x border-[#05F3DB] p-1">
-                    <LanguageIcon
-                      className="text-[#1a6dbf]"
-                      style={{ fontSize: "1rem" }}
-                    />{" "}
-                    All
-                  </span>
-                  <span className="p-1 flex items-center cursor-pointer ">
-                    <DeleteOutlineIcon
-                      className="text-[#838383] "
-                      style={{ fontSize: "1rem" }}
-                    />
-                  </span>
-                </div>
-                <div className=" items-center gap-2 flex w-1/2 text-[#838383]">
-                  <AddIcon
-                    className="text-xs font-semibold"
-                    style={{ fontSize: "1.2rem" }}
-                  />
-                  <span className="text-xs font-semibold text-nowrap">
-                    Add Reward
-                  </span>
-                </div>
-                <div className=" items-center gap-2 flex w-1/2 text-[#838383]">
-                  <DeleteOutlineIcon
-                    className="text-xs font-semibold"
-                    style={{ fontSize: "1.2rem" }}
-                  />
-                  <span className="text-xs font-semibold text-nowrap">
-                    Clear All
-                  </span>
-                </div> */}
                 <span className="text-xs font-semibold">
                   <input
                     type="text"
@@ -2228,7 +2175,9 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                     onChange={(e) =>
                       setData({ ...data, reward: e.target.value })
                     }
-                    className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                    className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                      errors.reward ? "border-red-500 border-2" : ""
+                    }`}
                     placeholder="100 points"
                   />
                 </span>
@@ -2240,21 +2189,23 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Module</span>
+                <span className="text-xs font-semibold">Module<span className="text-red-500">*</span></span>
               </div>
               <div className="items-center gap-1 flex w-1/2">
                 <span className="text-xs font-semibold">
                   <select
-                    name="module"
-                    value={data.module}
+                    name="module_id"
+                    value={data.module_id}
                     onChange={(e) =>
-                      setData({ ...data, module: e.target.value })
+                      setData({ ...data, module_id: e.target.value })
                     }
-                    className="bg-transparent text-xs font-semibold text-[#838383] focus:outline-none"
+                    className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                      errors.module_id ? "border-red-500 border-2" : ""
+                    }`}
                   >
                     {mod?.modules?.length > 0 &&
                       mod.modules.map((module) => (
-                        <option value={module.title} key={module.id}>
+                        <option value={module.id} key={module.id}>
                           {module.title}
                         </option>
                       ))}
@@ -2269,7 +2220,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Sprint</span>
+                <span className="text-xs font-semibold">Sprint<span className="text-red-500">*</span></span>
               </div>
               <div className=" items-center gap-1 flex w-1/2">
                 <AddIcon
