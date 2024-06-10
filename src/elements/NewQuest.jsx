@@ -1965,7 +1965,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   name="name"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
-                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                  className={`bg-transparent font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl text-xl ${
                     errors.name ? "border-red-500 border-2" : ""
                   }`}
                   placeholder="Quest name"
@@ -1979,7 +1979,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, description: e.target.value })
                   }
-                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                  className={`bg-transparent font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                     errors.description ? "border-red-500 border-2" : ""
                   }`}
                   placeholder="Add Quest description...."
@@ -2046,7 +2046,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, recurrence: e.target.value })
                   }
-                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                  className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                     errors.recurrence ? "border-red-500 border-2" : ""
                   }`}
                 >
@@ -2071,7 +2071,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                   onChange={(e) =>
                     setData({ ...data, cooldown: e.target.value })
                   }
-                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                  className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                     errors.cooldown ? "border-red-500 border-2" : ""
                   }`}
                 >
@@ -2097,32 +2097,19 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                 <span className="text-xs font-semibold">Claim limit<span className="text-red-500">*</span></span>
               </div>
               <div className=" items-center gap-1 flex w-1/2">
-                {!claimClick ? (
-                  <>
-                    <AddIcon
-                      className="text-xs font-semibold"
-                      style={{ fontSize: "1.2rem" }}
-                      onClick={handleClaimClick}
-                    />
-                    <span className="text-xs font-semibold">
-                      Add Claim Limit
-                    </span>
-                  </>
-                ) : (
-                  <input
+                <input
                     type="text"
                     name="claim_time"
                     value={data.claim_time}
                     onChange={(e) =>
                       setData({ ...data, claim_time: e.target.value })
                     }
-                    className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                       errors.claim_time ? "border-red-500 border-2" : ""
                     }`}
                     placeholder="10"
                     maxLength="4"
                   />
-                )}
               </div>
             </div>
             <div className="flex  text-white justify-between">
@@ -2135,17 +2122,17 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
               </div>
 
               <div className=" items-center gap-1 flex">
-                <AddIcon
+                {/* <AddIcon
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
-                />
+                /> */}
                 <select
                   name="condition"
                   value={data.condition}
                   onChange={(e) =>
                     setData({ ...data, condition: e.target.value })
                   }
-                  className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                  className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                     errors.condition ? "border-red-500 border-2" : ""
                   }`}
                   placeholder="Add Condition"
@@ -2158,7 +2145,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                 </select>
               </div>
             </div>
-            <div className="flex justify-start  text-white items-start">
+            <div className="flex justify-between  text-white items-center">
               <div className=" items-center gap-1 flex w-2/5">
                 <CardGiftcardIcon
                   className="text-xs font-semibold"
@@ -2175,7 +2162,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                     onChange={(e) =>
                       setData({ ...data, reward: e.target.value })
                     }
-                    className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                       errors.reward ? "border-red-500 border-2" : ""
                     }`}
                     placeholder="100 points"
@@ -2199,7 +2186,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                     onChange={(e) =>
                       setData({ ...data, module_id: e.target.value })
                     }
-                    className={`bg-transparent text-xs font-semibold text-[#838383] focus:outline-none ${
+                    className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
                       errors.module_id ? "border-red-500 border-2" : ""
                     }`}
                   >
@@ -2214,7 +2201,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
               </div>
             </div>
 
-            <div className="flex justify-start  text-white items-center">
+            {/* <div className="flex justify-start  text-white items-center">
               <div className=" items-center gap-2 flex w-1/2">
                 <ScheduleIcon
                   className="text-xs font-semibold"
@@ -2229,7 +2216,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
                 />
                 <span className="text-xs font-semibold">Add Sprint</span>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
