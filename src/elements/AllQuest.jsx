@@ -19,7 +19,9 @@ import ControlPointIcon from "@mui/icons-material/ControlPoint";
 import EditIcon from "@mui/icons-material/Edit";
 import QuestModal from "./Modals/QuestModal";
 import { useMediaQuery } from "@react-hook/media-query";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchModulebyId } from "../slice/ModuleSlice";
+import { useNavigate } from "react-router-dom";
 
 const AllQuest = ({
   setShowSidebar,
@@ -27,21 +29,31 @@ const AllQuest = ({
   handleNewQuest,
   handleNewModule,
   setCardNo,
+  communityId,
+  setModule,
 }) => {
   useEffect(() => {
     setCardNo(0);
   }, []);
   const isScreenLessThanLG = useMediaQuery("(max-width: 1023px)");
   const data = useSelector((state) => state?.module);
-  console.log("quest", data);
-
+  const dispatch = useDispatch();
   const [menuOpen, setMenuOpen] = useState(false);
   const [templateDropdown, setTemplateDropdown] = useState(false);
   const [questModal, setQuestModal] = useState(false);
-
+  const navigation = useNavigate();
   const handleMenuClick = (setter) => () => {
     setter((prev) => !prev);
   };
+
+  //need to handle as too many request are attempting
+  // useEffect(()=>{
+  //   const fetchModule =async () => {
+  //     await dispatch(fetchModulebyId(communityId)).unwrap();
+  //   }
+
+  //   fetchModule()
+  // },[dispatch,navigation])
 
   const initialDropdownState = data?.modules?.map(() => ({
     abroadDots: false,
@@ -233,7 +245,10 @@ const AllQuest = ({
         <div className="w-full flex flex-col gap-1">
           {data?.modules !== undefined &&
             data?.modules?.map((module, index) => (
-              <div className="bg-[#20212a] flex justify-between px-6 py-4" key={index}>
+              <div
+                className="bg-[#20212a] flex justify-between px-6 py-4"
+                key={index}
+              >
                 <div className="flex justify-start gap-4 items-center">
                   <span className="text-white font-bold text-sm">
                     {module.title}
@@ -329,7 +344,7 @@ const AllQuest = ({
                             />
                             <span
                               className="text-white text-xs text-nowrap font-semibold"
-                              onClick={handleNewQuest}
+                              onClick={handleNewQuest(module.id)}
                             >
                               New quest
                             </span>

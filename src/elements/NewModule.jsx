@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { createModule } from "../slice/ModuleSlice";
 import { currentUser } from "../slice/Userslice";
 
-const NewModule = ({setDashboardData}) => {
+const NewModule = ({setDashboardData,userId,communityId}) => {
   const dispatch = useDispatch();
 
   const [data, setData] = useState({
     title: "",
     desc: "",
-    community_id: 11,
-    user_id: 1,
+    community_id: communityId,
+    user_id: userId,
   });
 
   const [errors, setErrors] = useState({

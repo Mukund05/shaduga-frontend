@@ -1800,9 +1800,8 @@ const Task = ({ type, index, submitData }) => {
   }
 };
 
-const NewQuest = ({ setCardNo, setDashboardData }) => {
+const NewQuest = ({moduleId,userId, setCardNo, setDashboardData }) => {
   const { loading, error } = useSelector((state) => state?.quests);
-
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
   const [claimClick, setClaimClick] = useState(false);
@@ -1821,8 +1820,8 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
     reward: "100 points",
     sprint: 1,
     status: 1,
-    module_id: "2",
-    user_id: 1,
+    module_id: `${moduleId}`,
+    user_id: userId,
     additionals: [
       {
         link: "",
@@ -1842,7 +1841,7 @@ const NewQuest = ({ setCardNo, setDashboardData }) => {
       },
     ],
   });
-  console.log(data);
+
   const setFormAdditionalData = (newData, index) => {
     setData((prevData) => {
       const updatedAdditionals = [...prevData.additionals];

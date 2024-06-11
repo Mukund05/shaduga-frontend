@@ -16,12 +16,13 @@ const Loader = () => (
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { loading, success, error } = useSelector((state) => state.user.login);
+  const { loading, success } = useSelector((state) => state.user.login);
 
   const [formdata, setFormdata] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showScreen, setShowScreen] = useState(false);
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setFormdata({
@@ -43,17 +44,23 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if(!formdata.email || !formdata.password){
-      alert("Please enter email and password");
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formdata.email || !formdata.password) {
+      setError("Please enter email and password");
       return;
     }
-    dispatch(LoginUser(formdata)).unwrap()
+
+    if (!emailRegex.test(formdata.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+    dispatch(LoginUser(formdata))
+      .unwrap()
       .then(() => {
         dispatch(currentUser());
       })
       .catch((err) => {
-        console.log(err);
-        alert(error.message);
+        setError(err?.error);
       });
   };
 
@@ -119,7 +126,10 @@ const Login = () => {
               <label className="flex justify-start text-[#9fa2b4] text-sm font-semibold ">
                 Password
               </label>
-              <span className="text-[#9fa2b4] text-sm font-semibold cursor-pointer" onClick={()=>navigate("/forget-password")}>
+              <span
+                className="text-[#9fa2b4] text-sm font-semibold cursor-pointer"
+                onClick={() => navigate("/forget-password")}
+              >
                 Forgot password?
               </span>
             </div>
@@ -150,6 +160,7 @@ const Login = () => {
               </div>
             </div>
           </div>
+          {error && <span className="text-red-500 text-sm">{error}</span>}
           <button
             onClick={handleLogin}
             className="border-[#3F0140] border rounded-lg font-semibold text-xs sm:text-sm p-2 flex justify-center items-center cursor-pointer bg-[#bc04be] text-white w-full"

@@ -36,6 +36,7 @@ const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
     dispatch(LogoutUser())
       .then(() => {
         alert("logout Successfully!!");
+        navigate("/login")
       })
       .catch((err) => {
         console.log(err);
