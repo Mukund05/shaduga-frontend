@@ -15,6 +15,7 @@ import { currentUser } from "./slice/Userslice";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./elements/Header";
 import Navbar from "./elements/Navbar";
+import ForgotPassword from "./components/Authentication/ForgotPassword";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/demo" Component={Allroute} />
           <Route path="/login" Component={Login} />
           <Route path="/sign-up" Component={SignUp} />
+          <Route path="/forget-password" Component={ForgotPassword} />
           <Route path="/profile" Component={Profile} />
           <Route path="/dashboard-quest/menu" Component={DashboardQuest} />
           <Route path="/my-communities" Component={MyCommunities} />

@@ -97,6 +97,8 @@ const SignUp = () => {
       </div>
     );
   };
+
+  
   return (
     <div>
       <MetaData title={"Sign up"} />

@@ -81,7 +81,6 @@ export const currentUser = createAsyncThunk(
 export const sendotp = createAsyncThunk(
   "send/otp",
   async (email, { rejectWithValue }) => {
-    console.log(email);
     try {
       const response = await axiosInstance.post("/send/otp", { email });
       return response.data;
@@ -98,9 +97,41 @@ export const sendotp = createAsyncThunk(
 export const verifyOtp = createAsyncThunk(
   "verify/otp",
   async (data, { rejectWithValue }) => {
-    console.log(data);
     try {
       const response = await axiosInstance.post("/verify/otp", data);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during verifying otp:", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const forgetPassword = createAsyncThunk(
+  "forget-password",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/forget-password", { email });
+      return response.data;
+    } catch (error) {
+      console.error("Error during forget-pasword:", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "reset-password",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/reset-password", data);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -144,6 +175,18 @@ const initialState = {
   logout: {
     loading: false,
     success: false,
+    error: null,
+  },
+  forgetPass: {
+    loading: false,
+    success: false,
+    message: "",
+    error: null,
+  },
+  resetPass: {
+    loading: false,
+    success: false,
+    message: "",
     error: null,
   },
 };
@@ -267,6 +310,48 @@ const userSlice = createSlice({
         state.correctOtp.loading = false;
         state.correctOtp.error = action.payload;
         state.correctOtp.success = false;
+      });
+
+    //forgot-password
+    builder
+      .addCase(forgetPassword.pending, (state) => {
+        state.forgetPass.loading = true;
+        state.forgetPass.error = null;
+        state.forgetPass.success = false;
+        state.forgetPass.message = "";
+      })
+      .addCase(forgetPassword.fulfilled, (state, action) => {
+        state.forgetPass.loading = false;
+        state.forgetPass.success = true;
+        state.forgetPass.error = null;
+        state.forgetPass.message = action.payload;
+      })
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.forgetPass.loading = false;
+        state.forgetPass.success = false;
+        state.forgetPass.error = action.payload;
+        state.forgetPass.message = "";
+      });
+    
+      //reset-password
+      builder
+      .addCase(resetPassword.pending, (state) => {
+        state.resetPass.loading = true;
+        state.resetPass.error = null;
+        state.resetPass.success = false;
+        state.resetPass.message = "";
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        state.resetPass.loading = false;
+        state.resetPass.success = true;
+        state.resetPass.error = null;
+        state.resetPass.message = action.payload;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.resetPass.loading = false;
+        state.resetPass.success = false;
+        state.resetPass.error = action.payload;
+        state.resetPass.message = "";
       });
   },
 });

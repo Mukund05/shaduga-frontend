@@ -32,10 +32,6 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error) alert(error.error);
-  }, [error]);
-
-  useEffect(() => {
     if (success) {
       setShowScreen(true);
       setTimeout(() => {
@@ -47,12 +43,17 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    if(!formdata.email || !formdata.password){
+      alert("Please enter email and password");
+      return;
+    }
     dispatch(LoginUser(formdata)).unwrap()
       .then(() => {
         dispatch(currentUser());
       })
       .catch((err) => {
         console.log(err);
+        alert(error.message);
       });
   };
 
@@ -118,7 +119,7 @@ const Login = () => {
               <label className="flex justify-start text-[#9fa2b4] text-sm font-semibold ">
                 Password
               </label>
-              <span className="text-[#9fa2b4] text-sm font-semibold cursor-pointer">
+              <span className="text-[#9fa2b4] text-sm font-semibold cursor-pointer" onClick={()=>navigate("/forget-password")}>
                 Forgot password?
               </span>
             </div>
