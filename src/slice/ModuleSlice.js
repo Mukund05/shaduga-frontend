@@ -57,7 +57,7 @@ const moduleSlice = createSlice({
       .addCase(fetchModulebyId.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.modules = action.payload.message;
+        state.modules = action.payload.data;
       })
       .addCase(fetchModulebyId.rejected, (state, action) => {
         state.loading = false;

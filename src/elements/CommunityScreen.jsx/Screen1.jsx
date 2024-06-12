@@ -12,7 +12,6 @@ const Screen1 = ({ formData, setFormdata, handleChange, SetScreen }) => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    console.log(image, "Image changed");
   }, [image]);
 
   useEffect(() => {

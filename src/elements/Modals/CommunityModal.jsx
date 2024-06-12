@@ -30,11 +30,9 @@ const CommunityModal = ({ setCreateCommunity }) => {
   });
 
   useEffect(() => {
-    console.log(formData.logo, "formData");
   }, [formData.logo]);
 
   const handleChange = (e) => {
-    console.log(formData);
     setFormdata({ ...formData, [e.target.name]: e.target.value });
   };
 

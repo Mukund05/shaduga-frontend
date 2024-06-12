@@ -32,7 +32,6 @@ export const LoginUser = createAsyncThunk(
       );
       const token = response.data.data.token;
       localStorage.setItem("token", token);
-      console.log(token);
       return response.data;
     } catch (error) {
       console.error("Error during login:", error);
@@ -66,7 +65,6 @@ export const currentUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/current/user");
-      console.log(response);
       return response.data;
     } catch (error) {
       console.error("Error during get details of current user", error);
@@ -132,7 +130,6 @@ export const resetPassword = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/reset-password", data);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error during verifying otp:", error);
