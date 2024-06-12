@@ -55,6 +55,23 @@ export const deleteQuest = createAsyncThunk(
   }
 );
 
+// Async thunk for Quest by Module
+export const questByModule = createAsyncThunk(
+  "quest/questbymodule",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/quests/${id}`);
+      return response.data; // Ensure you're returning only the data part of the response
+    } catch (error) {
+      console.error("Error during deleting quest:", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Define the initial state of the slice
 const initialState = {
   quests: [],

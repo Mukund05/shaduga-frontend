@@ -54,7 +54,7 @@ export const allCommunities = createAsyncThunk(
     try {
       const response = await axiosInstance.get("/communities");
 
-      return response;
+      return response.data;
     } catch (error) {
       console.error("Error during fetching all communities:", error);
       if (error.response && error.response.data) {
@@ -103,8 +103,8 @@ const communitySlice = createSlice({
         state.loading = false;
         state.error = null;
         state.success = true;
-        state.message = action.payload.data;
         state.communityData = action.payload;
+        state.message = action.payload;
       })
       .addCase(newCommunity.rejected, (state, action) => {
         state.loading = false;

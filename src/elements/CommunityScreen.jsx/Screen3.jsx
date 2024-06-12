@@ -10,12 +10,30 @@ import design from "../../assets/section2/design.png";
 import music from "../../assets/section2/music.png";
 import finance from "../../assets/section2/finance.png";
 
-const Screen3 = ({ setFormdata, formData }) => {
+const Screen3 = ({ setFormdata, formData, SetScreen }) => {
   const handleCategoryClick = (category) => {
     setFormdata((prevData) => ({
       ...prevData,
       categories: prevData.categories.includes(category) ? [] : [category],
     }));
+  };
+
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let newErrors = {};
+    if (formData.categories.length == 0)
+      newErrors.categories = "Category is required";
+
+    return newErrors;
+  };
+
+  const handleClick = (id) => {
+    if (id === 1 || Object.keys(validate()).length === 0) {
+      SetScreen(id);
+    } else {
+      setErrors(validate());
+    }
   };
 
   return (
@@ -152,11 +170,33 @@ const Screen3 = ({ setFormdata, formData }) => {
               </span>
             </div>
           </div>
+          {errors.categories && (
+            <span className="text-red-500 text-xs">{errors.categories}</span>
+          )}
         </div>
         <div className="pt-4 flex justify-between gap-3 w-full">
           <div className="w-1/3 p-1 rounded-lg bg-[#111111]"></div>
           <div className="w-1/3 p-1 rounded-lg bg-[#FF00FF]"></div>
           <div className="w-1/3 p-1 rounded-lg bg-[#111111]"></div>
+        </div>
+
+        <div className="flex w-[100%]">
+          <button
+            className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+            onClick={() => {
+              handleClick(1);
+            }}
+          >
+            Previous
+          </button>
+          <button
+            className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+            onClick={() => {
+              handleClick(3);
+            }}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

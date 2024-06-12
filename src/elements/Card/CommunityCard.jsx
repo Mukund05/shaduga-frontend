@@ -18,7 +18,13 @@ const CommunityCard = ({ img, title, content, users, tweets, src }) => {
     >
       <div className="grid gap-2">
         <div className="flex gap-2 justify-start items-center">
-          <img src={img ? `${import.meta.env.VITE_BASE_URL}${img}` : PlaceHolderImg} width={50} className="rounded-lg" />
+          <img
+            src={
+              img ? `${import.meta.env.VITE_BASE_URL}${img}` : PlaceHolderImg
+            }
+            width={50}
+            className="rounded-lg"
+          />
           <span className="text-white text-xl font-semibold">{title}</span>
         </div>
         <span className="text-white text-xs">{content}</span>

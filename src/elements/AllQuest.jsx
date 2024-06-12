@@ -20,8 +20,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import QuestModal from "./Modals/QuestModal";
 import { useMediaQuery } from "@react-hook/media-query";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchModulebyId } from "../slice/ModuleSlice";
 import { useNavigate } from "react-router-dom";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import StarIcon from "@mui/icons-material/Star";
+import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
+import { questByModule } from "../slice/Quests";
 
 const AllQuest = ({
   setShowSidebar,
@@ -68,6 +71,35 @@ const AllQuest = ({
         idx === index ? { ...item, [field]: !item[field] } : item
       )
     );
+  };
+
+  const [handleModuleQuest, setModuleQuest] = useState(false);
+
+  const [activeModuleId, setActiveModuleId] = useState(null);
+
+  const [moduleQuestData, setModuleQuestData] = useState([]);
+
+  const moduleWiseQuest = (id) => {
+    setActiveModuleId(null);
+    setModuleQuestData([]);
+    if (activeModuleId === id) {
+      setActiveModuleId(null);
+      setModuleQuestData([]);
+    } else {
+      setModuleQuest(!handleModuleQuest);
+
+      setActiveModuleId(id);
+
+      dispatch(questByModule(id))
+        .unwrap()
+        .then((data) => {
+          setModuleQuestData(data.data);
+        });
+    }
+  };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
@@ -245,121 +277,157 @@ const AllQuest = ({
         <div className="w-full flex flex-col gap-1">
           {data?.modules !== undefined &&
             data?.modules?.map((module, index) => (
-              <div
-                className="bg-[#20212a] flex justify-between px-6 py-4"
-                key={index}
-              >
-                <div className="flex justify-start gap-4 items-center">
-                  <span className="text-white font-bold text-sm">
-                    {module.title}
-                  </span>
-                  <span className="border-[#05F3DB] text-[#05F3DB] p-2 px-4 flex text-xs border rounded-2xl justify-between font-semibold">
-                    {module.quest.length} quests
-                  </span>
-                </div>
-                <div className="flex justify-end gap-3 items-center">
-                  <div
-                    className={`relative p-1 flex rounded-md ${
-                      dropdownStates[index]?.abroadDots && "bg-[#191a1e]"
-                    } items-center`}
-                    onClick={handleDropdownToggle(index, "abroadDots")}
-                  >
-                    <MoreHorizIcon
-                      className="text-white cursor-pointer"
-                      style={{ fontSize: "1rem" }}
-                    />
-                    {dropdownStates[index]?.abroadDots && (
-                      <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <EditIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs">Edit</span>
-                        </div>
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <DeleteForeverIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs">Delete</span>
-                        </div>
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <ArchiveIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs">Archive</span>
-                        </div>
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <ContentCopyIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs">Duplicate</span>
-                        </div>
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <DriveFileRenameOutlineIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs">Rename</span>
-                        </div>
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <CopyAllIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs">Copy Link</span>
-                        </div>
-                        <div className="flex gap-2 justify-start cursor-pointer">
-                          <RemoveRedEyeIcon
-                            className="text-white"
-                            style={{ fontSize: "1rem" }}
-                          />
-                          <span className="text-white text-xs text-nowrap">
-                            View as a contributor
-                          </span>
-                        </div>
-                      </div>
-                    )}
+              <>
+                <div
+                  className="bg-[#20212a] flex justify-between px-6 py-4 cursor-pointer"
+                  key={index}
+                  onClick={() => moduleWiseQuest(module.id)}
+                >
+                  <div className="flex justify-start gap-4 items-center">
+                    <span className="text-white font-bold text-sm">
+                      {module.title}
+                    </span>
+                    <span className="border-[#05F3DB] text-[#05F3DB] p-2 px-4 flex text-xs border rounded-2xl justify-between font-semibold">
+                      {module.quest.length} quests
+                    </span>
                   </div>
-                  <div
-                    className={`relative p-1 flex rounded-md ${
-                      dropdownStates[index]?.abroadPlus && "bg-[#191a1e]"
-                    } items-center`}
-                    onClick={handleDropdownToggle(index, "abroadPlus")}
-                  >
-                    <AddIcon
-                      className="text-white cursor-pointer"
-                      style={{ fontSize: "1rem" }}
-                    />
-                    {dropdownStates[index]?.abroadPlus && (
-                      <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                        <div className="p-2 rounded-md bg-[#20212a]">
+
+                  <div className="flex justify-end gap-3 items-center">
+                    <div
+                      className={`relative p-1 flex rounded-md ${
+                        dropdownStates[index]?.abroadDots && "bg-[#191a1e]"
+                      } items-center`}
+                      onClick={handleDropdownToggle(index, "abroadDots")}
+                    >
+                      <MoreHorizIcon
+                        className="text-white cursor-pointer"
+                        style={{ fontSize: "1rem" }}
+                      />
+                      {dropdownStates[index]?.abroadDots && (
+                        <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
                           <div className="flex gap-2 justify-start cursor-pointer">
-                            <ControlPointIcon
+                            <EditIcon
                               className="text-white"
                               style={{ fontSize: "1rem" }}
                             />
-                            <span
-                              className="text-white text-xs text-nowrap font-semibold"
-                              onClick={handleNewQuest(module.id)}
-                            >
-                              New quest
+                            <span className="text-white text-xs">Edit</span>
+                          </div>
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <DeleteForeverIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span className="text-white text-xs">Delete</span>
+                          </div>
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <ArchiveIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span className="text-white text-xs">Archive</span>
+                          </div>
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <ContentCopyIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span className="text-white text-xs">
+                              Duplicate
+                            </span>
+                          </div>
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <DriveFileRenameOutlineIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span className="text-white text-xs">Rename</span>
+                          </div>
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <CopyAllIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span className="text-white text-xs">
+                              Copy Link
+                            </span>
+                          </div>
+                          <div className="flex gap-2 justify-start cursor-pointer">
+                            <RemoveRedEyeIcon
+                              className="text-white"
+                              style={{ fontSize: "1rem" }}
+                            />
+                            <span className="text-white text-xs text-nowrap">
+                              View as a contributor
                             </span>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    <div
+                      className={`relative p-1 flex rounded-md ${
+                        dropdownStates[index]?.abroadPlus && "bg-[#191a1e]"
+                      } items-center`}
+                      onClick={handleDropdownToggle(index, "abroadPlus")}
+                    >
+                      <AddIcon
+                        className="text-white cursor-pointer"
+                        style={{ fontSize: "1rem" }}
+                      />
+                      {dropdownStates[index]?.abroadPlus && (
+                        <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
+                          <div className="p-2 rounded-md bg-[#20212a]">
+                            <div className="flex gap-2 justify-start cursor-pointer">
+                              <ControlPointIcon
+                                className="text-white"
+                                style={{ fontSize: "1rem" }}
+                              />
+                              <span
+                                className="text-white text-xs text-nowrap font-semibold"
+                                onClick={handleNewQuest(module.id)}
+                              >
+                                New quest
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <KeyboardArrowDownIcon
+                      className="text-white cursor-pointer modal-opener"
+                      style={{ fontSize: "1rem" }}
+                      onClick={() => moduleWiseQuest(module.id)}
+                    />
                   </div>
-                  <KeyboardArrowDownIcon
-                    className="text-white cursor-pointer modal-opener"
-                    style={{ fontSize: "1rem" }}
-                    onClick={() => setQuestModal(true)}
-                  />
                 </div>
-              </div>
+
+                {activeModuleId === module.id &&
+                  moduleQuestData.map((quest, index) => {
+                    return (
+                      <div className="px-6">
+                        <div className="flex justify-between text-[14px]">
+                          <p className="text-white mt-2 py-[5px] px-[10px] border-2 border-grey-500 rounded-xl">
+                            {quest.name}
+                          </p>
+
+                          <div className="flex gap-2">
+                            <div className="rounded-xl cursor-pointer text-[#eee] p-1 border-2 border-stone-500 flex items-center">
+                              <RestartAltIcon />
+                              {capitalizeFirstLetter(quest.recurrence)}
+                            </div>
+                            <div className="rounded-xl cursor-pointer text-[#eee] p-1 border-2 border-stone-500 flex items-center">
+                              <HourglassBottomIcon />
+                              {quest.cooldown}
+                            </div>
+                            <div className="rounded-xl cursor-pointer text-[#eee] p-1 border-2 border-stone-500 flex items-center">
+                              <StarIcon />
+                              {quest.reward}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+              </>
             ))}
         </div>
       </div>

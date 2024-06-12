@@ -4,9 +4,9 @@ import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector } from "react-redux";
 
-const Screen1 = ({ formData, setFormdata, handleChange }) => {
+const Screen1 = ({ formData, setFormdata, handleChange, SetScreen }) => {
   const { userData } = useSelector((state) => state.user);
-
+  const [errors, setErrors] = useState({});
   const [active, setActive] = useState(0);
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
@@ -42,6 +42,22 @@ const Screen1 = ({ formData, setFormdata, handleChange }) => {
         ...prev,
         logo: file,
       }));
+    }
+  };
+
+  const validate = () => {
+    let newErrors = {};
+    if (!formData.name) newErrors.name = "Name is required";
+    if (!formData.description) newErrors.description = "Description is required";
+
+    return newErrors;
+  };
+
+  const handleClick = () => {
+    if (Object.keys(validate()).length === 0) {
+      SetScreen(1);
+    } else {
+      setErrors(validate());
     }
   };
 
@@ -95,7 +111,11 @@ const Screen1 = ({ formData, setFormdata, handleChange }) => {
             placeholder="Name of your community"
             onChange={handleChange}
             name="name"
+            value={formData.name}
           />
+          {errors.name && (
+            <span className="text-red-500 text-xs">{errors.name}</span>
+          )}
         </div>
         <div className="flex flex-col justify-start gap-1 w-full">
           <div className="flex justify-between items-end">
@@ -111,7 +131,11 @@ const Screen1 = ({ formData, setFormdata, handleChange }) => {
             placeholder="Description"
             onChange={handleChange}
             name="description"
+            value={formData.description}
           />
+          {errors.description && (
+            <span className="text-red-500 text-xs">{errors.description}</span>
+          )}
         </div>
         <div className="flex flex-col justify-start gap-2 w-full">
           <div className="flex text-white text-lg font-bold">
@@ -138,6 +162,13 @@ const Screen1 = ({ formData, setFormdata, handleChange }) => {
             </div>
           </div>
         </div>
+
+        <button
+          className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+          onClick={handleClick}
+        >
+          Next
+        </button>
       </div>
     </div>
   );

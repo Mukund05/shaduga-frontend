@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "./elements/Header";
 import Navbar from "./elements/Navbar";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
+import AllCommunities from "./components/Communities/AllCommunities";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
           <Route path="/account-settings" Component={AccountSettings} />
           <Route path="/dashboard/admin" Component={Tesing} />
           <Route path="/plans" Component={Plans} />
+          <Route path="/all-communities" Component={AllCommunities} />
         </Routes>
       </Router>
     </div>

@@ -67,10 +67,6 @@ const CommunityModal = ({ setCreateCommunity }) => {
       invitation: formData.invitation,
     };
 
-
-    console.log("formData ----+", formData);
-    console.log("formData ----+", datas);
-
     // console.log(jsonString, " data");
     const resultAction = dispatch(newCommunity(datas))
       .then(() => {
@@ -102,72 +98,23 @@ const CommunityModal = ({ setCreateCommunity }) => {
                 formData={formData}
                 setFormdata={setFormdata}
                 handleChange={handleChange}
+                SetScreen={SetScreen}
               />
-              <div className="flex gap-3 w-full justify-between px-8 pb-6">
-                <button
-                  className="p-2 w-1/2 border text-white font-semibold text-sm border-[#bc04be] rounded-lg"
-                  onClick={() => setCreateCommunity(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="p-2 w-1/2 border text-white font-semibold text-sm border-[#bc04be] rounded-lg bg-[#bc04be]"
-                  onClick={() => SetScreen(1)}
-                >
-                  Create a community
-                </button>
-              </div>
             </div>
           )}
           {screen === 1 && (
             <div className="flex flex-col ">
-              <Screen2 handleChange={handleChange} />
-              <div className="flex gap-3 w-full justify-between px-8 pb-6">
-                <button
-                  className="p-2 w-full border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
-                  onClick={() => SetScreen(2)}
-                >
-                  {valid ? "next" : "Skip for now"}
-                </button>
-              </div>
+              <Screen2 formData={formData} handleChange={handleChange} SetScreen={SetScreen} />
             </div>
           )}
           {screen === 2 && (
             <div className="flex flex-col ">
-              <Screen3 setFormdata={setFormdata} formData={formData} />
-              <div className="flex gap-3 w-full justify-between px-8 pb-6">
-                <button
-                  className="p-2 w-1/3  text-white font-semibold text-sm  rounded-lg bg-[#3f0140]"
-                  onClick={() => SetScreen(1)}
-                >
-                  Previous
-                </button>
-                <button
-                  className="p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
-                  onClick={() => SetScreen(3)}
-                >
-                  Next
-                </button>
-              </div>
+              <Screen3 setFormdata={setFormdata} formData={formData} SetScreen={SetScreen} />
             </div>
           )}
           {screen === 3 && (
             <div className="flex flex-col ">
-              <Screen4 setFormData={setFormdata} formData={formData} />
-              <div className="flex gap-3 w-full justify-between px-8 pb-6">
-                <button
-                  className="p-2 w-1/3  text-white font-semibold text-sm  rounded-lg bg-[#3f0140]"
-                  onClick={() => SetScreen(2)}
-                >
-                  Previous
-                </button>
-                <button
-                  className="p-2 w-2/3 bg-[#bc04be] border text-white font-semibold text-sm border-[#bc04be] rounded-lg"
-                  onClick={HandleSubmit}
-                >
-                  Next
-                </button>
-              </div>
+              <Screen4 setFormData={setFormdata} formData={formData} SetScreen={SetScreen} HandleSubmit={HandleSubmit}/>
             </div>
           )}
           {screen === 4 && (
@@ -311,15 +258,15 @@ const CommunityModal = ({ setCreateCommunity }) => {
         <div className="hidden sm:flex sm:w-3/5 h-full justify-center items-center bg-black">
           <div className="bg-[#20212A] rounded-2xl p-4 flex flex-col gap-5 w-2/3 items-center justify-center">
             <img
-              src={`${import.meta.env.VITE_BASE_URL}${communityData?.data?.message?.logo}`}
+              src={`${import.meta.env.VITE_BASE_URL}${communityData?.data?.data?.logo}`}
               height={80}
               width={80}
               className="rounded-xl  mx-auto"
             />
             <div className="flex flex-col justify-center items-center gap-1">
-              <span className="text-white font-bold text-lg">Pick Dive</span>
+              <span className="text-white font-bold text-lg">{communityData?.data?.data?.name}</span>
               <span className="text-[#838383] font-semibold text-sm">
-                Pick Dive
+              {communityData?.data?.data?.description}
               </span>
             </div>
             <div className="flex justify-between gap-4">

@@ -3,8 +3,6 @@ import { useSelector } from "react-redux";
 
 const Screen5 = () => {
   const { communityData } = useSelector((state) => state.community);
-  console.log(communityData);
-
   const handleCopyLink = () => {
     const linkToCopy = communityData?.data?.message?.link;
     if (linkToCopy) {
@@ -36,10 +34,10 @@ const Screen5 = () => {
             </span>
             <div className="flex gap-3 justify-between">
               <div className=" focus:outline-none rounded-lg p-3 w-full bg-transparent border border-[#00FFFF] font-semibold text-sm text-white">
-                {communityData?.data?.message?.link}
+                {communityData?.data?.data.link}
               </div>
               <div
-                className="rounded-lg p-2 w-fit bg-transparent border border-[#bc04be] font-semibold text-lg text-white flex justify-between gap-3 items-center cursor-pointer relative px-4"
+                className="rounded-lg py-2 w-2/4 bg-transparent border border-[#bc04be] font-semibold text-lg text-white flex justify-between items-center cursor-pointer relative px-4"
                 onClick={handleCopyLink}
               >
                 <span className="text-white text-sm text-nowrap">

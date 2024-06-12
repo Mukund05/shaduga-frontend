@@ -2,7 +2,23 @@ import React, { useState } from "react";
 import discord from "../../assets/section1/discord.png";
 import XIcon from "@mui/icons-material/X";
 
-const Screen2 = ({ handleChange }) => {
+const Screen2 = ({ formData, handleChange, SetScreen }) => {
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    let newErrors = {};
+    if (!formData.website) newErrors.website = "website is required";
+    return newErrors;
+  };
+
+  const handleClick = (id) => {
+    if (id === 0 || Object.keys(validate()).length === 0) {
+      SetScreen(id);
+    } else {
+      setErrors(validate());
+    }
+  };
+
   return (
     <div>
       <div className="flex flex-col py-12 px-8 justify-between h-full items-center gap-12">
@@ -40,12 +56,34 @@ const Screen2 = ({ handleChange }) => {
             placeholder="PickDive.com"
             onChange={handleChange}
             name="website"
+            value={formData.website}
           />
+          {errors.website && (
+            <span className="text-red-500 text-xs">{errors.website}</span>
+          )}
         </div>
         <div className="pt-4 flex justify-between gap-3 w-full">
           <div className="w-1/3 p-1 rounded-lg bg-[#FF00FF]"></div>
           <div className="w-1/3 p-1 rounded-lg bg-[#111111]"></div>
           <div className="w-1/3 p-1 rounded-lg bg-[#111111]"></div>
+        </div>
+        <div className="flex w-[100%]">
+          <button
+            className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+            onClick={() => {
+              handleClick(0);
+            }}
+          >
+            Previous
+          </button>
+          <button
+            className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+            onClick={() => {
+              handleClick(2);
+            }}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

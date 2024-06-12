@@ -3,7 +3,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const Screen4 = ({ setFormData, formData }) => {
+const Screen4 = ({ setFormData, formData, SetScreen, HandleSubmit }) => {
   const [invites, setInvites] = useState([
     { email: "", role: "Editor", isOpen: false },
     { email: "", role: "Editor", isOpen: false },
@@ -57,6 +57,10 @@ const Screen4 = ({ setFormData, formData }) => {
       ...prevData,
       invitation: invitationArray,
     }));
+  };
+
+  const handleClick = (id) => {
+    SetScreen(id);
   };
 
   return (
@@ -141,6 +145,23 @@ const Screen4 = ({ setFormData, formData }) => {
           <div className="w-1/3 p-1 rounded-lg bg-[#111111]"></div>
           <div className="w-1/3 p-1 rounded-lg bg-[#111111]"></div>
           <div className="w-1/3 p-1 rounded-lg bg-[#FF00FF]"></div>
+        </div>
+
+        <div className="flex w-[100%]">
+          <button
+            className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+            onClick={() => {
+              handleClick(2);
+            }}
+          >
+            Previous
+          </button>
+          <button
+            className="mt-2 p-2 w-2/3 border text-white font-semibold text-sm border-[#bc04be] rounded-lg hover:bg-[#bc04be]"
+            onClick={HandleSubmit}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>

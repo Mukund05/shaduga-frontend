@@ -212,11 +212,19 @@ const DashboardQuest = () => {
                     setCurrCommunity(item);
                   }}
                 >
-                  <img
-                    src={`${import.meta.env.VITE_BASE_URL}${item.logo}`}
-                    className="w-[40px] h-[40px] object-cover rounded-full"
-                    alt="Community Avatar"
-                  />
+                  {item.logo ? (
+                    <img
+                      src={`${import.meta.env.VITE_BASE_URL}${item.logo}`}
+                      className="w-[40px] h-[40px] object-cover rounded-full"
+                      alt="Community Avatar"
+                    />
+                  ) : (
+                    <img
+                      src={`${import.meta.env.VITE_BASE_URL}dummy.jpg`}
+                      className="w-[40px] h-[40px] object-cover rounded-full"
+                      alt="Community Avatar"
+                    />
+                  )}
                 </div>
               ))
             ) : (
@@ -230,7 +238,10 @@ const DashboardQuest = () => {
           <AddIcon className="text-white" />
         </div>
         <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#03A494]">
-          <LanguageIcon className="text-white" />
+          <LanguageIcon
+            className="text-white"
+            onClick={() => navigate("/all-communities")}
+          />
         </div>
       </div>
     );
@@ -399,7 +410,7 @@ const DashboardQuest = () => {
               handleNewModule={handleNewModule}
               setCardNo={setCardNo}
               communityId={currCommunity?.id}
-              setModule={(id)=>setModuleId(id)}
+              setModule={(id) => setModuleId(id)}
             />
           )}
           {dashboardData === 3 && (
