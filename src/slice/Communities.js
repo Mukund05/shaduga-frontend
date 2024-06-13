@@ -66,7 +66,7 @@ export const allCommunities = createAsyncThunk(
 );
 
 export const community = createAsyncThunk(
-  "community/fetchById",
+  "community/fetchByUserId",
   async (id, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(`user/communities/${id}`);
@@ -81,6 +81,22 @@ export const community = createAsyncThunk(
   }
 );
 
+export const currentCommunity = createAsyncThunk(
+  "community/fetchByCommunityId",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/communities/${id}`);
+      return response.data; // Assuming response data is the desired result
+    } catch (error) {
+      console.error(`Error during fetching community with id ${id}:`, error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 const communitySlice = createSlice({
   name: "community",
   initialState: {
@@ -90,6 +106,7 @@ const communitySlice = createSlice({
     success: false,
     message: "",
     communities: null,
+    
   },
   reducers: {},
   extraReducers: (builder) => {

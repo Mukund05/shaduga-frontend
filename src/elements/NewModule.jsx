@@ -5,12 +5,13 @@ import { currentUser } from "../slice/Userslice";
 
 const NewModule = ({setDashboardData,userId,communityId}) => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state?.user?.userData?.data);
 
   const [data, setData] = useState({
     title: "",
     desc: "",
     community_id: communityId,
-    user_id: userId,
+    user_id: user?.id,
   });
 
   const [errors, setErrors] = useState({

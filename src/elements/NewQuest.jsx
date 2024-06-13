@@ -1800,7 +1800,7 @@ const Task = ({ type, index, submitData }) => {
   }
 };
 
-const NewQuest = ({moduleId,userId, setCardNo, setDashboardData }) => {
+const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
   const { loading, error } = useSelector((state) => state?.quests);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
@@ -1808,7 +1808,9 @@ const NewQuest = ({moduleId,userId, setCardNo, setDashboardData }) => {
   const handleClick = () => {
     setClicked(!clicked);
   };
+  const user = useSelector((state) => state?.user?.userData?.data);
   const mod = useSelector((state) => state?.module);
+
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -1820,8 +1822,8 @@ const NewQuest = ({moduleId,userId, setCardNo, setDashboardData }) => {
     reward: "100 points",
     sprint: 1,
     status: 1,
-    module_id: `${moduleId}`,
-    user_id: userId,
+    module_id: null,
+    user_id: user?.id,
     additionals: [
       {
         link: "",
@@ -1904,6 +1906,7 @@ const NewQuest = ({moduleId,userId, setCardNo, setDashboardData }) => {
       .then((res) => {
         //navigate to current communties module page
         if (res.success) {
+          setModule(-1);
           setDashboardData(0);
           setCardNo(0);
         }

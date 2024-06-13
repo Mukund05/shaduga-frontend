@@ -7,10 +7,12 @@ import MetaData from "../../layouts/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { community } from "../../slice/Communities";
 import { currentUser } from "../../slice/Userslice";
+import { useNavigate } from "react-router-dom";
 
 const MyCommunities = () => {
   const [CreateCommunity, setCreateCommunity] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userData } = useSelector((state) => state.user);
   const { communityData } = useSelector((state) => state.community);
   const [loggedIn, setLoggedin] = useState(false);
@@ -22,7 +24,7 @@ const MyCommunities = () => {
         await dispatch(currentUser());
       } else {
         // If user data exists, dispatch community action with user ID
-        dispatch(community({ id: userData.id }));
+        dispatch(community(userData?.data?.id ));
       }
     };
 
@@ -33,7 +35,7 @@ const MyCommunities = () => {
     if (userData) {
       setLoggedin(true);
       // Fetch communities when userData is available
-      dispatch(community({ id: userData.id }));
+      dispatch(community(userData?.data?.id ));
     } else {
       setLoggedin(false);
     }
@@ -44,6 +46,15 @@ const MyCommunities = () => {
     // If logoUrl exists, return a modified URL with dimensions 256x256
     console.log(`${logoUrl}?width=256&height=256`);
     return logoUrl ? `${logoUrl}?width=256&height=256` : null;
+  };
+
+  const handleCommunityClick = (communityId, isAdmin) => {
+    if (isAdmin) {
+      navigate(`/${communityId}/dashboard/admin`);
+    } else {
+      navigate(`/${communityId}/dashboard/admin`);
+      // navigate("/dashboard/admin");              //need to change to this 
+    }
   };
 
   return (
@@ -72,7 +83,7 @@ const MyCommunities = () => {
               content={card.description}
               users={"120"}
               tweets={"35k"}
-              src={"/dashboard/admin"}
+              handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id)}
             />
           ))}
         </div>

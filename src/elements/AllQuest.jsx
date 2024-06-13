@@ -25,6 +25,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import StarIcon from "@mui/icons-material/Star";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { questByModule } from "../slice/Quests";
+import { fetchModulebyId } from "../slice/ModuleSlice";
 
 const AllQuest = ({
   setShowSidebar,
@@ -33,11 +34,11 @@ const AllQuest = ({
   handleNewModule,
   setCardNo,
   communityId,
-  setModule,
+  setModule
 }) => {
-  useEffect(() => {
-    setCardNo(0);
-  }, []);
+  // useEffect(() => {
+    // setCardNo(0);
+  // }, []);
   const isScreenLessThanLG = useMediaQuery("(max-width: 1023px)");
   const data = useSelector((state) => state?.module);
   const dispatch = useDispatch();
@@ -50,13 +51,13 @@ const AllQuest = ({
   };
 
   //need to handle as too many request are attempting
-  // useEffect(()=>{
-  //   const fetchModule =async () => {
-  //     await dispatch(fetchModulebyId(communityId)).unwrap();
-  //   }
+  useEffect(()=>{
+    const fetchModule =async () => {
+      await dispatch(fetchModulebyId(communityId)).unwrap();
+    }
 
-  //   fetchModule()
-  // },[dispatch,navigation])
+    fetchModule()
+  },[communityId  ])
 
   const initialDropdownState = data?.modules?.map(() => ({
     abroadDots: false,
@@ -277,7 +278,7 @@ const AllQuest = ({
         <div className="w-full flex flex-col gap-1">
           {data?.modules !== undefined &&
             data?.modules?.map((module, index) => (
-              <>
+              <div key={index}>
                 <div
                   className="bg-[#20212a] flex justify-between px-6 py-4 cursor-pointer"
                   key={index}
@@ -367,30 +368,29 @@ const AllQuest = ({
                       className={`relative p-1 flex rounded-md ${
                         dropdownStates[index]?.abroadPlus && "bg-[#191a1e]"
                       } items-center`}
-                      onClick={handleDropdownToggle(index, "abroadPlus")}
+                      onClick={handleNewQuest}
                     >
                       <AddIcon
                         className="text-white cursor-pointer"
                         style={{ fontSize: "1rem" }}
                       />
-                      {dropdownStates[index]?.abroadPlus && (
+                      {/* {dropdownStates[index]?.abroadPlus && (
                         <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
                           <div className="p-2 rounded-md bg-[#20212a]">
                             <div className="flex gap-2 justify-start cursor-pointer">
                               <ControlPointIcon
                                 className="text-white"
-                                style={{ fontSize: "1rem" }}
+                                style={{ fontSize: "rem" }}
                               />
                               <span
                                 className="text-white text-xs text-nowrap font-semibold"
-                                onClick={handleNewQuest(module.id)}
                               >
                                 New quest
                               </span>
                             </div>
                           </div>
                         </div>
-                      )}
+                      )} */}
                     </div>
                     <KeyboardArrowDownIcon
                       className="text-white cursor-pointer modal-opener"
@@ -427,7 +427,7 @@ const AllQuest = ({
                       </div>
                     );
                   })}
-              </>
+              </div>
             ))}
         </div>
       </div>

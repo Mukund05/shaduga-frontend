@@ -22,7 +22,7 @@ const AllCommunities = () => {
         await dispatch(currentUser());
       } else {
         // If user data exists, dispatch community action with user ID
-        dispatch(allCommunities());
+        dispatch(community(userData?.data?.id ));
       }
     };
 
@@ -33,7 +33,7 @@ const AllCommunities = () => {
     if (userData) {
       setLoggedin(true);
       // Fetch communities when userData is available
-      dispatch(allCommunities());
+      dispatch(community(userData?.data?.id ));
     } else {
       setLoggedin(false);
     }
@@ -43,6 +43,15 @@ const AllCommunities = () => {
   const getResizedLogo = (logoUrl) => {
     return logoUrl ? `${logoUrl}?width=256&height=256` : null;
   };
+  const handleCommunityClick = (communityId, isAdmin) => {
+    if (isAdmin) {
+      navigate(`/${communityId}/dashboard/admin`);
+    } else {
+      navigate(`/${communityId}/dashboard/admin`);
+      // navigate("/dashboard/admin");              //need to change to this 
+    }
+  };
+
 
   return (
     <div className="bg-[#0f1014]">
@@ -70,7 +79,7 @@ const AllCommunities = () => {
               content={card.description}
               users={"120"}
               tweets={"35k"}
-              src={'/dashboard/admin'}
+              handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id)}
             />
           ))}
         </div>

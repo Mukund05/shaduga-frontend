@@ -17,6 +17,7 @@ import Header from "./elements/Header";
 import Navbar from "./elements/Navbar";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
 import AllCommunities from "./components/Communities/AllCommunities";
+import DashBoardAdmin from "./components/DashBoardAdmin";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/sign-up" Component={SignUp} />
           <Route path="/forget-password" Component={ForgotPassword} />
           <Route path="/profile" Component={Profile} />
+          <Route path="/:id/dashboard/admin" Component={DashBoardAdmin} />
           <Route path="/dashboard-quest/menu" Component={DashboardQuest} />
           <Route path="/my-communities" Component={MyCommunities} />
           <Route path="/account-settings" Component={AccountSettings} />

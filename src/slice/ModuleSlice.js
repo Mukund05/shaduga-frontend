@@ -7,7 +7,6 @@ export const fetchModulebyId = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get("/modules/" + id);
-
       return response.data;
     } catch (error) {
       console.error("Error during fetching all modules:", error);
@@ -57,7 +56,7 @@ const moduleSlice = createSlice({
       .addCase(fetchModulebyId.fulfilled, (state, action) => {
         state.loading = false;
         state.error = null;
-        state.modules = action.payload.message;
+        state.modules = action.payload.data;
       })
       .addCase(fetchModulebyId.rejected, (state, action) => {
         state.loading = false;

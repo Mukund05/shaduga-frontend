@@ -13,6 +13,15 @@ const Communities = () => {
     dispatch(allCommunities());
   }, []);
 
+  const handleCommunityClick = (communityId, isAdmin) => {
+    if (isAdmin) {
+      navigate(`/${communityId}/dashboard/admin`);
+    } else {
+      navigate(`/${communityId}/dashboard/admin`);
+      // navigate("/dashboard/admin");              //need to change to this 
+    }
+  };
+
   return (
     <div className="px-4 sm:px-10 py-6">
       <span className="text-white text-[2rem] sm:text-[2.5rem] font-bold text-nowrap px-10 flex justify-center sm:justify-start">
@@ -27,7 +36,7 @@ const Communities = () => {
             content={card.description}
             users={"120"}
             tweets={"35k"}
-            src={"/dashboard/admin"}
+            handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id)}
           />
         ))}
 

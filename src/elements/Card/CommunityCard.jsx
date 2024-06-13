@@ -4,13 +4,9 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import { useNavigate } from "react-router-dom";
 import PlaceHolderImg from "../../assets/section1/placeholder.webp";
 
-const CommunityCard = ({ img, title, content, users, tweets, src }) => {
+const CommunityCard = ({ img, title, content, users, tweets, handleClick }) => {
   const navigate = useNavigate();
-  const handleClick = () => {
-    if (src) {
-      navigate(src);
-    }
-  };
+
   return (
     <div
       className="w-96 mb-8 border-2 border-[#BC04BE] rounded-2xl p-5 flex flex-col items-start w-1/4 gap-2 min-w-80 sm:min-w-64 cursor-pointer justify-between"
