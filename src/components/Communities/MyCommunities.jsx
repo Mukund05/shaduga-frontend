@@ -44,7 +44,6 @@ const MyCommunities = () => {
   // Function to get the logo URL with dimensions 256x256
   const getResizedLogo = (logoUrl) => {
     // If logoUrl exists, return a modified URL with dimensions 256x256
-    console.log(`${logoUrl}?width=256&height=256`);
     return logoUrl ? `${logoUrl}?width=256&height=256` : null;
   };
 
