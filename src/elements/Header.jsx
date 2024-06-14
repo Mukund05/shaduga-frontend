@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
   const { logout } = useSelector((state) => state.user);
   const { userData } = useSelector((state) => state.user);
+  const [profileDropdown, setProfileDropdown] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
     dispatch(LogoutUser())
       .then(() => {
         alert("logout Successfully!!");
-        navigate("/login")
+        navigate("/login");
       })
       .catch((err) => {
         console.log(err);
@@ -50,7 +51,7 @@ const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
             src={logo}
             className="w-36 h-10 cursor-pointer"
             alt="Logo"
-            onClick={() => navigate("/demo")}
+            onClick={() => navigate("/")}
           />
         </div>
         <div className="flex justify-end  w-1/2 items-center md:pr-8">
@@ -64,7 +65,10 @@ const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
                 >
                   Create a community
                 </div>
-                <div className="border-[#3F0140] border rounded-lg font-semibold text-white text-md p-2 px-4 hidden md:flex justify-center items-center cursor-pointer hover:bg-[#bc04be] hover:text-white text-center">
+                <div
+                  className="border-[#3F0140] border rounded-lg font-semibold text-white text-md p-2 px-4 hidden md:flex justify-center items-center cursor-pointer hover:bg-[#bc04be] hover:text-white text-center"
+                  onClick={() => navigate("/my-communities")}
+                >
                   My communities
                 </div>
                 <div
@@ -73,10 +77,20 @@ const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
                 >
                   Logout
                 </div>
-                <div className="rounded-full p-4  border border-white text-black font-bold text-md bg-[#FF00FF] w-6 h-6 flex items-center justify-center mr-3">
+                <div
+                  className="rounded-full p-4 cursor-pointer  border border-white text-black font-bold text-md bg-[#FF00FF] w-6 h-6 flex items-center justify-center mr-3"
+                  onClick={() => setProfileDropdown(!profileDropdown)}
+                >
                   {userData?.data?.name &&
                     userData.data.name.substr(0, 1).toUpperCase()}
                 </div>
+                {profileDropdown ? (
+                  <div className="absolute top-20 right-20 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10 text-white">
+                    <p className="cursor-pointer">Account Settings</p>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             ) : (
               <div className="flex gap-4 items-center w-full">

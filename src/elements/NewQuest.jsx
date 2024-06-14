@@ -2192,6 +2192,7 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                       errors.module_id ? "border-red-500 border-2" : ""
                     }`}
                   >
+                    <option value=''>--Select--</option>
                     {mod?.modules?.length > 0 &&
                       mod.modules.map((module) => (
                         <option value={module.id} key={module.id}>

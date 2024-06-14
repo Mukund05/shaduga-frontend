@@ -151,7 +151,7 @@ function DashBoard() {
           <div className="flex flex-col gap-10 justify-between bg-[#20212A] w-full h-full pt-6">
             <div className="flex gap-2  flex-col w-full">
               <div className="flex gap-4 justify-center md:justify-start md:my-0 mt-8  px-4  items-center flex-col md:flex-row w-full ">
-                <img src={data?.logo ? `${import.meta.env.VITE_BASE_URL}${data?.logo}` : panda} className="w-12 h-12 rounded-lg" />
+                <img src={data?.logo ? `${import.meta.env.VITE_BASE_URL}${data?.logo}` : '/dummy.jpg'} className="w-12 h-12 rounded-lg" />
                 <span className="text-white flexr">{data?.name}</span>
               </div>
               <div

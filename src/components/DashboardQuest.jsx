@@ -229,7 +229,7 @@ const DashboardQuest = () => {
               ))
             ) : (
               <div className="cursor-pointer border-[#FF00FF] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]">
-                <img src={panda} className="text-white" alt="Default Avatar" />
+                <img src='/dummy.jpg' className="text-white" alt="Default Avatar" />
               </div>
             )}
           </div>
@@ -308,7 +308,7 @@ const DashboardQuest = () => {
             <div className="flex flex-col gap-10 justify-between  w-full h-full pt-6">
               <div className="flex gap-1 flex-col w-full">
                 <div className="flex gap-4 justify-center md:justify-start md:my-0 mt-8  px-4  items-center flex-col md:flex-row w-full pb-3">
-                  <img src={panda} className="w-fit h-fit" />
+                  <img src='/dummy.jpg' className="w-fit h-fit" />
 
                   <span className="text-white flexr">{Username}</span>
                 </div>
@@ -482,7 +482,7 @@ const DashboardQuest = () => {
                         className="w-[40px] h-[40px] object-cover rounded-full"
                       />
                     ) : (
-                      <img src={panda} className="w-fit h-fit" />
+                      <img src='/dummy.jpg' className="w-fit h-fit" />
                     )}
                     <span className="text-white flexr">{Username}</span>
                   </div>

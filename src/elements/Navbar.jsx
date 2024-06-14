@@ -7,6 +7,8 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LogoutUser } from "../slice/Userslice";
+import Header from "./Header";
+import CommunityModal from "./Modals/CommunityModal";
 
 const Navbar = () => {
   const { userData } = useSelector((state) => state.user);
@@ -44,9 +46,25 @@ const Navbar = () => {
       });
   };
 
+  const [loggedIn, setLoggedin] = useState(false);
+  const [CreateCommunity, setCreateCommunity] = useState(false);
+
+  useEffect(() => {
+    if (userData) {
+      setLoggedin(true);
+    } else {
+      setLoggedin(false);
+    }
+  }, [dispatch, userData]);
+
   return (
     <div className="relative overflow-hidden">
-      <header className="flex justify-between px-12 py-6 gap-5 z-20 relative">
+      <Header
+        loggedIn={loggedIn}
+        CreateCommunity={CreateCommunity}
+        setCreateCommunity={setCreateCommunity}
+      />
+      {/* <header className="flex justify-between px-12 py-6 gap-5 z-20 relative">
         <div className="w-1/2 flex items-center justify-start">
           <img
             src={logo}
@@ -110,7 +128,7 @@ const Navbar = () => {
             </IconButton>
           </div>
         </div>
-      </header>
+      </header> */}
       <Menu
         id="header-menu"
         anchorEl={anchorEl}
@@ -166,6 +184,9 @@ const Navbar = () => {
         className="absolute top-4 left-4 w-[25rem] "
         alt="Curve"
       />
+      {CreateCommunity && (
+        <CommunityModal setCreateCommunity={setCreateCommunity} />
+      )}
     </div>
   );
 };
