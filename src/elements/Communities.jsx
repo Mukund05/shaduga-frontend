@@ -17,8 +17,7 @@ const Communities = () => {
     if (isAdmin) {
       navigate(`/${communityId}/dashboard/admin`);
     } else {
-      navigate(`/${communityId}/dashboard/admin`);
-      // navigate("/dashboard/admin");              //need to change to this 
+      navigate(`/${communityId}/dashboard`);
     }
   };
 

@@ -106,6 +106,7 @@ const communitySlice = createSlice({
     success: false,
     message: "",
     communities: null,
+    newCommunity:null
     
   },
   reducers: {},
@@ -120,7 +121,7 @@ const communitySlice = createSlice({
         state.loading = false;
         state.error = null;
         state.success = true;
-        state.communityData = action.payload;
+        state.newCommunity = action.payload;
         state.message = action.payload;
       })
       .addCase(newCommunity.rejected, (state, action) => {

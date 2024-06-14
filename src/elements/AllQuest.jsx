@@ -25,7 +25,7 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import StarIcon from "@mui/icons-material/Star";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import { questByModule } from "../slice/Quests";
-import { fetchModulebyId } from "../slice/ModuleSlice";
+import { deleteModule, fetchModulebyId } from "../slice/ModuleSlice";
 
 const AllQuest = ({
   setShowSidebar,
@@ -45,6 +45,7 @@ const AllQuest = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const [templateDropdown, setTemplateDropdown] = useState(false);
   const [questModal, setQuestModal] = useState(false);
+  const [refresh,setRefresh] = useState(false);
   const navigation = useNavigate();
   const handleMenuClick = (setter) => () => {
     setter((prev) => !prev);
@@ -57,7 +58,7 @@ const AllQuest = ({
     }
 
     fetchModule()
-  },[communityId  ])
+  },[communityId,refresh  ])
 
   const initialDropdownState = data?.modules?.map(() => ({
     abroadDots: false,
@@ -102,6 +103,12 @@ const AllQuest = ({
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+
+  const handleModuleDelete = (id) => {
+    dispatch(deleteModule(id)).then(()=>{
+      setRefresh(!refresh)
+    })
+  }
 
   return (
     <div className="relative">
@@ -282,7 +289,6 @@ const AllQuest = ({
                 <div
                   className="bg-[#20212a] flex justify-between px-6 py-4 cursor-pointer"
                   key={index}
-                  onClick={() => moduleWiseQuest(module.id)}
                 >
                   <div className="flex justify-start gap-4 items-center">
                     <span className="text-white font-bold text-sm">
@@ -313,12 +319,12 @@ const AllQuest = ({
                             />
                             <span className="text-white text-xs">Edit</span>
                           </div>
-                          <div className="flex gap-2 justify-start cursor-pointer">
+                          <div className="flex gap-2 justify-start cursor-pointer" onClick={() => handleModuleDelete(module.id)}>
                             <DeleteForeverIcon
                               className="text-white"
                               style={{ fontSize: "1rem" }}
                             />
-                            <span className="text-white text-xs">Delete</span>
+                            <span className="text-white text-xs" >Delete</span>
                           </div>
                           <div className="flex gap-2 justify-start cursor-pointer">
                             <ArchiveIcon
@@ -395,7 +401,7 @@ const AllQuest = ({
                     <KeyboardArrowDownIcon
                       className="text-white cursor-pointer modal-opener"
                       style={{ fontSize: "1rem" }}
-                      onClick={() => moduleWiseQuest(module.id)}
+                      onClick={() => moduleWiseQuest(module?.id)}
                     />
                   </div>
                 </div>
@@ -403,7 +409,7 @@ const AllQuest = ({
                 {activeModuleId === module.id &&
                   moduleQuestData.map((quest, index) => {
                     return (
-                      <div className="px-6">
+                      <div className="px-6" key={index}>
                         <div className="flex justify-between text-[14px]">
                           <p className="text-white mt-2 py-[5px] px-[10px] border-2 border-grey-500 rounded-xl">
                             {quest.name}

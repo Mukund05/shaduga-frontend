@@ -18,6 +18,7 @@ import Navbar from "./elements/Navbar";
 import ForgotPassword from "./components/Authentication/ForgotPassword";
 import AllCommunities from "./components/Communities/AllCommunities";
 import DashBoardAdmin from "./components/DashBoardAdmin";
+import DashBoard from "./components/DashBoard";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,10 +37,11 @@ function App() {
           <Route path="/forget-password" Component={ForgotPassword} />
           <Route path="/profile" Component={Profile} />
           <Route path="/:id/dashboard/admin" Component={DashBoardAdmin} />
-          <Route path="/dashboard-quest/menu" Component={DashboardQuest} />
+          <Route path="/:id/dashboard" Component={DashBoard} />
+          {/* <Route path="/dashboard-quest/menu" Component={DashboardQuest} /> */}
           <Route path="/my-communities" Component={MyCommunities} />
           <Route path="/account-settings" Component={AccountSettings} />
-          <Route path="/dashboard/admin" Component={Tesing} />
+          {/* <Route path="/dashboard/admin" Component={Tesing} /> */}
           <Route path="/plans" Component={Plans} />
           <Route path="/all-communities" Component={AllCommunities} />
         </Routes>

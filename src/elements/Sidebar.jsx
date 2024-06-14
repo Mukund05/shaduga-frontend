@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import LanguageIcon from "@mui/icons-material/Language";
@@ -44,6 +44,16 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
       });
   }, [dispatch]);
 
+  useEffect(() => {
+    if (!selectedCommunityId && communityData?.data?.length > 0) {
+      const initialCommunity = communityData.data[0];
+      handleCommunityClick(
+        initialCommunity.id,
+        initialCommunity.user_id === userData?.data?.id
+      );
+    }
+  }, [communityData, selectedCommunityId, handleCommunityClick, userData]);
+
   return (
     <div
       className={`transition-all duration-300 flex flex-col gap-5 h-full bg-[#20212A] py-20 lg:py-10 overflow-y-auto left-0 top-0 ${
@@ -86,11 +96,18 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
                     : "border-transparent"
                 }`}
                 onClick={() =>
-                  handleCommunityClick(item.id, item.user_id === userData?.data?.id)
+                  handleCommunityClick(
+                    item.id,
+                    item.user_id === userData?.data?.id
+                  )
                 }
               >
                 <img
-                  src={item.logo ? `${import.meta.env.VITE_BASE_URL}${item.logo}` : panda}
+                  src={
+                    item.logo
+                      ? `${import.meta.env.VITE_BASE_URL}${item.logo}`
+                      : panda
+                  }
                   className="w-[40px] h-[40px] object-cover rounded-full"
                   alt="Community Avatar"
                 />

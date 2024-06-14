@@ -10,14 +10,15 @@ import LanguageIcon from "@mui/icons-material/Language";
 import PersonIcon from "@mui/icons-material/Person";
 import screen5img from "../../assets/section2/screen5.png";
 import { useDispatch, useSelector } from "react-redux";
-import { newCommunity } from "../../slice/Communities";
+import { newCommunity as newCom } from "../../slice/Communities";
 import { useNavigate } from "react-router-dom";
 
 const CommunityModal = ({ setCreateCommunity }) => {
   const dispatch = useDispatch();
   const { success } = useSelector((state) => state.community);
   const [screen, SetScreen] = useState(0);
-  const { communityData } = useSelector((state) => state.community);
+  const { newCommunity } = useSelector((state) => state.community);
+  console.log(newCommunity)
   const navigate = useNavigate();
   const [formData, setFormdata] = useState({
     name: "",
@@ -66,18 +67,18 @@ const CommunityModal = ({ setCreateCommunity }) => {
     };
 
     // console.log(jsonString, " data");
-    const resultAction = dispatch(newCommunity(datas))
+    const resultAction = dispatch(newCom(datas)).unwrap()
       .then(() => {
         setTimeout(() => {
           SetScreen(4);
         }, [500]);
       })
       .catch((err) => console.log(err, "community error"));
-    if (newCommunity.fulfilled.match(resultAction)) {
-      SetScreen(4);
-    } else {
-      console.error("Failed to create community:", resultAction.payload);
-    }
+    // if (community:.fulfilled.match(resultAction)) {
+    //   SetScreen(4);
+    // } else {
+    //   console.error("Failed to create community:", resultAction.payload);
+    // }
   };
 
   return (
@@ -122,7 +123,7 @@ const CommunityModal = ({ setCreateCommunity }) => {
                 <button
                   className="p-2 w-full bg-[#bc04be] border text-white font-semibold text-sm border-[#bc04be] rounded-lg"
                   onClick={() => {
-                    navigate("/dashboard-quest/menu");
+                    navigate(`/${newCommunity?.data?.data?.id}/dashboard/admin`);
                     setCreateCommunity(false)}}
                 >
                   Continue to my community
@@ -256,15 +257,15 @@ const CommunityModal = ({ setCreateCommunity }) => {
         <div className="hidden sm:flex sm:w-3/5 h-full justify-center items-center bg-black">
           <div className="bg-[#20212A] rounded-2xl p-4 flex flex-col gap-5 w-2/3 items-center justify-center">
             <img
-              src={`${import.meta.env.VITE_BASE_URL}${communityData?.data?.data?.logo}`}
+              src={`${import.meta.env.VITE_BASE_URL}${newCommunity?.data?.data?.logo}`}
               height={80}
               width={80}
               className="rounded-xl  mx-auto"
             />
             <div className="flex flex-col justify-center items-center gap-1">
-              <span className="text-white font-bold text-lg">{communityData?.data?.data?.name}</span>
+              <span className="text-white font-bold text-lg">{newCommunity?.data?.data?.name}</span>
               <span className="text-[#838383] font-semibold text-sm">
-              {communityData?.data?.data?.description}
+              {newCommunity?.data?.data?.description}
               </span>
             </div>
             <div className="flex justify-between gap-4">

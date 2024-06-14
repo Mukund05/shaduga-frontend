@@ -34,6 +34,21 @@ export const createModule = createAsyncThunk(
   }
 );
 
+export const deleteModule = createAsyncThunk(
+  "module/delete",
+  async(id, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.delete(`modules/${id}`);
+    } catch (error) {
+      console.error("Error during deleting the module: ",error);
+      if(error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Define the initial state of the slice
 const initialState = {
   modules: [],

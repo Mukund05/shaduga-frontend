@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const Screen5 = () => {
-  const { communityData } = useSelector((state) => state.community);
+  const { newCommunity } = useSelector((state) => state.community);
   const handleCopyLink = () => {
-    const linkToCopy = communityData?.data?.message?.link;
+    const linkToCopy = newCommunity?.data?.message?.link;
     if (linkToCopy) {
       navigator.clipboard
         .writeText(linkToCopy)
@@ -34,7 +34,7 @@ const Screen5 = () => {
             </span>
             <div className="flex gap-3 justify-between">
               <div className=" focus:outline-none rounded-lg p-3 w-full bg-transparent border border-[#00FFFF] font-semibold text-sm text-white">
-                {communityData?.data?.data.link}
+                {newCommunity?.data?.data.link}
               </div>
               <div
                 className="rounded-lg py-2 w-2/4 bg-transparent border border-[#bc04be] font-semibold text-lg text-white flex justify-between items-center cursor-pointer relative px-4"

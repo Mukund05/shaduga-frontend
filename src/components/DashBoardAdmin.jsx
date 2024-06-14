@@ -51,11 +51,11 @@ const DashBoardAdmin = () => {
 
 //   const [Username, setUsername] = useState("Pick Dive");
 
-  const handleSideBar = (id) => {
+  const handleSideBar = (val) => {
     if (isScreenLessThanLG) {
       setShowSidebar(!showSideBar);
     }
-    setSideBarIndex(id);
+    setSideBarIndex(val);
   };
 
   const [dashboardData, setDashboardData] = useState(0);
@@ -85,12 +85,12 @@ const DashBoardAdmin = () => {
   };
 
   const handleCommunityClick = (communityId, isAdmin) => {
+    setDashboardData(0);
     setSelectedComm(communityId);
-    console.log(isAdmin);
     if (isAdmin) {
       navigate(`/${communityId}/dashboard/admin`);
     } else {
-      navigate("/dashboard/admin");
+      navigate(`/${communityId}/dashboard`);
     }
   };
 

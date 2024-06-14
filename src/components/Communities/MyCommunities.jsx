@@ -8,34 +8,37 @@ import { useDispatch, useSelector } from "react-redux";
 import { community } from "../../slice/Communities";
 import { currentUser } from "../../slice/Userslice";
 import { useNavigate } from "react-router-dom";
+import { ClipLoader } from "react-spinners";
 
 const MyCommunities = () => {
   const [CreateCommunity, setCreateCommunity] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userData } = useSelector((state) => state.user);
-  const { communityData } = useSelector((state) => state.community);
+  const { communityData, loading, error } = useSelector(
+    (state) => state.community
+  );
   const [loggedIn, setLoggedin] = useState(false);
+    console.log(communityData)
+  // useEffect(() => {
+  //   const fetchUserCommunity = async () => {
+  //     if (!userData) {
+  //       // Dispatch currentUser action to fetch user data
+  //       await dispatch(currentUser());
+  //     } else {
+  //       // If user data exists, dispatch community action with user ID
+  //       dispatch(community(userData?.data?.id));
+  //     }
+  //   };
 
-  useEffect(() => {
-    const fetchUserCommunity = async () => {
-      if (!userData) {
-        // Dispatch currentUser action to fetch user data
-        await dispatch(currentUser());
-      } else {
-        // If user data exists, dispatch community action with user ID
-        dispatch(community(userData?.data?.id ));
-      }
-    };
-
-    fetchUserCommunity();
-  }, [dispatch, userData]);
+  //   fetchUserCommunity();
+  // }, [dispatch, userData]);
 
   useEffect(() => {
     if (userData) {
       setLoggedin(true);
       // Fetch communities when userData is available
-      dispatch(community(userData?.data?.id ));
+      dispatch(community(userData?.data?.id));
     } else {
       setLoggedin(false);
     }
@@ -51,8 +54,7 @@ const MyCommunities = () => {
     if (isAdmin) {
       navigate(`/${communityId}/dashboard/admin`);
     } else {
-      navigate(`/${communityId}/dashboard/admin`);
-      // navigate("/dashboard/admin");              //need to change to this 
+      navigate(`/${communityId}/dashboard`);
     }
   };
 
@@ -73,19 +75,34 @@ const MyCommunities = () => {
             its name.
           </span>
         </div>
-        <div className="w-full pb-10 sm:pb-24 grid grid-cols-3">
-          {communityData?.data?.map((card, index) => (
-            <CommunityCard
-              key={index}
-              img={getResizedLogo(card.logo)}
-              title={card.name}
-              content={card.description}
-              users={"120"}
-              tweets={"35k"}
-              handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id)}
-            />
-          ))}
-        </div>
+        {communityData && loading ? (
+          <div className="flex justify-center items-center flex-grow">
+            <ClipLoader color={"#FFFFFF"} loading={loading} size={50} />
+          </div>
+        ) : error ? (
+          <div className="flex justify-center items-center flex-grow text-red-500">
+            <span>Failed to load communities. Please try again later.</span>
+          </div>
+        ) : (
+          <div className="w-full pb-10 sm:pb-24 grid grid-cols-3">
+            {communityData?.data?.map((card, index) => (
+              <CommunityCard
+                key={index}
+                img={getResizedLogo(card.logo)}
+                title={card.name}
+                content={card.description}
+                users={"120"}
+                tweets={"35k"}
+                handleClick={() =>
+                  handleCommunityClick(
+                    card?.id,
+                    card?.user_id === userData?.data?.id
+                  )
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
       <Footer />
       {CreateCommunity && (
