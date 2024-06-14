@@ -1,9 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
-import panda from "../assets/section2/panda.png";
-import menuitem1 from "../assets/section2/menuitem1.png";
-import SearchIcon from "@mui/icons-material/Search";
-import AddIcon from "@mui/icons-material/Add";
 import LanguageIcon from "@mui/icons-material/Language";
 import MetaData from "../layouts/MetaData";
 import Groups3Icon from "@mui/icons-material/Groups3";
@@ -24,7 +19,7 @@ import ProfileCard from "../elements/Card/ProfileCard";
 import { useNavigate, useParams } from "react-router-dom";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useDispatch, useSelector } from "react-redux";
-import { community, currentCommunity } from "../slice/Communities";
+import { community, currentCommunity, join } from "../slice/Communities";
 import { currentUser } from "../slice/Userslice";
 import MapsUgcIcon from "@mui/icons-material/MapsUgc";
 import RateReviewIcon from "@mui/icons-material/RateReview";
@@ -49,6 +44,8 @@ function DashBoard() {
   const [Username, setUsername] = useState("Pandacom");
   const [currCommunity, setCurrCommunity] = useState(id);
   const [data,setData] = useState(undefined)
+  const [formData,setFormData] = useState({})
+  const [currUser,setCurrUser] = useState(0)
 
   const handleLeaderBoard = () => {
     setLeaderboard(true);
@@ -74,6 +71,12 @@ function DashBoard() {
       setOpenSideBar(false);
     }
   };
+
+  useEffect(() => {
+    dispatch(currentUser()).unwrap().then((data) => {
+      setCurrUser(data.data.id);
+    });
+  }, [currUser])
 
   useEffect(() => {
     dispatch(currentCommunity(id)).unwrap().then((data)=>{
@@ -132,6 +135,12 @@ function DashBoard() {
       </div>
     );
   };
+
+  const handleJoinCommunity = () => {
+    let currentDate = new Date().toJSON().slice(0, 10);
+    setFormData({community_id: id, user_id: currUser, join_date:currentDate, status:1, role:'Member', last_active: currentDate });
+    dispatch(join(formData));
+  }
 
   return (
     <div className="flex justify-end  h-full bg-[#191a1e] ">
@@ -237,22 +246,29 @@ function DashBoard() {
           <div
             className={` ${
               showQuest ? "hidden" : " flex"
-            } gap-4 justify-start items-center px-20 lg:px-10 py-6`}
+            } gap-4 justify-between items-center px-20 lg:px-10 py-6`}
           >
-            <span
-              className={`p-2 ${
-                showQuest ? "md:p-1 md:px-2" : "md:p-3 md:px-4"
-              }  rounded-lg text-[#838383] border-2 border-[#23242c] cursor-pointer`}
-            >
-              Welcome Abroad
-            </span>
-            <span
-              className={`p-2 ${
-                showQuest ? "md:p-1 md:px-2" : "md:p-3 md:px-4"
-              }  rounded-lg text-[#838383] border-2 border-[#23242c] cursor-pointer`}
-            >
-              Daily tasks
-            </span>
+            <div>
+              <span
+                className={`p-2 ${
+                  showQuest ? "md:p-1 md:px-2" : "md:p-3 md:px-4"
+                }  rounded-lg text-[#838383] border-2 border-[#23242c] cursor-pointer`}
+              >
+                Welcome Abroad
+              </span>
+              <span
+                className={`p-2 ${
+                  showQuest ? "md:p-1 md:px-2" : "md:p-3 md:px-4"
+                }  rounded-lg text-[#838383] border-2 border-[#23242c] cursor-pointer`}
+              >
+                Daily tasks
+              </span>
+            </div>
+
+            <div>
+              <button className="text-white bg-[#a71873] hover:bg-[#a71873] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-[#a71873] dark:hover:bg-bg-[#a71873] dark:focus:ring-[#a71873]"  
+              onClick={handleJoinCommunity}>Join</button>
+            </div>
           </div>
           <div className="flex  flex-col bg-[#20212a] ">
             <div className="  bg-gradient-to-r from-[#05F3DB] to-[#EC228D] flex flex-col gap-2 p-4 rounded-3xl ">

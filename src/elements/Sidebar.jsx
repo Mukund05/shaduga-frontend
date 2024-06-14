@@ -56,11 +56,11 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
 
   return (
     <div
-      className={`transition-all duration-300 flex flex-col gap-5 h-full bg-[#20212A] py-20 lg:py-10 overflow-y-auto left-0 top-0 ${
+      className={`transition-all duration-300 flex flex-col gap-5 h-full bg-[#20212A] py-20 lg:py-10 overflow-x-hidden overflow-y-auto left-0 top-0 ${
         searchActive ? "w-[98949px]" : "w-20"
       }`}
     >
-      <div className="cursor-pointer ml-2 border-[#0db1a3] border-4 p-2 flex items-center justify-start rounded-xl w-fit bg-[#03A494]">
+      <div className="cursor-pointer ml-2 border-[#0db1a3] border-4 p-2 flex items-center justify-start rounded-xl w-[95%] bg-[#03A494]">
         {searchActive ? (
           <div className="flex items-center w-full">
             <input
@@ -90,11 +90,7 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
             filteredCommunities.map((item, index) => (
               <div
                 key={index}
-                className={`cursor-pointer flex items-center border-4 p-1 rounded-full w-fit ${
-                  selectedCommunityId === item.id
-                    ? "border-[#FF00FF]"
-                    : "border-transparent"
-                }`}
+                className="cursor-pointer flex items-center p-1"
                 onClick={() =>
                   handleCommunityClick(
                     item.id,
@@ -108,7 +104,11 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
                       ? `${import.meta.env.VITE_BASE_URL}${item.logo}`
                       : '/dummy.jpg'
                   }
-                  className="w-[40px] h-[40px] object-cover rounded-full"
+                  className={`w-[50px] h-[50px] object-cover rounded-full border-4 rounded-full  ${
+                  selectedCommunityId === item.id
+                      ? "border-[#FF00FF]"
+                      : "border-transparent"
+                  }`}
                   alt="Community Avatar"
                 />
                 {searchActive && (
