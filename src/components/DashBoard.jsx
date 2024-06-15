@@ -43,9 +43,10 @@ function DashBoard() {
   const [openInbox, setOpenInbox] = useState(false);
   const [Username, setUsername] = useState("Pandacom");
   const [currCommunity, setCurrCommunity] = useState(id);
-  const [data,setData] = useState(undefined)
-  const [formData,setFormData] = useState({})
-  const [currUser,setCurrUser] = useState(0)
+  const [data, setData] = useState(undefined);
+  const [formData, setFormData] = useState({});
+  const [currUser, setCurrUser] = useState(0);
+  const [joined, setJoined] = useState(false);
 
   const handleLeaderBoard = () => {
     setLeaderboard(true);
@@ -73,16 +74,25 @@ function DashBoard() {
   };
 
   useEffect(() => {
-    dispatch(currentUser()).unwrap().then((data) => {
-      setCurrUser(data.data.id);
-    });
-  }, [currUser])
+    dispatch(currentUser())
+      .unwrap()
+      .then((data) => {
+        setCurrUser(data.data.id);
+      });
+  }, [currUser]);
 
   useEffect(() => {
-    dispatch(currentCommunity(id)).unwrap().then((data)=>{
-      setData(data?.data);
-  })
+    dispatch(currentCommunity(id))
+      .unwrap()
+      .then((data) => {
+        setData(data?.data);
+        handleJoin(data?.data?.joined);
+      });
   }, [currCommunity]);
+
+  const handleJoin = (member) => {
+    setJoined(member);
+  };
 
   const handleCommunityClick = (communityId, isAdmin) => {
     setCurrCommunity(communityId);
@@ -138,9 +148,20 @@ function DashBoard() {
 
   const handleJoinCommunity = () => {
     let currentDate = new Date().toJSON().slice(0, 10);
-    setFormData({community_id: id, user_id: currUser, join_date:currentDate, status:1, role:'Member', last_active: currentDate });
-    dispatch(join(formData));
-  }
+    setFormData({
+      community_id: id,
+      user_id: currUser,
+      join_date: currentDate,
+      status: 1,
+      role: "Member",
+      last_active: currentDate,
+    });
+    dispatch(join(formData))
+      .unwrap()
+      .then(() => {
+        setJoined(true);
+      });
+  };
 
   return (
     <div className="flex justify-end  h-full bg-[#191a1e] ">
@@ -160,7 +181,14 @@ function DashBoard() {
           <div className="flex flex-col gap-10 justify-between bg-[#20212A] w-full h-full pt-6">
             <div className="flex gap-2  flex-col w-full">
               <div className="flex gap-4 justify-center md:justify-start md:my-0 mt-8  px-4  items-center flex-col md:flex-row w-full ">
-                <img src={data?.logo ? `${import.meta.env.VITE_BASE_URL}${data?.logo}` : '/dummy.jpg'} className="w-12 h-12 rounded-lg" />
+                <img
+                  src={
+                    data?.logo
+                      ? `${import.meta.env.VITE_BASE_URL}${data?.logo}`
+                      : "/dummy.jpg"
+                  }
+                  className="w-12 h-12 rounded-lg"
+                />
                 <span className="text-white flexr">{data?.name}</span>
               </div>
               <div
@@ -179,7 +207,7 @@ function DashBoard() {
                   <span className="text-[#dde2ff] text-md ">Quests</span>
                 </div>
               </div>{" "}
-              <div
+              {!joined && (<div
                 className={` ${
                   sidebarIndex === 1
                     ? " border-l-4  border-l-[#DDE2FF] bg-[#2a2b35] "
@@ -194,7 +222,7 @@ function DashBoard() {
                   <ChatIcon className="text-[#9FA2B4] " />
                   <span className="text-[#dde2ff] text-md ">Inbox</span>
                 </div>
-              </div>{" "}
+              </div>)}{" "}
               <div
                 className={` ${
                   sidebarIndex === 2
@@ -265,10 +293,16 @@ function DashBoard() {
               </span>
             </div>
 
-            <div>
-              <button className="text-white bg-[#a71873] hover:bg-[#a71873] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-[#a71873] dark:hover:bg-bg-[#a71873] dark:focus:ring-[#a71873]"  
-              onClick={handleJoinCommunity}>Join</button>
-            </div>
+            {!joined && (
+              <div>
+                <button
+                  className="text-white bg-[#a71873] hover:bg-[#a71873] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-[#a71873] dark:hover:bg-bg-[#a71873] dark:focus:ring-[#a71873]"
+                  onClick={handleJoinCommunity}
+                >
+                  Join
+                </button>
+              </div>
+            )}
           </div>
           <div className="flex  flex-col bg-[#20212a] ">
             <div className="  bg-gradient-to-r from-[#05F3DB] to-[#EC228D] flex flex-col gap-2 p-4 rounded-3xl ">
