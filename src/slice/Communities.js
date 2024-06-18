@@ -101,10 +101,11 @@ export const join = createAsyncThunk(
   "community/join",
   async (data, { rejectWithValue }) => {
     try {
+      console.log(data)
       const response = await axiosInstance.post(`/members`, data);
       return response.data; // Assuming response data is the desired result
     } catch (error) {
-      console.error(`Error during fetching community with id ${id}:`, error);
+      console.error(`Error during joining community:`, error);
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data);
       }
