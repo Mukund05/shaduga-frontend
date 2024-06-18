@@ -84,7 +84,7 @@ const MyCommunities = () => {
             <span>Failed to load communities. Please try again later.</span>
           </div>
         ) : (
-          <div className="w-full pb-10 sm:pb-24 grid grid-cols-3">
+          <div className="w-full pb-10 sm:pb-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {communityData?.data?.map((card, index) => (
               <CommunityCard
                 key={index}

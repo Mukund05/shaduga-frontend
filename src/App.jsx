@@ -1,4 +1,3 @@
-import Allroute from "./Allroute";
 import "./App.css";
 import Login from "./components/Authentication/Login";
 import SignUp from "./components/Authentication/SignUp";
@@ -31,7 +30,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" Component={LandingPage} />
-          <Route path="/demo" Component={Allroute} />
           <Route path="/login" Component={Login} />
           <Route path="/sign-up" Component={SignUp} />
           <Route path="/forget-password" Component={ForgotPassword} />

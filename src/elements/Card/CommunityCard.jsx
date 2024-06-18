@@ -9,7 +9,7 @@ const CommunityCard = ({ img, title, content, users, tweets, handleClick }) => {
 
   return (
     <div
-      className="w-96 mb-8 border-2 border-[#BC04BE] rounded-2xl p-5 flex flex-col items-start w-1/4 gap-2 min-w-80 sm:min-w-64 cursor-pointer justify-between"
+      className=" mb-8 border-2 border-[#BC04BE] rounded-2xl p-5 flex flex-col items-start w-full gap-2 min-w-80 sm:min-w-64 cursor-pointer justify-between"
       onClick={handleClick}
     >
       <div className="grid gap-2">
