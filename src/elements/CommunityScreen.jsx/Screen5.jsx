@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 const Screen5 = () => {
   const { newCommunity } = useSelector((state) => state.community);
   const handleCopyLink = () => {
-    const linkToCopy = newCommunity?.data?.message?.link;
+    const linkToCopy = newCommunity?.data?.data.link;
     if (linkToCopy) {
       navigator.clipboard
         .writeText(linkToCopy)

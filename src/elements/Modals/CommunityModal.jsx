@@ -123,7 +123,7 @@ const CommunityModal = ({ setCreateCommunity }) => {
                 <button
                   className="p-2 w-full bg-[#bc04be] border text-white font-semibold text-sm border-[#bc04be] rounded-lg"
                   onClick={() => {
-                    navigate(`/${newCommunity?.data?.data?.id}/dashboard/admin`);
+                    navigate(`/cw/${newCommunity?.data?.data?.name}/${newCommunity?.data?.data?.id}/admin`);
                     setCreateCommunity(false)}}
                 >
                   Continue to my community

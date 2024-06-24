@@ -94,12 +94,11 @@ function DashBoard() {
     setJoined(member);
   };
 
-  const handleCommunityClick = (communityId, isAdmin) => {
-    setCurrCommunity(communityId);
+  const handleCommunityClick = (communityId, isAdmin,cardName) => {
     if (isAdmin) {
-      navigate(`/${communityId}/dashboard/admin`);
+      navigate(`/cw/${cardName}/${communityId}/admin`);
     } else {
-      navigate(`/${communityId}/dashboard`);
+      navigate(`/cw/${cardName}/${communityId}`);
     }
   };
 

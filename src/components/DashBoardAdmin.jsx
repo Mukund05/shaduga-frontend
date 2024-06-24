@@ -86,14 +86,14 @@ const DashBoardAdmin = () => {
   const handleQuest = () => {
     setDashboardData(0);
   };
-
-  const handleCommunityClick = (communityId, isAdmin) => {
+  
+  const handleCommunityClick = (communityId, isAdmin,cardName) => {
     setDashboardData(0);
     setSelectedComm(communityId);
     if (isAdmin) {
-      navigate(`/${communityId}/dashboard/admin`);
+      navigate(`/cw/${cardName}/${communityId}/admin`);
     } else {
-      navigate(`/${communityId}/dashboard`);
+      navigate(`/cw/${cardName}/${communityId}`);
     }
   };
 

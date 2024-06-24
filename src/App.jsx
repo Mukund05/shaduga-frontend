@@ -34,8 +34,8 @@ function App() {
           <Route path="/sign-up" Component={SignUp} />
           <Route path="/forget-password" Component={ForgotPassword} />
           <Route path="/profile" Component={Profile} />
-          <Route path="/:id/dashboard/admin" Component={DashBoardAdmin} />
-          <Route path="/:id/dashboard" Component={DashBoard} />
+          <Route path="/cw/:name/:id/admin" Component={DashBoardAdmin} />
+          <Route path="/cw/:name/:id" Component={DashBoard} />
           {/* <Route path="/dashboard-quest/menu" Component={DashboardQuest} /> */}
           <Route path="/my-communities" Component={MyCommunities} />
           <Route path="/account-settings" Component={AccountSettings} />

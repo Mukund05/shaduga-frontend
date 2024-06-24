@@ -50,11 +50,11 @@ const MyCommunities = () => {
     return logoUrl ? `${logoUrl}?width=256&height=256` : null;
   };
 
-  const handleCommunityClick = (communityId, isAdmin) => {
+  const handleCommunityClick = (communityId, isAdmin,cardName) => {
     if (isAdmin) {
-      navigate(`/${communityId}/dashboard/admin`);
+      navigate(`/cw/${cardName}/${communityId}/admin`);
     } else {
-      navigate(`/${communityId}/dashboard`);
+      navigate(`/cw/${cardName}/${communityId}`);
     }
   };
 
@@ -96,7 +96,8 @@ const MyCommunities = () => {
                 handleClick={() =>
                   handleCommunityClick(
                     card?.id,
-                    card?.user_id === userData?.data?.id
+                    card?.user_id === userData?.data?.id,
+                    card?.name
                   )
                 }
               />

@@ -13,11 +13,11 @@ const Communities = () => {
     dispatch(allCommunities());
   }, []);
 
-  const handleCommunityClick = (communityId, isAdmin) => {
+  const handleCommunityClick = (communityId, isAdmin,cardName) => {
     if (isAdmin) {
-      navigate(`/${communityId}/dashboard/admin`);
+      navigate(`/cw/${cardName}/${communityId}/admin`);
     } else {
-      navigate(`/${communityId}/dashboard`);
+      navigate(`/cw/${cardName}/${communityId}`);
     }
   };
 
@@ -35,7 +35,7 @@ const Communities = () => {
             content={card.description}
             users={"120"}
             tweets={"35k"}
-            handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id)}
+            handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id,card?.name)}
           />
         ))}
 

@@ -49,7 +49,8 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
       const initialCommunity = communityData.data[0];
       handleCommunityClick(
         initialCommunity.id,
-        initialCommunity.user_id === userData?.data?.id
+        initialCommunity.user_id === userData?.data?.id,
+        initialCommunity.name
       );
     }
   }, [communityData, selectedCommunityId, handleCommunityClick, userData]);
@@ -94,7 +95,8 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
                 onClick={() =>
                   handleCommunityClick(
                     item.id,
-                    item.user_id === userData?.data?.id
+                    item.user_id === userData?.data?.id,
+                    item.name
                   )
                 }
               >
