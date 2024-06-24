@@ -49,6 +49,22 @@ export const deleteModule = createAsyncThunk(
   }
 );
 
+export const updateModule = createAsyncThunk(
+  "module/update",
+  async(data, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`modules/${data.id}`,data);
+      return response.data;
+    } catch (error) {
+      console.error("Error during updating the module: ",error);
+      if(error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 // Define the initial state of the slice
 const initialState = {
   modules: [],

@@ -64,6 +64,8 @@ const DashBoardAdmin = () => {
   const [selectedComm, setSelectedComm] = useState(id);
   const [data,setData] = useState(undefined);
   const [moduleId,setModuleId] = useState(-1);
+  const [module,setModule] = useState(null);
+  const [quest,setQuest] = useState(null);
 
   useEffect(()=>{
     dispatch(currentCommunity(id)).unwrap().then((data)=>{
@@ -76,6 +78,7 @@ const DashBoardAdmin = () => {
     setDashboardData(4);
   };
 
+  //it will handle both new and update module 
   const handleNewModule = () => {
     setDashboardData(7);
   };
@@ -225,6 +228,8 @@ const DashBoardAdmin = () => {
             handleNewModule={handleNewModule}
             setCardNo={setCardNo}
             communityId={selectedComm}
+            setModule={setModule}
+            setQuest={setQuest}
           />
         )}
         {dashboardData === 3 && (
@@ -239,6 +244,8 @@ const DashBoardAdmin = () => {
             setCardNo={setCardNo}
             setDashboardData={setDashboardData}
             setModule={setModuleId}
+            quest={quest}
+            setQuest={setQuest}
           />
         )}
         {dashboardData === 7 && (
@@ -246,6 +253,8 @@ const DashBoardAdmin = () => {
             userId={user?.id}
             communityId={selectedComm}
             setDashboardData={setDashboardData}
+            module={module}
+            setModule={setModule}
           />
         )}
         {dashboardData === 5 && (

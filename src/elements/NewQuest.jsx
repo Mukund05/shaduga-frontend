@@ -39,7 +39,7 @@ import opinion from "../assets/section2/opinion.png";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import QuestModal from "./Modals/QuestModal";
 import { useDispatch, useSelector } from "react-redux";
-import { createQuest } from "../slice/Quests";
+import { createQuest, updateQuest } from "../slice/Quests";
 import { Link } from "react-router-dom";
 
 const VisitLinkTask = ({ i, data }) => {
@@ -1800,7 +1800,13 @@ const Task = ({ type, index, submitData }) => {
   }
 };
 
-const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
+const NewQuest = ({
+  setCardNo,
+  setDashboardData,
+  setModule,
+  quest,
+  setQuest,
+}) => {
   const { loading, error } = useSelector((state) => state?.quests);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
@@ -1812,17 +1818,17 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
   const mod = useSelector((state) => state?.module);
 
   const [data, setData] = useState({
-    name: "",
-    description: "",
+    name: quest?.name || "",
+    description: quest?.description || "",
     // difficulty: "",
-    recurrence: "",
-    cooldown: 0,
-    claim_time: "",
-    condition: "",
-    reward: "100 points",
-    sprint: 1,
-    status: 1,
-    module_id: null,
+    recurrence: quest?.recurrence || "",
+    cooldown: quest?.cooldown || 0,
+    claim_time: quest?.claim_time || "",
+    condition: quest?.condition || "",
+    reward: quest?.reward || "100 points",
+    sprint: quest?.sprint || 1,
+    status: quest?.status || 1,
+    module_id: quest?.module_id || null,
     user_id: user?.id,
     additionals: [
       {
@@ -1839,7 +1845,7 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
         star: "",
         steps: "",
         labels: "",
-        files: '',
+        files: "",
       },
     ],
   });
@@ -1900,18 +1906,34 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
       return;
     }
 
-    console.log("quest publishing", datas);
-    dispatch(createQuest(datas))
-      .unwrap()
-      .then((res) => {
-        //navigate to current communties module page
-        if (res.success) {
-          setModule(-1);
-          setDashboardData(0);
-          setCardNo(0);
-        }
-      })
-      .catch((err) => console.log(err)); //need to handle error
+    // console.log("quest publishing", datas);
+
+    if (quest !== null) {
+      dispatch(updateQuest({ id: quest.id, datas }))
+        .unwrap()
+        .then((res) => {
+          if (res.success) {
+            setModule(-1);
+            setDashboardData(0);
+            setCardNo(0);
+            setQuest(null);
+          }
+        })
+        .catch((err) => console.log(err)); //need to handle error
+    } else {
+      dispatch(createQuest(datas))
+        .unwrap()
+        .then((res) => {
+          //navigate to current communties module page
+          if (res.success) {
+            setModule(-1);
+            setDashboardData(0);
+            setCardNo(0);
+            setQuest(null);
+          }
+        })
+        .catch((err) => console.log(err)); //need to handle error
+    }
   };
 
   const handleClaimClick = () => {
@@ -2038,7 +2060,9 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Recurrence<span className="text-red-500">*</span></span>
+                <span className="text-xs font-semibold">
+                  Recurrence<span className="text-red-500">*</span>
+                </span>
               </div>
               <div className="text-xs font-semibold w-1/2">
                 {/* take a user input and update the data.recurrence */}
@@ -2064,7 +2088,9 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Cooldown<span className="text-red-500">*</span></span>
+                <span className="text-xs font-semibold">
+                  Cooldown<span className="text-red-500">*</span>
+                </span>
               </div>
               <div className="text-xs font-semibold w-1/2">
                 <select
@@ -2096,22 +2122,24 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Claim limit<span className="text-red-500">*</span></span>
+                <span className="text-xs font-semibold">
+                  Claim limit<span className="text-red-500">*</span>
+                </span>
               </div>
               <div className=" items-center gap-1 flex w-1/2">
                 <input
-                    type="text"
-                    name="claim_time"
-                    value={data.claim_time}
-                    onChange={(e) =>
-                      setData({ ...data, claim_time: e.target.value })
-                    }
-                    className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
-                      errors.claim_time ? "border-red-500 border-2" : ""
-                    }`}
-                    placeholder="10"
-                    maxLength="4"
-                  />
+                  type="text"
+                  name="claim_time"
+                  value={data.claim_time}
+                  onChange={(e) =>
+                    setData({ ...data, claim_time: e.target.value })
+                  }
+                  className={`w-24 bg-transparent text-xs font-semibold text-[#838383] focus:outline-none p-2.5 rounded-xl ${
+                    errors.claim_time ? "border-red-500 border-2" : ""
+                  }`}
+                  placeholder="10"
+                  maxLength="4"
+                />
               </div>
             </div>
             <div className="flex  text-white justify-between">
@@ -2120,7 +2148,9 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Condition<span className="text-red-500">*</span></span>
+                <span className="text-xs font-semibold">
+                  Condition<span className="text-red-500">*</span>
+                </span>
               </div>
 
               <div className=" items-center gap-1 flex">
@@ -2153,7 +2183,9 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Reward<span className="text-red-500">*</span></span>
+                <span className="text-xs font-semibold">
+                  Reward<span className="text-red-500">*</span>
+                </span>
               </div>
               <div className="flex gap-1 flex-col justify-start ">
                 <span className="text-xs font-semibold">
@@ -2178,7 +2210,9 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                   className="text-xs font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 />
-                <span className="text-xs font-semibold">Module<span className="text-red-500">*</span></span>
+                <span className="text-xs font-semibold">
+                  Module<span className="text-red-500">*</span>
+                </span>
               </div>
               <div className="items-center gap-1 flex w-1/2">
                 <span className="text-xs font-semibold">
@@ -2192,7 +2226,7 @@ const NewQuest = ({setCardNo, setDashboardData,setModule }) => {
                       errors.module_id ? "border-red-500 border-2" : ""
                     }`}
                   >
-                    <option value=''>--Select--</option>
+                    <option value="">--Select--</option>
                     {mod?.modules?.length > 0 &&
                       mod.modules.map((module) => (
                         <option value={module.id} key={module.id}>

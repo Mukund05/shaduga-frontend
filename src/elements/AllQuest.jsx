@@ -34,7 +34,8 @@ const AllQuest = ({
   handleNewModule,
   setCardNo,
   communityId,
-  setModule
+  setModule,
+  setQuest
 }) => {
   // useEffect(() => {
     // setCardNo(0);
@@ -108,6 +109,17 @@ const AllQuest = ({
     dispatch(deleteModule(id)).then(()=>{
       setRefresh(!refresh)
     })
+  }
+
+  const handleModuleUpdate = (module) => {
+    setModule(module)
+    handleNewModule();
+  }
+
+  const handleQuestUpdate = (quest) => {
+    // console.log(quest);
+    setQuest(quest);
+    handleNewQuest()
   }
 
   return (
@@ -312,7 +324,7 @@ const AllQuest = ({
                       />
                       {dropdownStates[index]?.abroadDots && (
                         <div className="absolute top-10 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10">
-                          <div className="flex gap-2 justify-start cursor-pointer">
+                          <div className="flex gap-2 justify-start cursor-pointer" onClick={() => handleModuleUpdate(module)}>
                             <EditIcon
                               className="text-white"
                               style={{ fontSize: "1rem" }}
@@ -409,7 +421,7 @@ const AllQuest = ({
                 {activeModuleId === module.id &&
                   moduleQuestData.map((quest, index) => {
                     return (
-                      <div className="px-6" key={index}>
+                      <div className="px-6" key={index} onClick={()=>handleQuestUpdate(quest)}>
                         <div className="flex justify-between text-[14px]">
                           <p className="text-white mt-2 py-[5px] px-[10px] border-2 border-grey-500 rounded-xl">
                             {quest.name}

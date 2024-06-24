@@ -23,7 +23,6 @@ export const createQuest = createAsyncThunk(
   "quest/createQuest",
   async (data, { rejectWithValue }) => {
     try {
-      console.log(data, "data reached this function");
       const response = await axiosInstance.post("/quests", data);
       console.log("Success", response);
       return response.data;
@@ -64,6 +63,23 @@ export const questByModule = createAsyncThunk(
       return response.data; // Ensure you're returning only the data part of the response
     } catch (error) {
       console.error("Error during deleting quest:", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Async thunk for updating a quest
+export const updateQuest = createAsyncThunk(
+  "quest/updateQuest",
+  async ({ id, datas }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`/quests/${id}`, datas);
+      return response.data;
+    } catch (error) {
+      console.error("Error during updating quest:", error);
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data);
       }
