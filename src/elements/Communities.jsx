@@ -7,7 +7,6 @@ import { allCommunities } from "../slice/Communities";
 const Communities = () => {
   const dispatch = useDispatch();
   const { communities } = useSelector((state) => state.community);
-  // console.log("///000000000" + JSON.stringify(communities));
 
   useEffect(() => {
     dispatch(allCommunities());
@@ -23,10 +22,10 @@ const Communities = () => {
 
   return (
     <div className="px-4 sm:px-10 py-6">
-      <span className="text-white text-[2rem] sm:text-[2.5rem] font-bold text-nowrap px-10 flex justify-center sm:justify-start">
+      <span className="text-white text-[2rem] sm:text-[2.5rem] font-bold text-nowrap flex justify-center sm:justify-start">
         Trendy communities
       </span>
-      <div className="flex gap-x-4 gap-y-12 items-start justify-around flex-wrap mx-2 my-10">
+      <div className="grid gap-x-4 items-start justify-around mx-2 my-10 grid-cols-3">
         {communities?.data?.map((card, index) => (
           <CommunityCard
             key={index}
@@ -38,75 +37,14 @@ const Communities = () => {
             handleClick={()=>handleCommunityClick(card?.id, card?.user_id === userData?.data?.id,card?.name)}
           />
         ))}
-
-        {/* <CommunityCard
-          img={pandaimg}
-          title={"Web3-go"}
-          content={
-            "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
-          }
-          users={"120"}
-          tweets={"35k"}
-          src={"/dashboard-quest/menu"}
-        />
-        <CommunityCard
-          img={pandaimg}
-          title={"Web3-go"}
-          content={
-            "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
-          }
-          users={"120"}
-          tweets={"35k"}
-          src={"/dashboard-quest/menu"}
-        />
-        <CommunityCard
-          img={pandaimg}
-          title={"Web3-go"}
-          content={
-            "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
-          }
-          users={"120"}
-          tweets={"35k"}
-          src={"/dashboard-quest/menu"}
-        />
-        <CommunityCard
-          img={pandaimg}
-          title={"Web3-go"}
-          content={
-            "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
-          }
-          users={"120"}
-          tweets={"35k"}
-          src={"/dashboard-quest/menu"}
-        />
-        <CommunityCard
-          img={pandaimg}
-          title={"Web3-go"}
-          content={
-            "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
-          }
-          users={"120"}
-          tweets={"35k"}
-          src={"/dashboard-quest/menu"}
-        />
-        <CommunityCard
-          img={pandaimg}
-          title={"Web3-go"}
-          content={
-            "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
-          }
-          users={"120"}
-          tweets={"35k"}
-          src={"/dashboard-quest/menu"}
-        /> */}
       </div>
       <div className="my-16">
-        <span className="text-white text-[2rem] sm:text-[2.5rem] font-bold xs:text-nowrap px-10 flex justify-center items-center text-center sm:justify-start my-8">
+        <span className="text-white text-[2rem] sm:text-[2.5rem] font-bold xs:text-nowrap flex justify-center items-center text-center sm:justify-start my-8">
           Upcoming communities
         </span>
-        <div className="flex  gap-x-4 gap-y-12 items-center justify-around flex-wrap mx-2 my-10">
+        <div className="flex  gap-x-4 gap-y-12 items-center justify-around mx-2 my-10">
           <CommunityCard
-            img={pandaimg}
+            img="dummy.jpg"
             title={"Web3-go"}
             content={
               "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
@@ -116,7 +54,7 @@ const Communities = () => {
             src={"/dashboard-quest/menu"}
           />
           <CommunityCard
-            img={pandaimg}
+            img="dummy.jpg"
             title={"Web3-go"}
             content={
               "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "
@@ -126,7 +64,7 @@ const Communities = () => {
             src={"/dashboard-quest/menu"}
           />
           <CommunityCard
-            img={pandaimg}
+            img="dummy.jpg"
             title={"Web3-go"}
             content={
               "Lorem ipsum dolor sit amet consectetur. Nec velit placerat sit non nunc mi. Eu sed eget gravida pellentesque aliquet. Tincidunt nibh enim nunc tellus in eu aliquam condimentum. "

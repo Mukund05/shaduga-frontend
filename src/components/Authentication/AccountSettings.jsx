@@ -1,21 +1,37 @@
 import { useMediaQuery } from "@react-hook/media-query";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EditProfile from "../../elements/EditProfile";
 import { useNavigate } from "react-router-dom";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LinkedAccount from "../../elements/LinkedAccount";
 import MetaData from "../../layouts/MetaData";
+import { currentUser } from "../../slice/Userslice";
+import { useDispatch } from "react-redux";
 
 const AccountSettings = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isScreenLessThanSM = useMediaQuery("(max-width: 640px)");
   const [showSideBar, setShowSidebar] = useState(!isScreenLessThanSM);
   const [active, setActive] = useState(1);
+  const [user, setCurrentUser] = useState({});
 
   const handleSidebar = (id) => {
     setActive(id);
     if (isScreenLessThanSM) setShowSidebar(false);
   };
+
+  useEffect(() => {
+    dispatch(currentUser())
+      .unwrap()
+      .then((result) => {
+        if (result.success) {
+          setCurrentUser(result.data);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <div className="flex justify-end w-full">
       <MetaData title={"Account settings"} />
@@ -69,6 +85,7 @@ const AccountSettings = () => {
       <div className="flex flex-col items-center bg-[#191a1e] w-full sm:w-3/4 overflow-x-auto max-h-screen">
         {active === 1 && (
           <EditProfile
+            user={user}
             setShowSidebar={setShowSidebar}
             showSideBar={showSideBar}
           />

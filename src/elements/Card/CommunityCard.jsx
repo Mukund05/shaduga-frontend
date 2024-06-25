@@ -9,7 +9,7 @@ const CommunityCard = ({ img, title, content, users, tweets, handleClick }) => {
 
   return (
     <div
-      className=" mb-8 border-2 border-[#BC04BE] rounded-2xl p-5 flex flex-col items-start w-full gap-2 min-w-80 sm:min-w-64 cursor-pointer justify-between"
+      className=" mb-8 border-2 border-[#BC04BE] rounded-2xl p-5 flex flex-col items-start gap-2 min-w-80 sm:min-w-64 cursor-pointer justify-between max-h-56"
       onClick={handleClick}
     >
       <div className="grid gap-2">
@@ -19,7 +19,7 @@ const CommunityCard = ({ img, title, content, users, tweets, handleClick }) => {
               img ? `${import.meta.env.VITE_BASE_URL}${img}` : PlaceHolderImg
             }
             width={50}
-            className="rounded-lg"
+            className="rounded-lg h-12"
           />
           <span className="text-white text-xl font-semibold">{title}</span>
         </div>

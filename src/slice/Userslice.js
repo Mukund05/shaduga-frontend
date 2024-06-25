@@ -141,6 +141,19 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "update-user",
+  async ({ id, datas }) => {
+    try {
+      const response = await axiosInstance.put(`/users/${id}`, { datas });
+
+      return response.data;
+    } catch (error) {
+      console.log("Error" + error);
+    }
+  }
+);
+
 const initialState = {
   userData: null,
   registration: {
@@ -329,9 +342,9 @@ const userSlice = createSlice({
         state.forgetPass.error = action.payload;
         state.forgetPass.message = "";
       });
-    
-      //reset-password
-      builder
+
+    //reset-password
+    builder
       .addCase(resetPassword.pending, (state) => {
         state.resetPass.loading = true;
         state.resetPass.error = null;
