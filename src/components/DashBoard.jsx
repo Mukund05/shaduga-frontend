@@ -44,7 +44,6 @@ function DashBoard() {
   const [Username, setUsername] = useState("Pandacom");
   const [currCommunity, setCurrCommunity] = useState(id);
   const [data, setData] = useState(undefined);
-  const [formData, setFormData] = useState({});
   const [currUser, setCurrUser] = useState(0);
   const [joined, setJoined] = useState(false);
 
@@ -147,14 +146,14 @@ function DashBoard() {
 
   const handleJoinCommunity = () => {
     let currentDate = new Date().toJSON().slice(0, 10);
-    setFormData({
+    const formData={
       community_id: id,
       user_id: currUser,
       join_date: currentDate,
       status: 1,
       role: "Member",
       last_active: currentDate,
-    });
+    };
     dispatch(join(formData))
       .unwrap()
       .then(() => {
@@ -206,7 +205,7 @@ function DashBoard() {
                   <span className="text-[#dde2ff] text-md ">Quests</span>
                 </div>
               </div>{" "}
-              {!joined && (<div
+              {data?.joined && (<div
                 className={` ${
                   sidebarIndex === 1
                     ? " border-l-4  border-l-[#DDE2FF] bg-[#2a2b35] "
@@ -292,7 +291,7 @@ function DashBoard() {
               </span>
             </div>
 
-            {!joined && (
+            {!data?.joined && (
               <div>
                 <button
                   className="text-white bg-[#a71873] hover:bg-[#a71873] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center dark:bg-[#a71873] dark:hover:bg-bg-[#a71873] dark:focus:ring-[#a71873]"

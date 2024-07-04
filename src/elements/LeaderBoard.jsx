@@ -20,7 +20,6 @@ const LeaderBoard = ({
   const [member, setMember] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(community)
   useEffect(() => {
     const fetchLeaderBoard = async () => {
       try {
@@ -144,7 +143,7 @@ const LeaderBoard = ({
                     <div className="flex gap-4">
                       <img src={loggeduser} alt="User" className="rounded-full w-fit" />
                       <span className="text-white font-semibold cursor-pointer">
-                        {ele.name}
+                        {ele.user.name}
                       </span>
                     </div>
                     <span className="text-white font-semibold">250 XP</span>

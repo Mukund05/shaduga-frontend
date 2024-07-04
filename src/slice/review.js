@@ -20,7 +20,7 @@ export const allReviews = createAsyncThunk(
 
 export const userReview = createAsyncThunk(
   "review/user",
-  async(userId,commId,{rejectWithValue}) => {
+  async({userId,commId},{rejectWithValue}) => {
     try {
       const response = await axiosInstance.get(`/reviews/${userId}/${commId}`);
       return response.data

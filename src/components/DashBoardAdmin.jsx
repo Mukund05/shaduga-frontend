@@ -237,6 +237,7 @@ const DashBoardAdmin = () => {
             setOpenSideBar={setShowSidebar}
             openSideBar={showSideBar}
             setCardNo={setCardNo}
+            communityId={selectedComm}
           />
         )}
         {dashboardData === 4 && (

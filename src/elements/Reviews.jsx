@@ -10,17 +10,25 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import BoltIcon from "@mui/icons-material/Bolt";
 import { useMediaQuery } from "@react-hook/media-query";
 import MenuIcon from "@mui/icons-material/Menu";
+import { userReview } from "../slice/review";
+import { useDispatch, useSelector } from "react-redux";
 
-const Reviews = ({ openSideBar, setOpenSideBar, setCardNo }) => {
+const Reviews = ({ openSideBar, setOpenSideBar, setCardNo ,communityId }) => {
+  const dispatch = useDispatch();
   const lessThanLg = useMediaQuery("(max-width: 1024px)");
   const [showActivity, setShowActivity] = useState(!lessThanLg);
+  const user = useSelector((state) => state?.user?.userData?.data);
+
   const handleQuest = () => {
     if (lessThanLg) {
       setShowActivity(!showActivity);
     }
   };
   useEffect(() => {
-    setCardNo(0);
+      dispatch(userReview({userId:user.id,commId:communityId})).unwrap().then((data)=>{
+        console.log(data)
+      })
+    // setCardNo(0);
   }, []);
   return (
     <div className="flex justify-end relative">

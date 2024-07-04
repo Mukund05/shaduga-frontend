@@ -6,7 +6,7 @@ import leaderBoardReducer from "./slice/LeaderBoard";
 // import memberReducer from "./slice/members";
 import questReducer from "./slice/Quests";
 import ModuleSlice from "./slice/ModuleSlice";
-// import reviewReducer from "./slice/review";
+import reviewReducer from "./slice/review";
 // import subscriptionReducer from "./slice/subscription";
 // import taskReducer from "./slice/tasks";
 // import influencerReducer from "./slice/influencers";
@@ -21,7 +21,7 @@ const store = configureStore({
     // members: memberReducer,
     quests: questReducer,
     module: ModuleSlice,
-    // reviews: reviewReducer,
+    reviews: reviewReducer,
     // subscription: subscriptionReducer,
     // tasks: taskReducer,
     // influencers: influencerReducer,
