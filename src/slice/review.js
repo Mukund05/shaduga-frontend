@@ -18,6 +18,22 @@ export const allReviews = createAsyncThunk(
   }
 );
 
+export const userReview = createAsyncThunk(
+  "review/user",
+  async(userId,commId,{rejectWithValue}) => {
+    try {
+      const response = await axiosInstance.get(`/reviews/${userId}/${commId}`);
+      return response.data
+    } catch (error) {;
+      console.error("Error during fetching user reviews:", error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+)
+
 export const createReviews = createAsyncThunk(
   "review/create",
   async (reviewData, { rejectWithValue }) => {

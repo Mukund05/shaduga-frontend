@@ -380,6 +380,7 @@ function DashBoard() {
             setOpenSideBar={setOpenSideBar}
             openSideBar={openSideBar}
             setProfileCard={setProfileCard}
+            community={id}
           />
         </div>
       )}

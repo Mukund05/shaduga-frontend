@@ -61,7 +61,7 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
         searchActive ? "w-[98949px]" : "w-20"
       }`}
     >
-      <div className="cursor-pointer ml-2 border-[#0db1a3] border-4 p-2 flex items-center justify-start rounded-xl w-[95%] bg-[#03A494]">
+      <div className="cursor-pointer ml-2 border-[#0db1a3] border-4 p-2 flex items-center justify-start rounded-xl w-[80%] bg-[#03A494]">
         {searchActive ? (
           <div className="flex items-center w-full">
             <input
@@ -125,7 +125,7 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
           )}
         </div>
       )}
-      <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl  bg-[#03A494] ml-2 ">
+      <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl  bg-[#03A494] ml-2 w-[80%]">
         <AddIcon className="text-white" />
         {searchActive ? (
           <p className="text-white ml-2">Create New Community</p>
@@ -133,7 +133,7 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
           ""
         )}
       </div>
-      <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl  bg-[#03A494] ml-2 ">
+      <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl  bg-[#03A494] ml-2 w-[80%]">
         <LanguageIcon
           className="text-white"
           onClick={() => navigate("/all-communities")}

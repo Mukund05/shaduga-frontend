@@ -266,6 +266,7 @@ const DashBoardAdmin = () => {
           <LeaderBoard
             setOpenSideBar={setShowSidebar}
             openSideBar={showSideBar}
+            community ={selectedComm}
           />
         )}
       </div>

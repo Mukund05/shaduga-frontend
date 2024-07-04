@@ -114,6 +114,22 @@ export const join = createAsyncThunk(
   }
 )
 
+export const Community_member = createAsyncThunk(
+  "community/getCommunityMember",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/communities/${id}/members`);
+      return response.data; // Assuming response data is the desired result
+    } catch (error) {
+      console.error(`Error during fetching list of community Member:`, error);
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+)  
+
 const communitySlice = createSlice({
   name: "community",
   initialState: {

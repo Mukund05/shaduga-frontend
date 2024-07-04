@@ -51,7 +51,7 @@ const AllQuest = ({
   const handleMenuClick = (setter) => () => {
     setter((prev) => !prev);
   };
-
+  const [search,setSearch]=useState('');
   //need to handle as too many request are attempting
   useEffect(()=>{
     const fetchModule =async () => {
@@ -122,6 +122,10 @@ const AllQuest = ({
     handleNewQuest()
   }
 
+  const filteredMembers = data?.modules?.filter((ele) =>
+    ele.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="relative">
       <div
@@ -153,6 +157,8 @@ const AllQuest = ({
               <input
                 className="bg-transparent flex text-start pl-6 text-xs focus:outline-none"
                 placeholder="Search for quest"
+                value={search}
+                onChange={(e)=>setSearch(e.target.value)}
               />
             </div>
             <div className="relative bg-transparent border border-[#05F3DB] rounded-lg p-1 flex w-2/5 items-center justify-center gap-1 cursor-pointer">
@@ -296,7 +302,7 @@ const AllQuest = ({
         {/* listing of modules getting from data */}
         <div className="w-full flex flex-col gap-1">
           {data?.modules !== undefined &&
-            data?.modules?.map((module, index) => (
+            filteredMembers.map((module, index) => (
               <div key={index}>
                 <div
                   className="bg-[#20212a] flex justify-between px-6 py-4 cursor-pointer"

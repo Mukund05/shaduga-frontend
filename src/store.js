@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slice/Userslice";
 // import chatReducer from "./slice/ChatSlice";
 import communityReducer from "./slice/Communities";
-// import leaderBoardReducer from "./slice/LeaderBoard";
+import leaderBoardReducer from "./slice/LeaderBoard";
 // import memberReducer from "./slice/members";
 import questReducer from "./slice/Quests";
 import ModuleSlice from "./slice/ModuleSlice";
@@ -17,7 +17,7 @@ const store = configureStore({
 
     // chat: chatReducer,
     community: communityReducer,
-    // leaderBoard: leaderBoardReducer,
+    leaderBoard: leaderBoardReducer,
     // members: memberReducer,
     quests: questReducer,
     module: ModuleSlice,
