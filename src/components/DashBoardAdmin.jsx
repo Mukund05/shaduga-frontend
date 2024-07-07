@@ -219,7 +219,7 @@ const DashBoardAdmin = () => {
           </div>
         </div>
       </div>
-      <div className="bg-[#191a1e] w-full lg:w-3/4 relative">
+      <div className="bg-[#191a1e] w-full lg:w-3/4 relative h-[100vh]">
         {dashboardData === 0 && (
           <AllQuest
             setShowSidebar={setShowSidebar}

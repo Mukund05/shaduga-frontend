@@ -23,9 +23,9 @@ const LeaderBoard = ({
   useEffect(() => {
     const fetchLeaderBoard = async () => {
       try {
-        dispatch(Community_member(community)).unwrap().then((data)=>{
+        dispatch(Community_member(community)).unwrap().then((data) => {
           if (data.success) setMember(data?.data?.members);
-        })
+        });
       } catch (error) {
         console.error(error.message);
       } finally {
@@ -68,7 +68,7 @@ const LeaderBoard = ({
                 <span className="text-[#838383] text-sm">Twitter</span>
               </div>
               <div className="rounded-2xl p-2 py-1 cursor-pointer flex items-center gap-2 bg-[#2D2D2D]">
-                <img src={discord} alt="Discord" className="text-[#838383]" />
+                <img src={discord} alt="Discord" className="w-4 h-4" />
                 <span className="text-[#838383] text-sm">Discord</span>
               </div>
             </div>
@@ -85,19 +85,23 @@ const LeaderBoard = ({
             ></progress>
             <div className="flex flex-col gap-2">
               <span className="text-white text-lg py-4">Activity</span>
-              {Array(8).fill().map((_, idx) => (
-                <div className="flex justify-between gap-5" key={idx}>
-                  <div className="flex flex-col gap-1 font-semibold">
-                    <span className="text-[#838383] text-sm">
-                      Follow: @pedrito-56
-                    </span>
-                    <span className="text-[#838383] text-xs">
-                      Quest complete: 4 minutes ago
-                    </span>
+              {Array(8)
+                .fill()
+                .map((_, idx) => (
+                  <div className="flex justify-between gap-5" key={idx}>
+                    <div className="flex flex-col gap-1 font-semibold">
+                      <span className="text-[#838383] text-sm">
+                        Follow: @pedrito-56
+                      </span>
+                      <span className="text-[#838383] text-xs">
+                        Quest complete: 4 minutes ago
+                      </span>
+                    </div>
+                    <div className="text-lg font-semibold text-[#05F3DB]">
+                      5XP
+                    </div>
                   </div>
-                  <div className="text-lg font-semibold text-[#05F3DB]">5XP</div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </div>
@@ -121,7 +125,7 @@ const LeaderBoard = ({
             <span className="px-2 py-1 border-[#05F3DB] border rounded-2xl flex gap-3 w-fit text-[#05F3DB]">
               <PersonIcon className="text-[#05F3DB]" />
               <span className="font-semibold text-[#05F3DB]">
-                15 participants
+                {member && member?.length} participants
               </span>
             </span>
           </div>
@@ -129,11 +133,10 @@ const LeaderBoard = ({
             <div className="overflow-x-auto max-h-screen flex flex-col gap-6 py-6">
               {loading ? (
                 <div className="text-white text-center">Loading...</div>
-              ) : (
-                member &&
-                member?.map((ele, index) => (
+              ) : member && member.length > 0 ? (
+                member.map((ele, index) => (
                   <div
-                    className="flex justify-between px-10"
+                    className="flex justify-between px-10 cursor-pointer"
                     onClick={() => {
                       setShowProfile(true);
                       setProfileCard(true);
@@ -141,15 +144,22 @@ const LeaderBoard = ({
                     key={index}
                   >
                     <div className="flex gap-4">
-                      <img src={loggeduser} alt="User" className="rounded-full w-fit" />
+                      <img
+                        src={loggeduser}
+                        alt="User"
+                        className="rounded-full w-fit"
+                      />
                       <span className="text-white font-semibold cursor-pointer">
                         {ele.user.name}
                       </span>
                     </div>
                     <span className="text-white font-semibold">250 XP</span>
                   </div>
-                  
                 ))
+              ) : (
+                <div className="text-white text-center py-10">
+                  No Participants Found
+                </div>
               )}
             </div>
           </div>

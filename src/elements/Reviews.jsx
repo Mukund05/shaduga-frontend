@@ -179,7 +179,7 @@ const Reviews = ({ openSideBar, setOpenSideBar, setCardNo, communityId }) => {
                 <span className="text-[#838383]">{ele?.created_at}</span>
               </div>
               <div className="flex justify-start gap-1 text-xs text-white font-semibold">
-                {ele?.title || "No Title"}{" "}
+                {ele?.body || "No Title"}{" "}
                 <StarIcon
                   className="text-[#ff00ff]"
                   style={{ fontSize: "1.2rem" }}
