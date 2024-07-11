@@ -85,7 +85,7 @@ const Header = ({ loggedIn, setCreateCommunity, CreateCommunity }) => {
                     userData.data.name.substr(0, 1).toUpperCase()}
                 </div>
                 {profileDropdown ? (
-                  <div className="absolute top-20 right-20 right-0 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10 text-white">
+                  <div className="absolute top-20 right-20 w-[10rem] rounded-md p-3 flex flex-col gap-4 bg-[#2a2b35] z-10 text-white" onClick={()=>navigate("/account-settings")}>
                     <p className="cursor-pointer">Account Settings</p>
                   </div>
                 ) : (

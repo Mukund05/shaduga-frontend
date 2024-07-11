@@ -16,8 +16,8 @@ const Loader = () => (
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { loading, success } = useSelector((state) => state.user.login);
-
+  const { loading , success } = useSelector((state) => state.user.login);
+  const userData = useSelector((state)=>state.user);
   const [formdata, setFormdata] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [showScreen, setShowScreen] = useState(false);
@@ -29,18 +29,17 @@ const Login = () => {
       ...formdata,
       [e.target.name]: e.target.value,
     });
-    console.log(formdata);
   };
 
   useEffect(() => {
-    if (success) {
+    dispatch(currentUser()).unwrap().then(()=>{
       setShowScreen(true);
       setTimeout(() => {
         setShowScreen(false);
         navigate("/my-communities");
-      }, 1500);
-    }
-  }, [success, navigate]);
+      }, 1000);
+    })
+  }, []);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -57,7 +56,11 @@ const Login = () => {
     dispatch(LoginUser(formdata))
       .unwrap()
       .then(() => {
-        dispatch(currentUser());
+        setShowScreen(true);
+        setTimeout(() => {
+          setShowScreen(false);
+          navigate("/my-communities");
+        }, 1500);
       })
       .catch((err) => {
         setError(err?.error);

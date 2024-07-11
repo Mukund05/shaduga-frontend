@@ -6,7 +6,6 @@ import CommunityModal from "../../elements/Modals/CommunityModal";
 import MetaData from "../../layouts/MetaData";
 import { useDispatch, useSelector } from "react-redux";
 import { community } from "../../slice/Communities";
-import { currentUser } from "../../slice/Userslice";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 
@@ -14,33 +13,19 @@ const MyCommunities = () => {
   const [CreateCommunity, setCreateCommunity] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userData } = useSelector((state) => state.user);
+  const {userData} = useSelector((state) => state.user);
   const { communityData, loading, error } = useSelector(
     (state) => state.community
   );
   const [loggedIn, setLoggedin] = useState(false);
-    console.log(communityData)
-  // useEffect(() => {
-  //   const fetchUserCommunity = async () => {
-  //     if (!userData) {
-  //       // Dispatch currentUser action to fetch user data
-  //       await dispatch(currentUser());
-  //     } else {
-  //       // If user data exists, dispatch community action with user ID
-  //       dispatch(community(userData?.data?.id));
-  //     }
-  //   };
-
-  //   fetchUserCommunity();
-  // }, [dispatch, userData]);
 
   useEffect(() => {
-    if (userData) {
+    if (userData?.success) {
       setLoggedin(true);
-      // Fetch communities when userData is available
-      dispatch(community(userData?.data?.id));
+      dispatch(community(userData?.data?.user?.id));
     } else {
       setLoggedin(false);
+      navigate("/login")
     }
   }, [dispatch, userData]);
 

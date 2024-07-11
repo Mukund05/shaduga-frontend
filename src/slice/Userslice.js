@@ -64,10 +64,9 @@ export const currentUser = createAsyncThunk(
   "user/me",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get("/current/user");
+      const response = (await axiosInstance.get("/current/user"))
       return response.data;
     } catch (error) {
-      console.error("Error during get details of current user", error);
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data);
       }
@@ -251,11 +250,11 @@ const userSlice = createSlice({
         state.logout.error = null;
         state.logout.success = false;
       })
-      .addCase(LogoutUser.fulfilled, (state) => {
+      .addCase(LogoutUser.fulfilled, (state,action) => {
         state.logout.loading = false;
         state.logout.success = true;
         state.logout.error = null;
-        state.userData = null;
+        state.userData = action.payload;
         state.login.success = false;
       })
       .addCase(LogoutUser.rejected, (state, action) => {
