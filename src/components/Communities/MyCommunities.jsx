@@ -22,12 +22,12 @@ const MyCommunities = () => {
   useEffect(() => {
     if (userData?.success) {
       setLoggedin(true);
-      dispatch(community(userData?.data?.user?.id));
+      dispatch(community(userData?.data?.id));
     } else {
       setLoggedin(false);
       navigate("/login")
     }
-  }, [dispatch, userData]);
+  }, []);
 
   // Function to get the logo URL with dimensions 256x256
   const getResizedLogo = (logoUrl) => {

@@ -18,14 +18,14 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
   const { communityData, loading } = useSelector((state) => state?.community);
   const { userData } = useSelector((state) => state?.user);
 
-  const handleSearchIconClick = () => {
+  const handleSearchIconClick = useCallback(() => {
     setSearchActive(true);
-  };
+  }, []);
 
-  const handleSearchCloseClick = () => {
+  const handleSearchCloseClick = useCallback(() => {
     setSearchActive(false);
     setSearchQuery("");
-  };
+  }, []);
 
   const filteredCommunities = communityData?.data?.filter((community) =>
     community.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -58,7 +58,7 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
   return (
     <div
       className={`transition-all duration-300 flex flex-col gap-5 h-full bg-[#20212A] py-20 lg:py-10 overflow-x-hidden overflow-y-auto left-0 top-0 ${
-        searchActive ? "w-[98949px]" : "w-20"
+        searchActive ? "w-64" : "w-20"
       }`}
     >
       <div className="cursor-pointer ml-2 border-[#0db1a3] border-4 p-2 flex items-center justify-start rounded-xl w-[80%] bg-[#03A494]">
@@ -88,9 +88,9 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
       ) : (
         <div className="grid gap-3">
           {filteredCommunities?.length > 0 ? (
-            filteredCommunities.map((item, index) => (
+            filteredCommunities.map((item) => (
               <div
-                key={index}
+                key={item.id}
                 className="cursor-pointer flex items-center p-1"
                 onClick={() =>
                   handleCommunityClick(
@@ -104,10 +104,10 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
                   src={
                     item.logo
                       ? `${import.meta.env.VITE_BASE_URL}${item.logo}`
-                      : '/dummy.jpg'
+                      : panda
                   }
-                  className={`w-[50px] h-[50px] object-cover rounded-full border-4 rounded-full  ${
-                  selectedCommunityId === item.id
+                  className={`w-[50px] h-[50px] object-cover rounded-full border-4 ${
+                    selectedCommunityId === item.id
                       ? "border-[#FF00FF]"
                       : "border-transparent"
                   }`}
@@ -120,17 +120,15 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
             ))
           ) : (
             <div className="cursor-pointer border-[#FF00FF] border-4 p-2 flex items-center justify-center rounded-xl w-fit bg-[#7827a4]">
-              <img src='/dummy.jpg' className="text-white" alt="Default Avatar" />
+              <img src={panda} className="text-white" alt="Default Avatar" />
             </div>
           )}
         </div>
       )}
       <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl  bg-[#03A494] ml-2 w-[80%]">
         <AddIcon className="text-white" />
-        {searchActive ? (
+        {searchActive && (
           <p className="text-white ml-2">Create New Community</p>
-        ) : (
-          ""
         )}
       </div>
       <div className="cursor-pointer border-[#0db1a3] border-4 p-2 flex items-center justify-center rounded-xl  bg-[#03A494] ml-2 w-[80%]">
@@ -138,11 +136,7 @@ const Sidebar = ({ selectedCommunityId, handleCommunityClick }) => {
           className="text-white"
           onClick={() => navigate("/all-communities")}
         />
-        {searchActive ? (
-          <p className="text-white ml-2">Discover Community</p>
-        ) : (
-          ""
-        )}
+        {searchActive && <p className="text-white ml-2">Discover Community</p>}
       </div>
     </div>
   );

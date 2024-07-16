@@ -64,7 +64,7 @@ export const currentUser = createAsyncThunk(
   "user/me",
   async (_, { rejectWithValue }) => {
     try {
-      const response = (await axiosInstance.get("/current/user"))
+      const response = await axiosInstance.get("/current/user");
       return response.data;
     } catch (error) {
       if (error.response && error.response.data) {
@@ -142,9 +142,9 @@ export const resetPassword = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "update-user",
-  async ({ id, datas }) => {
+  async ({ id, data }) => {
     try {
-      const response = await axiosInstance.put(`/users/${id}`, { datas });
+      const response = await axiosInstance.put(`/users/${id}`, data);
 
       return response.data;
     } catch (error) {
@@ -152,6 +152,15 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
+export const deleteUser = createAsyncThunk("delete-user", async ({ id }) => {
+  try {
+    const response = await axiosInstance.put(`/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log("Error on Deleting the user: ", error);
+  }
+});
 
 const initialState = {
   userData: null,
@@ -193,6 +202,12 @@ const initialState = {
     error: null,
   },
   resetPass: {
+    loading: false,
+    success: false,
+    message: "",
+    error: null,
+  },
+  deleteUser: {
     loading: false,
     success: false,
     message: "",
@@ -250,7 +265,7 @@ const userSlice = createSlice({
         state.logout.error = null;
         state.logout.success = false;
       })
-      .addCase(LogoutUser.fulfilled, (state,action) => {
+      .addCase(LogoutUser.fulfilled, (state, action) => {
         state.logout.loading = false;
         state.logout.success = true;
         state.logout.error = null;
@@ -281,6 +296,23 @@ const userSlice = createSlice({
         state.currentUser.error = action.payload;
         state.currentUser.success = false;
       });
+    builder
+      .addCase(deleteUser.pending, (state) => {
+        state.deleteUser.loading = true;
+        state.deleteUser.error = null;
+        state.deleteUser.success = false;
+      })
+      .addCase(deleteUser.fulfilled,(state,action)=>{
+        state.deleteUser.loading=false;
+        state.deleteUser.success=true;
+        state.userData=null;
+        state.deleteUser.error=null;
+      })
+      .addCase(deleteUser.rejected,(state,action)=>{
+        state.deleteUser.loading=false;
+        state.deleteUser.success=false;
+        state.deleteUser.error=action.payload;
+      })
 
     // Send OTP
     builder
